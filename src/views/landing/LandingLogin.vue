@@ -23,7 +23,7 @@ import ButtonThree from "@/components/atoms/ButtonThree.vue";
                                 {{dataIsLogin}} -->
               </div>
               <div class="mt-4 self-center text-xl sm:text-sm text-gray-800 text-center">
-                Masuk sebagai Siswa
+                Masuk sebagai Administrator
               </div>
 
               <div>

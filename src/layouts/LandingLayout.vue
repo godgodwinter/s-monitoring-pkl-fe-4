@@ -26,20 +26,23 @@ function scrollBehavior(to) {
     class="z-10 top-0 block z-998 font-serif h-full fixed flex-row bg-white w-4/5 md:hidden shadow-xl border-r-2"
   >
     <div class="px-2 ml-5 pt-0 pb-5 overflow-y-auto h-full">
-      <a>
+      <a href="http://127.0.0.1:3000/">
         <h1 class="text-xs text-gray-800 font-bold py-2 pt-6">Home</h1>
       </a>
 
-      <a>
+      <a href="http://127.0.0.1:3000/">
         <h1 class="text-xs text-gray-800 font-bold py-2 pt-6">Siswa</h1>
       </a>
 
-      <a>
+      <a href="http://127.0.0.1:3000/">
         <h1 class="text-xs text-gray-800 font-bold py-2 pt-6">Pengawas Lapangan</h1>
       </a>
-      <a>
+      <a href="http://127.0.0.1:3000/">
         <h1 class="text-xs text-gray-800 font-bold py-2 pt-6">Pengawas Sekolah</h1>
       </a>
+      <router-link :to="{ name: 'LandingIndex' }">
+        <h1 class="text-xs text-gray-800 font-bold py-2 pt-6">Administrator</h1>
+      </router-link>
 
       <!-- <h1 class="text-xs text-gray-400 font-bold py-2">Installation</h1> -->
     </div>
@@ -99,25 +102,30 @@ function scrollBehavior(to) {
           <div class="md:w-3/5">
             <div class="hidden md:block">
               <div class="flex justify-end gap-10 pt-2">
+                <a
+                  href="http://127.0.0.1:3000/"
+                  class="text-gray-800 font-normal text-sm hover:text-sky-600 hover:underline"
+                  >Home</a
+                >
+                <a
+                  href="http://127.0.0.1:3000/siswa"
+                  class="text-gray-800 font-normal text-sm hover:text-sky-600 hover:underline"
+                  >Siswa</a
+                >
+                <a
+                  href="http://127.0.0.1:3000/pengawaslapangan"
+                  class="text-gray-800 font-normal text-sm hover:text-sky-600 hover:underline"
+                  >Pengawas Lapangan</a
+                >
+                <a
+                  href="http://127.0.0.1:3000/pengawassekolah"
+                  class="text-gray-800 font-normal text-sm hover:text-sky-600 hover:underline"
+                  >Pengawas Sekolah</a
+                >
                 <router-link
                   :to="{ name: 'LandingIndex' }"
                   class="text-gray-800 font-normal text-sm hover:text-sky-600 hover:underline"
-                  >Home</router-link
-                >
-                <router-link
-                  :to="{ name: 'LandingSiswa' }"
-                  class="text-gray-800 font-normal text-sm hover:text-sky-600 hover:underline"
-                  >Siswa</router-link
-                >
-                <router-link
-                  :to="{ name: 'LandingPengawasLapangan' }"
-                  class="text-gray-800 font-normal text-sm hover:text-sky-600 hover:underline"
-                  >Pengawas Lapangan</router-link
-                >
-                <router-link
-                  :to="{ name: 'LandingPengawasSekolah' }"
-                  class="text-gray-800 font-normal text-sm hover:text-sky-600 hover:underline"
-                  >Pengawas Sekolah</router-link
+                  >Administrator</router-link
                 >
                 <!-- <a href="https://github.com/godgodwinter" target="blank" class="text-gray-800 font-semibold text-sm hover:text-vue-600 hover:underline">Github </a> -->
               </div>

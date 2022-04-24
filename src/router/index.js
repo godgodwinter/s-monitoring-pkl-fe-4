@@ -6,7 +6,7 @@ import AdminLayout from '../layouts/AdminLayoutTwo.vue';
 import NotFound from '../views/NotFound.vue';
 import LandingIndex from '../views/landing/LandingIndex.vue';
 import LandingSiswa from '../views/landing/LandingSiswa.vue';
-import LandingSiswaLogin from '../views/landing/LandingSiswaLogin.vue';
+import LandingLogin from '../views/landing/LandingLogin.vue';
 import LandingPengawasLapangan from '../views/landing/LandingPengawasLapangan.vue';
 import LandingPengawasSekolah from '../views/landing/LandingPengawasSekolah.vue';
 
@@ -23,27 +23,7 @@ const routes = [
       {
         path: '/', 
         name: 'LandingIndex',
-        component: LandingIndex,
-      },
-      {
-        path: '/siswa', 
-        name: 'LandingSiswa',
-        component: LandingSiswa,
-      },
-      {
-        path: '/siswa/login', 
-        name: 'LandingSiswaLogin',
-        component: LandingSiswaLogin,
-      },
-      {
-        path: '/pengawaslapangan', 
-        name: 'LandingPengawasLapangan',
-        component: LandingPengawasLapangan,
-      },
-      {
-        path: '/pengawassekolah', 
-        name: 'LandingPengawasSekolah',
-        component: LandingPengawasSekolah,
+        component: LandingLogin,
       },
       {
         path: '/404',
