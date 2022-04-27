@@ -1,5 +1,5 @@
 <template>
-  <footer
+  <!-- <footer
     class="bg-white md:flex md:items-center md:justify-between shadow rounded-lg p-4 md:p-6 xl:p-8 my-6 mx-4"
   >
     <ul class="flex items-center flex-wrap mb-6 md:mb-0">
@@ -72,9 +72,11 @@
         </svg>
       </a>
     </div>
-  </footer>
+  </footer> -->
   <p class="text-center text-sm text-gray-500 my-10">
-    &copy; 2022 <a href="#" class="hover:underline" target="_blank">Babeng</a>. All rights
-    reserved.
+    &copy; 2022
+    <router-link :to="{ name: 'AdminDashboard' }" href="#" class="hover:underline"
+      >TimDev</router-link
+    >. All rights reserved.
   </p>
 </template>

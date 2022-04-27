@@ -1,5 +1,12 @@
+<script setup>
+import BreadCrumb from "@/components/atoms/BreadCrumb.vue";
+import BreadCrumbSpace from "@/components/atoms/BreadCrumbSpace.vue";
+</script>
 <template>
-  <div class="pt-10 px-10">
+  <BreadCrumb>
+    <template v-slot:content> Tapel <BreadCrumbSpace /> Index</template>
+  </BreadCrumb>
+  <div class="pt-4 px-10">
     <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-700 shadow-sm"
       >Tahun Pelajaran</span
     >

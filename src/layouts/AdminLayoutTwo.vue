@@ -47,7 +47,7 @@ isLogin();
       >
         <main>
           <router-view />
-          <!-- <Footer /> -->
+          <Footer />
         </main>
       </div>
     </div>
