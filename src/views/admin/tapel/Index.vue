@@ -91,6 +91,7 @@ function onSubmit() {
   const res = doStoreData(dataDetail.value);
   getData();
   // console.log("tes");
+  resetForm();
 }
 const doEditData = async (id) => {
   dataId = id;
