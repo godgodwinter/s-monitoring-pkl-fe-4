@@ -11,7 +11,8 @@ import LandingPengawasLapangan from '../views/landing/LandingPengawasLapangan.vu
 import LandingPengawasSekolah from '../views/landing/LandingPengawasSekolah.vue';
 
 //admin
-import SiswaDashboard from '../views/admin/Dashboard.vue'
+import AdminDashboard from '../views/admin/Dashboard.vue'
+import AdminTapel from '../views/admin/tapel/Index.vue'
 
 const routes = [
   {
@@ -33,15 +34,20 @@ const routes = [
     ],
   },
   {
-    path: '/siswapages',
-    name: 'PagesSiswa',
+    path: '/adminpages',
+    name: 'PagesAdmin',
     component: AdminLayout,
     redirect: '/',
     children: [
       {
-        path: '/pages/siswa', 
-        name: 'PagesSiswaIndex',
-        component: SiswaDashboard,
+        path: '/pages/admin', 
+        name: 'AdminDashboard',
+        component: AdminDashboard,
+      },
+      {
+        path: '/pages/admin/tapel', 
+        name: 'AdminTapel',
+        component: AdminTapel,
       },
     ],
   },

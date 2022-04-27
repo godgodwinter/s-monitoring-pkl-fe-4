@@ -68,7 +68,7 @@ import ButtonThree from "@/components/atoms/ButtonThree.vue";
                       />
                     </div>
                   </div>
-                  <router-link :to="{ name: 'PagesSiswaIndex' }">
+                  <router-link :to="{ name: 'AdminDashboard' }">
                     <ButtonThree title="Sign In"></ButtonThree
                   ></router-link>
                 </div>

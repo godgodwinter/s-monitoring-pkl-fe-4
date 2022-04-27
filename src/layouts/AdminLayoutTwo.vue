@@ -47,7 +47,7 @@ const router = useRouter();
       >
         <main>
           <router-view />
-          <Footer />
+          <!-- <Footer /> -->
         </main>
       </div>
     </div>
