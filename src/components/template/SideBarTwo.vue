@@ -1,10 +1,18 @@
 <script setup>
 import { computed } from "vue";
 import { useStore } from "vuex";
+import { useRouter, useRoute } from "vue-router";
 
 const store = useStore();
+const router = useRouter();
 const isSideBarActive = computed(() => store.state.isSideBarActive);
-console.log(isSideBarActive.value);
+// console.log(isSideBarActive.value);
+
+async function goLogout() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("isLogin");
+  router.go();
+}
 </script>
 <template>
   <aside
@@ -34,8 +42,8 @@ console.log(isSideBarActive.value);
               </div>
             </li>
             <li class="bg-white lg:w-1/2">
-              <router-link
-                :to="{ name: 'LandingIndex' }"
+              <button
+                @click="goLogout()"
                 class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group"
               >
                 <svg
@@ -50,7 +58,7 @@ console.log(isSideBarActive.value);
                   />
                 </svg>
                 <span class="ml-3 text-sm">Logout </span>
-              </router-link>
+              </button>
             </li>
           </ul>
           <ul class="space-y-2 pb-2 lg:flex flex-wrap px-2 gap-0 justify-between">
@@ -171,7 +179,7 @@ console.log(isSideBarActive.value);
             </li>
           </ul>
           <div class="space-y-2 pt-10">
-            <Link
+            <router-link
               to="/about"
               class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 group transition duration-75 flex items-center p-2"
             >
@@ -187,7 +195,7 @@ console.log(isSideBarActive.value);
                 />
               </svg>
               <span class="ml-3">Documentation</span>
-            </Link>
+            </router-link>
             <a
               href="#"
               class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 group transition duration-75 flex items-center p-2"

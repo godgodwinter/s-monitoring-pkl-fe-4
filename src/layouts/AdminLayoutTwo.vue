@@ -11,21 +11,21 @@ import Footer from "../components/template/Footer.vue";
 const store = useStore();
 const router = useRouter();
 
-// const dataToken = computed(() => store.state.token);
+const dataToken = computed(() => store.state.token);
 
-// const dataIsLogin = computed(() => store.state.isLogin);
+const dataIsLogin = computed(() => store.state.isLogin);
 
-// function isLogin() {
-//   if (dataIsLogin.value) {
-//     // console.log('Anda sudah login!');
-//   } else {
-//     router.push({ name: "LandingIndex" });
-//     // console.log('Anda belum login!');
-//   }
-// }
-// console.log(dataToken.value,dataIsLogin.value);
+function isLogin() {
+  if (dataIsLogin.value) {
+    // console.log("Anda sudah login!");
+  } else {
+    router.push({ name: "LandingIndex" });
+    // console.log("Anda belum login!");
+  }
+}
+// console.log(dataToken.value, dataIsLogin.value);
 
-// isLogin();
+isLogin();
 // periksa token asli/tidaknya(token expired) jika token tidak valid maka redirect ke landing page
 </script>
 <template>
