@@ -27,6 +27,8 @@ export default createStore({
         perPageDropdown: [10, 15, 25, 50],
         styleClass: 'vgt-table striped bordered condensed',
       },
+
+      tapelAktif: localStorage.getItem('tapelAktif') ? localStorage.getItem('tapelAktif') : '',
     };
   },
   getters: {
@@ -43,6 +45,9 @@ export default createStore({
     },
     setDataAuth(state, value) {
       state.dataAuth = value;
+    },
+    setTapelAktif(state, value) {
+      state.tapelAktif = value;
     },
   },
 

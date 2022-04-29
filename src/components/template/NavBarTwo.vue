@@ -129,6 +129,9 @@ function toggleSideBar() {
             </svg>
           </button>
           <div class="hidden lg:flex items-center">
+            <span class="text-base font-normal text-gray-500 mr-5">
+              Tahun Pelajaran : 2021/2022
+            </span>
             <!-- <span class="text-base font-normal text-gray-500 mr-5">Open source ❤️ </span> -->
             <div class="-mb-1">
               <div>

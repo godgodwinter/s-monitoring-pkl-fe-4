@@ -14,6 +14,7 @@ import LandingPengawasSekolah from '../views/landing/LandingPengawasSekolah.vue'
 import AdminDashboard from '../views/admin/Dashboard.vue'
 import AdminTapel from '../views/admin/tapel/Index.vue'
 import AdminKelas from '../views/admin/kelas/Index.vue'
+import AdminSiswa from '../views/admin/siswa/Index.vue'
 
 const routes = [
   {
@@ -54,6 +55,11 @@ const routes = [
         path: '/pages/admin/kelas', 
         name: 'AdminKelas',
         component: AdminKelas,
+      },
+      {
+        path: '/pages/admin/siswa', 
+        name: 'AdminSiswa',
+        component: AdminSiswa,
       },
     ],
   },
