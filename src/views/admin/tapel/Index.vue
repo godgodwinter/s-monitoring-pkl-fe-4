@@ -20,9 +20,11 @@ let dataId = null;
 const getData = async () => {
   try {
     const response = await Api.get("admin/tapel");
+    // console.log(response);
     data.value = response.data;
     return response;
   } catch (error) {
+    Toast.danger("Warning", "Token anda kadaluarsa! Silahkan login kembali");
     console.error(error);
   }
 };
