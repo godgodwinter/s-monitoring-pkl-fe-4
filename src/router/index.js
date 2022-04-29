@@ -13,6 +13,7 @@ import LandingPengawasSekolah from '../views/landing/LandingPengawasSekolah.vue'
 //admin
 import AdminDashboard from '../views/admin/Dashboard.vue'
 import AdminTapel from '../views/admin/tapel/Index.vue'
+import AdminKelas from '../views/admin/kelas/Index.vue'
 
 const routes = [
   {
@@ -48,6 +49,11 @@ const routes = [
         path: '/pages/admin/tapel', 
         name: 'AdminTapel',
         component: AdminTapel,
+      },
+      {
+        path: '/pages/admin/kelas', 
+        name: 'AdminKelas',
+        component: AdminKelas,
       },
     ],
   },

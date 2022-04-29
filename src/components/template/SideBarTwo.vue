@@ -106,7 +106,7 @@ async function goLogout() {
             </li>
             <li class="bg-white lg:w-full">
               <router-link
-                :to="{ name: 'LandingIndex' }"
+                :to="{ name: 'AdminKelas' }"
                 class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group"
               >
                 <svg
