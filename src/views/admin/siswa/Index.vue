@@ -19,7 +19,7 @@ let dataId = null;
 // function Form and Validation
 const getData = async () => {
   try {
-    const response = await Api.get("admin/tapel");
+    const response = await Api.get("admin/siswa");
     // console.log(response);
     data.value = response.data;
     return response;
@@ -61,7 +61,7 @@ const columns = [
 
 const getDataId = async () => {
   try {
-    const response = await Api.get(`admin/tapel/${dataId}`);
+    const response = await Api.get(`admin/siswa/${dataId}`);
     dataDetail.value = response.data;
     // console.log(response);
     return response;
@@ -73,7 +73,7 @@ const getDataId = async () => {
 const doDeleteData = async (id) => {
   if (confirm("Do you really want to delete?")) {
     try {
-      const response = await Api.delete(`admin/tapel/${id}`);
+      const response = await Api.delete(`admin/siswa/${id}`);
 
       Toast.success("Success", "Data Berhasil dihapus!");
       getData();
@@ -109,7 +109,7 @@ const doStoreData = async (d) => {
   // console.log(data);
   try {
     if (dataId) {
-      const response = await Api.put(`admin/tapel/${dataId}`, {
+      const response = await Api.put(`admin/siswa/${dataId}`, {
         nama: d.nama,
         status: d.status,
       });
@@ -118,7 +118,7 @@ const doStoreData = async (d) => {
       getData();
       return response.data;
     }
-    const response = await Api.post("admin/tapel/store", {
+    const response = await Api.post("admin/siswa/store", {
       nama: d.nama,
       status: d.status,
     });
@@ -215,7 +215,169 @@ function resetForm() {
                     <div class="text-xs text-red-600 mt-1">{{ errors.nama }}</div>
                   </div>
                 </div>
-                <div class="grid grid-cols-1 gap-6 mt-4">
+                <div class="grid grid-cols-1 gap-6">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                      >NISN</label
+                    >
+                    <Field
+                      v-model="dataDetail.nomeridentitas"
+                      :rules="validateData"
+                      type="number"
+                      name="nomeridentitas"
+                      ref="nomeridentitas"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                      required
+                    />
+                    <div class="text-xs text-red-600 mt-1">
+                      {{ errors.nomeridentitas }}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-6">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                      >Agama</label
+                    >
+                    <Field
+                      v-model="dataDetail.agama"
+                      :rules="validateData"
+                      type="text"
+                      name="agama"
+                      ref="agama"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                      required
+                    />
+                    <div class="text-xs text-red-600 mt-1">{{ errors.agama }}</div>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-6">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                      >Tempat Lahir</label
+                    >
+                    <Field
+                      v-model="dataDetail.tempatlahir"
+                      :rules="validateData"
+                      type="text"
+                      name="tempatlahir"
+                      ref="tempatlahir"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                      required
+                    />
+                    <div class="text-xs text-red-600 mt-1">{{ errors.tempatlahir }}</div>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-6">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                      >Tanggal Lahir</label
+                    >
+                    <Field
+                      v-model="dataDetail.tgllahir"
+                      :rules="validateData"
+                      type="text"
+                      name="tgllahir"
+                      ref="tgllahir"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                      required
+                    />
+                    <div class="text-xs text-red-600 mt-1">{{ errors.tgllahir }}</div>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-6">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                      >Alamat Lengkap</label
+                    >
+                    <Field
+                      v-model="dataDetail.alamat"
+                      :rules="validateData"
+                      type="text"
+                      name="alamat"
+                      ref="alamat"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                      required
+                    />
+                    <div class="text-xs text-red-600 mt-1">{{ errors.alamat }}</div>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-6">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                      >Jenis Kelamin</label
+                    >
+                    <Field
+                      v-model="dataDetail.jk"
+                      :rules="validateData"
+                      type="text"
+                      name="jk"
+                      ref="jk"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                      required
+                    />
+                    <div class="text-xs text-red-600 mt-1">{{ errors.jk }}</div>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-6">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                      >No Telp</label
+                    >
+                    <Field
+                      v-model="dataDetail.telp"
+                      :rules="validateData"
+                      type="text"
+                      name="telp"
+                      ref="telp"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                      required
+                    />
+                    <div class="text-xs text-red-600 mt-1">{{ errors.telp }}</div>
+                  </div>
+                </div>
+                <!-- <div class="grid grid-cols-1 gap-6">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                      >Email</label
+                    >
+                    <Field
+                      v-model="dataDetail.email"
+                      :rules="validateData"
+                      type="email"
+                      name="email"
+                      ref="email"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                      required
+                    />
+                    <div class="text-xs text-red-600 mt-1">{{ errors.email }}</div>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-6">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                      >Username</label
+                    >
+                    <Field
+                      v-model="dataDetail.username"
+                      :rules="validateData"
+                      type="text"
+                      name="username"
+                      ref="username"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                      required
+                    />
+                    <div class="text-xs text-red-600 mt-1">{{ errors.username }}</div>
+                  </div>
+                </div> -->
+                <!-- <div class="grid grid-cols-1 gap-6 mt-4">
                   <div class="col-span-6 sm:col-span-3">
                     <label for="name" class="text-sm font-medium text-gray-900 block mb-1"
                       >Status</label
@@ -246,7 +408,7 @@ function resetForm() {
                     </div>
                     <div class="text-xs text-red-600 mt-1">{{ errors.status }}</div>
                   </div>
-                </div>
+                </div> -->
                 <div class="w-full flex justify-end mt-4">
                   <Button title="Simpan" />
                 </div>
