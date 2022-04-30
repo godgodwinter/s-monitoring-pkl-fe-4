@@ -47,12 +47,12 @@ isLogin();
       >
         <main>
           <router-view />
-          <!-- <Footer /> -->
         </main>
       </div>
     </div>
+    <Footer />
   </div>
-  -
+
   <!-- <main class="container mx-w-6xl mx-auto font-serif">
     <router-view />
   </main> -->

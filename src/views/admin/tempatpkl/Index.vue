@@ -53,6 +53,11 @@ const columns = [
     type: "String",
   },
   {
+    label: "Kuota",
+    field: "kuota",
+    type: "String",
+  },
+  {
     label: "No. Telp",
     field: "telp",
     type: "String",
@@ -88,7 +93,7 @@ function validateData(value) {
   if (!value) {
     return "This field is required";
   }
-  if (value.length < 2) {
+  if (value.length < 1) {
     return "This Field must be at least 2 characters";
   }
   return true;
@@ -114,6 +119,7 @@ const doStoreData = async (d) => {
         alamat: d.alamat,
         telp: d.telp,
         penanggungjawab: d.penanggungjawab,
+        kuota: d.kuota,
       });
 
       Toast.success("Success", "Data Berhasil diupdate!");
@@ -125,6 +131,7 @@ const doStoreData = async (d) => {
       alamat: d.alamat,
       telp: d.telp,
       penanggungjawab: d.penanggungjawab,
+      kuota: d.kuota,
     });
 
     getData();
@@ -269,6 +276,25 @@ function resetForm() {
                     />
                     <div class="text-xs text-red-600 mt-1">
                       {{ errors.penanggungjawab }}
+                    </div>
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 gap-6">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                      >Kuota</label
+                    >
+                    <Field
+                      v-model="dataDetail.kuota"
+                      :rules="validateData"
+                      type="number"
+                      name="kuota"
+                      ref="kuota"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                      required
+                    />
+                    <div class="text-xs text-red-600 mt-1">
+                      {{ errors.kuota }}
                     </div>
                   </div>
                 </div>

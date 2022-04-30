@@ -19,6 +19,7 @@ import AdminSiswaProfile from '../views/admin/siswa/ProfileSiswa.vue'
 import AdminTempatPkl from '../views/admin/tempatpkl/Index.vue'
 import AdminPembimbingLapangan from '../views/admin/pembimbinglapangan/Index.vue'
 import AdminPembimbingSekolah from '../views/admin/pembimbingsekolah/Index.vue'
+import AdminPendaftaran from '../views/admin/pendaftaran/Index.vue'
 
 const routes = [
   {
@@ -84,6 +85,11 @@ const routes = [
         path: '/pages/admin/pembimbingsekolah', 
         name: 'AdminPembimbingSekolah',
         component: AdminPembimbingSekolah,
+      },
+      {
+        path: '/pages/admin/pendaftaranpkl', 
+        name: 'AdminPendaftaran',
+        component: AdminPendaftaran,
       },
     ],
   },
