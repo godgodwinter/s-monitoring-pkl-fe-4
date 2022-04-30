@@ -19,7 +19,7 @@ let dataId = null;
 // function Form and Validation
 const getData = async () => {
   try {
-    const response = await Api.get("admin/tapel");
+    const response = await Api.get("admin/tempatpkl");
     // console.log(response);
     data.value = response.data;
     return response;
@@ -53,15 +53,15 @@ const columns = [
     type: "String",
   },
   {
-    label: "Status",
-    field: "status",
+    label: "No. Telp",
+    field: "telp",
     type: "String",
   },
 ];
 
 const getDataId = async () => {
   try {
-    const response = await Api.get(`admin/tapel/${dataId}`);
+    const response = await Api.get(`admin/tempatpkl/${dataId}`);
     dataDetail.value = response.data;
     // console.log(response);
     return response;
@@ -73,7 +73,7 @@ const getDataId = async () => {
 const doDeleteData = async (id) => {
   if (confirm("Do you really want to delete?")) {
     try {
-      const response = await Api.delete(`admin/tapel/${id}`);
+      const response = await Api.delete(`admin/tempatpkl/${id}`);
 
       Toast.success("Success", "Data Berhasil dihapus!");
       getData();
@@ -109,18 +109,22 @@ const doStoreData = async (d) => {
   // console.log(data);
   try {
     if (dataId) {
-      const response = await Api.put(`admin/tapel/${dataId}`, {
+      const response = await Api.put(`admin/tempatpkl/${dataId}`, {
         nama: d.nama,
-        status: d.status,
+        alamat: d.alamat,
+        telp: d.telp,
+        penanggungjawab: d.penanggungjawab,
       });
 
       Toast.success("Success", "Data Berhasil diupdate!");
       getData();
       return response.data;
     }
-    const response = await Api.post("admin/tapel/store", {
+    const response = await Api.post("admin/tempatpkl/store", {
       nama: d.nama,
-      status: d.status,
+      alamat: d.alamat,
+      telp: d.telp,
+      penanggungjawab: d.penanggungjawab,
     });
 
     getData();
@@ -215,36 +219,57 @@ function resetForm() {
                     <div class="text-xs text-red-600 mt-1">{{ errors.nama }}</div>
                   </div>
                 </div>
-                <div class="grid grid-cols-1 gap-6 mt-4">
+                <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-1"
-                      >Status</label
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                      >Alamat</label
                     >
-                    <div class="w-full flex gap-4">
-                      <label class="inline-flex items-center mt-3">
-                        <Field
-                          v-model="dataDetail.status"
-                          value="Aktif"
-                          type="radio"
-                          name="status"
-                          ref="status"
-                          class="form-radio h-5 w-5 text-gray-600"
-                          checked
-                        /><span class="ml-2 text-gray-700">Aktif</span>
-                      </label>
-
-                      <label class="inline-flex items-center mt-3">
-                        <Field
-                          v-model="dataDetail.status"
-                          value="Nonaktif"
-                          type="radio"
-                          name="status"
-                          ref="status"
-                          class="form-radio h-5 w-5 text-red-600"
-                        /><span class="ml-2 text-gray-700">Nonaktif</span>
-                      </label>
+                    <Field
+                      v-model="dataDetail.alamat"
+                      :rules="validateData"
+                      type="text"
+                      name="alamat"
+                      ref="alamat"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                      required
+                    />
+                    <div class="text-xs text-red-600 mt-1">{{ errors.alamat }}</div>
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 gap-6">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                      >Telp</label
+                    >
+                    <Field
+                      v-model="dataDetail.telp"
+                      :rules="validateData"
+                      type="text"
+                      name="telp"
+                      ref="telp"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                      required
+                    />
+                    <div class="text-xs text-red-600 mt-1">{{ errors.telp }}</div>
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 gap-6">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                      >Penanggung Jawab</label
+                    >
+                    <Field
+                      v-model="dataDetail.penanggungjawab"
+                      :rules="validateData"
+                      type="text"
+                      name="penanggungjawab"
+                      ref="penanggungjawab"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                      required
+                    />
+                    <div class="text-xs text-red-600 mt-1">
+                      {{ errors.penanggungjawab }}
                     </div>
-                    <div class="text-xs text-red-600 mt-1">{{ errors.status }}</div>
                   </div>
                 </div>
                 <div class="w-full flex justify-end mt-4">

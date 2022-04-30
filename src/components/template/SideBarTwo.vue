@@ -184,7 +184,7 @@ async function goLogout() {
                     clip-rule="evenodd"
                   />
                 </svg>
-                <span class="ml-3">Pembingbing Lapangan </span>
+                <span class="ml-3">Pembimbing Lapangan </span>
               </router-link>
             </li>
             <li class="bg-white lg:w-full">
