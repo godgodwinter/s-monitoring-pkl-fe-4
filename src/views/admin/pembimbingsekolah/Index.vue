@@ -19,7 +19,7 @@ let dataId = null;
 // function Form and Validation
 const getData = async () => {
   try {
-    const response = await Api.get("admin/tapel");
+    const response = await Api.get("admin/pembimbingsekolah");
     // console.log(response);
     data.value = response.data;
     return response;
@@ -53,15 +53,15 @@ const columns = [
     type: "String",
   },
   {
-    label: "Status",
-    field: "status",
+    label: "Status Akun", //aktif / nonaktif / disabled (telah lulus/keluar/dll)
+    field: "status_login",
     type: "String",
   },
 ];
 
 const getDataId = async () => {
   try {
-    const response = await Api.get(`admin/tapel/${dataId}`);
+    const response = await Api.get(`admin/pembimbingsekolah/${dataId}`);
     dataDetail.value = response.data;
     // console.log(response);
     return response;
@@ -73,7 +73,7 @@ const getDataId = async () => {
 const doDeleteData = async (id) => {
   if (confirm("Do you really want to delete?")) {
     try {
-      const response = await Api.delete(`admin/tapel/${id}`);
+      const response = await Api.delete(`admin/pembimbingsekolah/${id}`);
 
       Toast.success("Success", "Data Berhasil dihapus!");
       getData();
@@ -88,7 +88,7 @@ function validateData(value) {
   if (!value) {
     return "This field is required";
   }
-  if (value.length < 2) {
+  if (value.length < 1) {
     return "This Field must be at least 2 characters";
   }
   return true;
@@ -109,18 +109,32 @@ const doStoreData = async (d) => {
   // console.log(data);
   try {
     if (dataId) {
-      const response = await Api.put(`admin/tapel/${dataId}`, {
+      const response = await Api.put(`admin/pembimbingsekolah/${dataId}`, {
         nama: d.nama,
-        status: d.status,
+        nomeridentitas: d.nomeridentitas,
+        agama: d.agama,
+        tempatlahir: d.tempatlahir,
+        tgllahir: d.tgllahir,
+        alamat: d.alamat,
+        jk: d.jk,
+        telp: d.telp,
+        kelas_id: d.kelas_id,
       });
 
       Toast.success("Success", "Data Berhasil diupdate!");
       getData();
       return response.data;
     }
-    const response = await Api.post("admin/tapel/store", {
+    const response = await Api.post("admin/pembimbingsekolah/store", {
       nama: d.nama,
-      status: d.status,
+      nomeridentitas: d.nomeridentitas,
+      agama: d.agama,
+      tempatlahir: d.tempatlahir,
+      tgllahir: d.tgllahir,
+      alamat: d.alamat,
+      jk: d.jk,
+      telp: d.telp,
+      kelas_id: d.kelas_id,
     });
 
     getData();
@@ -170,11 +184,65 @@ function resetForm() {
               <div class="text-sm font-medium text-center flex justify-center">
                 <ButtonEdit @click="doEditData(props.row.id)" />
                 <ButtonDelete @click="doDeleteData(props.row.id)" />
+                <button
+                  class="text-orange-100 block rounded-sm font-bold py-1 px-1 mr-2 flex items-center hover:text-orange-300 bg-orange-400 rounded-lg"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                    />
+                  </svg>
+                </button>
+
+                <router-link :to="{ name: 'AdminSiswaProfile' }">
+                  <button
+                    class="text-sky-100 block rounded-sm font-bold py-1 px-1 mr-2 flex items-center hover:text-sky-300 bg-sky-400 rounded-lg"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                  </button>
+                </router-link>
               </div>
             </span>
 
             <span v-else-if="props.column.field == 'no'">
               <div class="text-center">{{ props.index + 1 }}</div>
+            </span>
+
+            <span v-else-if="props.column.field == 'status_login'">
+              <div class="text-center" v-if="props.row.status_login == 'Aktif'">
+                <span class="text-green-500">Aktif</span>
+                <!-- <div class="text-center" v-if="props.row.password">
+                  <span class="text-green-500">Aktif</span>
+                </div>
+                <div class="text-center" v-else>
+                  <span class="text-yellow-500">Belum Aktif</span>
+                </div> -->
+              </div>
+              <div class="text-center" v-else>
+                <span class="text-yellow-500">Disabled</span>
+              </div>
             </span>
 
             <span v-else>
@@ -215,7 +283,186 @@ function resetForm() {
                     <div class="text-xs text-red-600 mt-1">{{ errors.nama }}</div>
                   </div>
                 </div>
-                <div class="grid grid-cols-1 gap-6 mt-4">
+                <div class="grid grid-cols-1 gap-6">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                      >NISN</label
+                    >
+                    <Field
+                      v-model="dataDetail.nomeridentitas"
+                      :rules="validateData"
+                      type="number"
+                      name="nomeridentitas"
+                      ref="nomeridentitas"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                      required
+                    />
+                    <div class="text-xs text-red-600 mt-1">
+                      {{ errors.nomeridentitas }}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-6">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                      >Agama</label
+                    >
+                    <Field
+                      v-model="dataDetail.agama"
+                      :rules="validateData"
+                      type="text"
+                      name="agama"
+                      ref="agama"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                      required
+                    />
+                    <div class="text-xs text-red-600 mt-1">{{ errors.agama }}</div>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-6">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                      >Tempat Lahir</label
+                    >
+                    <Field
+                      v-model="dataDetail.tempatlahir"
+                      :rules="validateData"
+                      type="text"
+                      name="tempatlahir"
+                      ref="tempatlahir"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                      required
+                    />
+                    <div class="text-xs text-red-600 mt-1">{{ errors.tempatlahir }}</div>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-6">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                      >Tanggal Lahir</label
+                    >
+                    <Field
+                      v-model="dataDetail.tgllahir"
+                      :rules="validateData"
+                      type="text"
+                      name="tgllahir"
+                      ref="tgllahir"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                      required
+                    />
+                    <div class="text-xs text-red-600 mt-1">{{ errors.tgllahir }}</div>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-6">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                      >Alamat Lengkap</label
+                    >
+                    <Field
+                      v-model="dataDetail.alamat"
+                      :rules="validateData"
+                      type="text"
+                      name="alamat"
+                      ref="alamat"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                      required
+                    />
+                    <div class="text-xs text-red-600 mt-1">{{ errors.alamat }}</div>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-6">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                      >Jenis Kelamin</label
+                    >
+                    <Field
+                      v-model="dataDetail.jk"
+                      :rules="validateData"
+                      type="text"
+                      name="jk"
+                      ref="jk"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                      required
+                    />
+                    <div class="text-xs text-red-600 mt-1">{{ errors.jk }}</div>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-6">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                      >No Telp</label
+                    >
+                    <Field
+                      v-model="dataDetail.telp"
+                      :rules="validateData"
+                      type="text"
+                      name="telp"
+                      ref="telp"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                      required
+                    />
+                    <div class="text-xs text-red-600 mt-1">{{ errors.telp }}</div>
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 gap-6">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                      >Kelas</label
+                    >
+                    <Field
+                      v-model="dataDetail.kelas_id"
+                      :rules="validateData"
+                      type="text"
+                      name="kelas_id"
+                      ref="kelas_id"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                      required
+                    />
+                    <div class="text-xs text-red-600 mt-1">{{ errors.kelas_id }}</div>
+                  </div>
+                </div>
+                <!-- <div class="grid grid-cols-1 gap-6">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                      >Email</label
+                    >
+                    <Field
+                      v-model="dataDetail.email"
+                      :rules="validateData"
+                      type="email"
+                      name="email"
+                      ref="email"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                      required
+                    />
+                    <div class="text-xs text-red-600 mt-1">{{ errors.email }}</div>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-6">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                      >Username</label
+                    >
+                    <Field
+                      v-model="dataDetail.username"
+                      :rules="validateData"
+                      type="text"
+                      name="username"
+                      ref="username"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                      required
+                    />
+                    <div class="text-xs text-red-600 mt-1">{{ errors.username }}</div>
+                  </div>
+                </div> -->
+                <!-- <div class="grid grid-cols-1 gap-6 mt-4">
                   <div class="col-span-6 sm:col-span-3">
                     <label for="name" class="text-sm font-medium text-gray-900 block mb-1"
                       >Status</label
@@ -246,7 +493,7 @@ function resetForm() {
                     </div>
                     <div class="text-xs text-red-600 mt-1">{{ errors.status }}</div>
                   </div>
-                </div>
+                </div> -->
                 <div class="w-full flex justify-end mt-4">
                   <Button title="Simpan" />
                 </div>
