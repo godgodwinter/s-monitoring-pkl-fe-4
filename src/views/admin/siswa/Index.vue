@@ -53,8 +53,8 @@ const columns = [
     type: "String",
   },
   {
-    label: "Status",
-    field: "status",
+    label: "Status Akun", //aktif / nonaktif / disabled (telah lulus/keluar/dll)
+    field: "status_login",
     type: "String",
   },
 ];
@@ -88,7 +88,7 @@ function validateData(value) {
   if (!value) {
     return "This field is required";
   }
-  if (value.length < 2) {
+  if (value.length < 1) {
     return "This Field must be at least 2 characters";
   }
   return true;
@@ -111,7 +111,14 @@ const doStoreData = async (d) => {
     if (dataId) {
       const response = await Api.put(`admin/siswa/${dataId}`, {
         nama: d.nama,
-        status: d.status,
+        nomeridentitas: d.nomeridentitas,
+        agama: d.agama,
+        tempatlahir: d.tempatlahir,
+        tgllahir: d.tgllahir,
+        alamat: d.alamat,
+        jk: d.jk,
+        telp: d.telp,
+        kelas_id: d.kelas_id,
       });
 
       Toast.success("Success", "Data Berhasil diupdate!");
@@ -120,7 +127,14 @@ const doStoreData = async (d) => {
     }
     const response = await Api.post("admin/siswa/store", {
       nama: d.nama,
-      status: d.status,
+      nomeridentitas: d.nomeridentitas,
+      agama: d.agama,
+      tempatlahir: d.tempatlahir,
+      tgllahir: d.tgllahir,
+      alamat: d.alamat,
+      jk: d.jk,
+      telp: d.telp,
+      kelas_id: d.kelas_id,
     });
 
     getData();
@@ -170,11 +184,65 @@ function resetForm() {
               <div class="text-sm font-medium text-center flex justify-center">
                 <ButtonEdit @click="doEditData(props.row.id)" />
                 <ButtonDelete @click="doDeleteData(props.row.id)" />
+                <button
+                  class="text-orange-100 block rounded-sm font-bold py-1 px-1 mr-2 flex items-center hover:text-orange-300 bg-orange-400 rounded-lg"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                    />
+                  </svg>
+                </button>
+
+                <router-link :to="{ name: 'AdminSiswaProfile' }">
+                  <button
+                    class="text-sky-100 block rounded-sm font-bold py-1 px-1 mr-2 flex items-center hover:text-sky-300 bg-sky-400 rounded-lg"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                  </button>
+                </router-link>
               </div>
             </span>
 
             <span v-else-if="props.column.field == 'no'">
               <div class="text-center">{{ props.index + 1 }}</div>
+            </span>
+
+            <span v-else-if="props.column.field == 'status_login'">
+              <div class="text-center" v-if="props.row.status_login == 'Aktif'">
+                <span class="text-green-500">Aktif</span>
+                <!-- <div class="text-center" v-if="props.row.password">
+                  <span class="text-green-500">Aktif</span>
+                </div>
+                <div class="text-center" v-else>
+                  <span class="text-yellow-500">Belum Aktif</span>
+                </div> -->
+              </div>
+              <div class="text-center" v-else>
+                <span class="text-yellow-500">Disabled</span>
+              </div>
             </span>
 
             <span v-else>
@@ -340,6 +408,23 @@ function resetForm() {
                       required
                     />
                     <div class="text-xs text-red-600 mt-1">{{ errors.telp }}</div>
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 gap-6">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                      >Kelas</label
+                    >
+                    <Field
+                      v-model="dataDetail.kelas_id"
+                      :rules="validateData"
+                      type="text"
+                      name="kelas_id"
+                      ref="kelas_id"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                      required
+                    />
+                    <div class="text-xs text-red-600 mt-1">{{ errors.kelas_id }}</div>
                   </div>
                 </div>
                 <!-- <div class="grid grid-cols-1 gap-6">

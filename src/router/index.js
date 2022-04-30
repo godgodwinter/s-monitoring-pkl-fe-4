@@ -15,6 +15,10 @@ import AdminDashboard from '../views/admin/Dashboard.vue'
 import AdminTapel from '../views/admin/tapel/Index.vue'
 import AdminKelas from '../views/admin/kelas/Index.vue'
 import AdminSiswa from '../views/admin/siswa/Index.vue'
+import AdminSiswaProfile from '../views/admin/siswa/ProfileSiswa.vue'
+import AdminTempatPkl from '../views/admin/tempatpkl/Index.vue'
+import AdminPembimbingLapangan from '../views/admin/pembimbinglapangan/Index.vue'
+import AdminPembimbingSekolah from '../views/admin/pembimbingsekolah/Index.vue'
 
 const routes = [
   {
@@ -60,6 +64,26 @@ const routes = [
         path: '/pages/admin/siswa', 
         name: 'AdminSiswa',
         component: AdminSiswa,
+      },
+      {
+        path: '/pages/admin/siswa/profile', 
+        name: 'AdminSiswaProfile',
+        component: AdminSiswaProfile,
+      },
+      {
+        path: '/pages/admin/tempatpkl', 
+        name: 'AdminTempatPkl',
+        component: AdminTempatPkl,
+      },
+      {
+        path: '/pages/admin/pembimbimbinglapangan', 
+        name: 'AdminPembimbingLapangan',
+        component: AdminPembimbingLapangan,
+      },
+      {
+        path: '/pages/admin/pembimbingsekolah', 
+        name: 'AdminPembimbingSekolah',
+        component: AdminPembimbingSekolah,
       },
     ],
   },
