@@ -20,6 +20,9 @@ import AdminTempatPkl from '../views/admin/tempatpkl/Index.vue'
 import AdminPembimbingLapangan from '../views/admin/pembimbinglapangan/Index.vue'
 import AdminPembimbingSekolah from '../views/admin/pembimbingsekolah/Index.vue'
 import AdminPendaftaran from '../views/admin/pendaftaran/Index.vue'
+import AdminPendaftaranDisetujui from '../views/admin/pendaftaran/GetDataDisetujui.vue'
+import AdminPendaftaranProsesSatu from '../views/admin/pendaftaran/ProsesSatu.vue'
+import AdminPendaftaranExample from '../views/admin/pendaftaran/Pendaftaran_nodata2.vue'
 
 const routes = [
   {
@@ -87,9 +90,24 @@ const routes = [
         component: AdminPembimbingSekolah,
       },
       {
-        path: '/pages/admin/pendaftaranpkl', 
+        path: '/pages/admin/pendaftaranpkl', //getall
         name: 'AdminPendaftaran',
         component: AdminPendaftaran,
+      },
+      {
+        path: '/pages/admin/pendaftaranpkl/disetujui', //getall
+        name: 'AdminPendaftaranDisetujui',
+        component: AdminPendaftaranDisetujui,
+      },
+      {
+        path: '/pages/admin/pendaftaranpkl/proses/satu', //getall
+        name: 'AdminPendaftaranProsesSatu',
+        component: AdminPendaftaranProsesSatu,
+      },
+      {
+        path: '/pages/admin/pendaftaranpkl/example', 
+        name: 'AdminPendaftaranExample',
+        component: AdminPendaftaranExample,
       },
     ],
   },
