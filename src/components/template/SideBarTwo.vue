@@ -205,7 +205,7 @@ async function goLogout() {
                 <span class="ml-3">Pembimbing Sekolah </span>
               </router-link>
             </li>
-            <li class="bg-white lg:w-full">
+            <!-- <li class="bg-white lg:w-full">
               <router-link
                 :to="{ name: 'LandingIndex' }"
                 class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group"
@@ -224,7 +224,7 @@ async function goLogout() {
                 </svg>
                 <span class="ml-3">PKL </span>
               </router-link>
-            </li>
+            </li> -->
             <li class="bg-white lg:w-full">
               <router-link
                 :to="{ name: 'AdminPendaftaran' }"
