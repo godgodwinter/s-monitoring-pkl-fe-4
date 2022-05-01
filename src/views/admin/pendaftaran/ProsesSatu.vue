@@ -12,6 +12,7 @@ import Api from "@/axios/axios.js";
 import Toast from "@/components/lib/Toast.js";
 import ButtonEdit from "@/components/atoms/ButtonEdit.vue";
 import ButtonDelete from "@/components/atoms/ButtonDel.vue";
+import CardStepPendaftaran from "../../../components/organismes/pendaftaran/CardStepPendaftaran.vue";
 const router = useRouter();
 const route = useRoute();
 const data = ref("");
@@ -87,6 +88,7 @@ const columns = [
       </div>
       <!-- Right Side -->
       <div class="w-full md:w-9/12 mx-2 h-64">
+        <CardStepPendaftaran></CardStepPendaftaran>
         <!-- <CardDetailPendaftaran></CardDetailPendaftaran> -->
         <!-- <div class="my-4"></div> -->
         <FormPendaftaranBaru></FormPendaftaranBaru>
