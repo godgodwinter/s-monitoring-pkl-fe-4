@@ -7,8 +7,15 @@ const props = defineProps({
 });
 </script>
 <template>
-  <Popper arrow :content="props.title">
-    <slot name="content"> test </slot>
+  <Popper
+    arrow
+    :content="props.title"
+    :hover="true"
+    class="text-sm font-serif font-light"
+  >
+    <div class="font-normal">
+      <slot name="content"> test </slot>
+    </div>
   </Popper>
 </template>
 
@@ -25,7 +32,7 @@ export default defineComponent({
 
 <style scoped>
 :deep(.popper) {
-  background: #e92791;
+  background: #a7a4a5;
   padding: 20px;
   border-radius: 20px;
   color: #fff;
@@ -34,11 +41,11 @@ export default defineComponent({
 }
 
 :deep(.popper #arrow::before) {
-  background: #e92791;
+  background: #a7a4a5;
 }
 
 :deep(.popper:hover),
 :deep(.popper:hover > #arrow::before) {
-  background: #e92791;
+  background: #a39a9d;
 }
 </style>
