@@ -23,9 +23,11 @@ import AdminPembimbingLapangan from '../views/admin/pembimbinglapangan/Index.vue
 import AdminPembimbingSekolah from '../views/admin/pembimbingsekolah/Index.vue'
 import AdminPendaftaranExample from '../views/admin/pendaftaran/Pendaftaran_nodata2.vue'
 // sub pendaftaran
-import SubProsesSatu from '@/views/admin/pendaftaran/SubProsesSatu.vue';
 import SubPendaftaranIndex from '@/views/admin/pendaftaran/SubPendaftaranIndex.vue';
 import SubPendaftaranDisetujui from '@/views/admin/pendaftaran/SubPendaftaranDisetujui.vue';
+import SubProsesSatu from '@/views/admin/pendaftaran/SubProsesSatu.vue';
+import SubProsesDua from '@/views/admin/pendaftaran/SubProsesDua.vue';
+import SubProsesTiga from '@/views/admin/pendaftaran/SubProsesTiga.vue';
 
 const routes = [
   {
@@ -126,6 +128,16 @@ const routes = [
             path: '/pages/admin/pendaftaranpkl/proses/satu', 
             name: 'AdminPendaftaranProsesSatu',
             component: SubProsesSatu,
+          },
+          {
+            path: '/pages/admin/pendaftaranpkl/proses/dua', 
+            name: 'AdminPendaftaranProsesDua',
+            component: SubProsesDua,
+          },
+          {
+            path: '/pages/admin/pendaftaranpkl/proses/tiga', 
+            name: 'AdminPendaftaranProsesTiga',
+            component: SubProsesTiga,
           },
         ]
       },

@@ -1,4 +1,16 @@
 <script setup>
+import { ref } from "vue";
+import Toast from "@/components/lib/Toast.js";
+import { useRouter, useRoute } from "vue-router";
+const router = useRouter();
+const route = useRoute();
+const dataDetail = ref({
+  siswa: null,
+  tempatpkl: null,
+  tempatpkl: null,
+  pembimbinglapangan: null,
+  pembimbingsekolah: null,
+});
 let dataSiswa = [
   { label: "Canada", id: "ca" },
   { label: "Afrika", id: "af" },
@@ -27,8 +39,28 @@ function onSubmit() {
   // data.value = null;
   // const res = doStoreData(dataDetail.value);
   // getData();
-  console.log("tes");
-  resetForm();
+  let err = 0;
+  if (dataDetail.value.siswa == null) {
+    Toast.danger("Warning", "Siswa belum dipilih");
+    err++;
+  }
+  if (dataDetail.value.tempatpkl == null) {
+    Toast.danger("Warning", "Tempat Prakerin belum dipilih");
+    err++;
+  }
+  if (dataDetail.value.pembimbinglapangan == null) {
+    Toast.danger("Warning", "Pembimbing Lapangan belum dipilih");
+    err++;
+  }
+  if (dataDetail.value.pembimbingsekolah == null) {
+    Toast.danger("Warning", "Pembimbing Sekolah belum dipilih");
+    err++;
+  }
+  if (err == 0) {
+    Toast.success("Success", "Simpan dan lanjutkan");
+    router.push({ name: "AdminPendaftaranProsesDua" });
+    console.log(dataDetail.value);
+  }
 }
 </script>
 <template>
@@ -60,25 +92,34 @@ function onSubmit() {
             <div class="grid grid-cols-2">
               <div class="px-4 py-2 font-semibold">Pilih Siswa</div>
               <div class="px-4 py-2">
-                <v-select :options="dataSiswa"></v-select>
+                <v-select :options="dataSiswa" v-model="dataDetail.siswa"></v-select>
               </div>
             </div>
             <div class="grid grid-cols-2">
               <div class="px-4 py-2 font-semibold">Pilih Tempat Prakerin</div>
               <div class="px-4 py-2">
-                <v-select :options="dataTempatPrakerin"></v-select>
+                <v-select
+                  :options="dataTempatPrakerin"
+                  v-model="dataDetail.tempatpkl"
+                ></v-select>
               </div>
             </div>
             <div class="grid grid-cols-2">
               <div class="px-4 py-2 font-semibold">Pilih Pembimbing Lapangan</div>
               <div class="px-4 py-2">
-                <v-select :options="dataPembimbingLapangan"></v-select>
+                <v-select
+                  :options="dataPembimbingLapangan"
+                  v-model="dataDetail.pembimbinglapangan"
+                ></v-select>
               </div>
             </div>
             <div class="grid grid-cols-2">
               <div class="px-4 py-2 font-semibold">Pilih Pembimbing Sekolah</div>
               <div class="px-4 py-2">
-                <v-select :options="dataPembimbingSekolah"></v-select>
+                <v-select
+                  :options="dataPembimbingSekolah"
+                  v-model="dataDetail.pembimbingsekolah"
+                ></v-select>
               </div>
             </div>
             <div class="grid grid-cols-2">
@@ -93,9 +134,10 @@ function onSubmit() {
           </div>
         </div>
         <button
+          @click="onSubmit()"
           class="block w-full text-blue-800 text-sm font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4"
         >
-          Simpan
+          Simpan dan Lanjutkan
         </button>
 
         <button

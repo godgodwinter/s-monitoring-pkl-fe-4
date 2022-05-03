@@ -1,14 +1,45 @@
 <script setup>
+import { reactive, computed } from "vue";
 const props = defineProps({
-  step: Number,
-  default() {
-    return 1;
-  },
+  step: { type: String, required: false, default: 1 },
   titleShort: String,
   default() {
     return "Bu";
   },
 });
+
+const classStep1 = computed(() => ({
+  "bg-sky-200 hover:bg-sky-300": props.step > 1,
+  "bg-gray-200 hover:bg-gray-300": props.step <= 1,
+  " border-2 border-green-300": props.step == 1,
+}));
+
+const classStep1Label = computed(() => ({
+  "text-sky-600": props.step > 1,
+  "text-gray-600": props.step == 1,
+}));
+
+const classStep2 = computed(() => ({
+  "bg-sky-200 hover:bg-sky-300": props.step > 2,
+  "bg-gray-200 hover:bg-gray-300": props.step <= 2,
+  " border-2 border-green-300": props.step == 2,
+}));
+
+const classStep2Label = computed(() => ({
+  "text-sky-600": props.step > 2,
+  "text-gray-600": props.step == 2,
+}));
+
+const classStep3 = computed(() => ({
+  "bg-sky-200 hover:bg-sky-300": props.step > 3,
+  "bg-gray-200 hover:bg-gray-300": props.step <= 3,
+  " border-2 border-green-300": props.step == 3,
+}));
+
+const classStep3Label = computed(() => ({
+  "text-sky-600": props.step > 3,
+  "text-gray-600": props.step == 3,
+}));
 </script>
 <template>
   <div>
@@ -36,14 +67,17 @@ const props = defineProps({
         </div> -->
         <div>
           <div>
-            <h1 class="mb-4 text-center font-black text-gray-700">STEPS #1</h1>
+            <h1 class="mb-4 text-center font-black text-gray-700">
+              STEPS #{{ props.step }}
+            </h1>
             <div class="flex">
               <div class="w-3/12 text-center px-6">
                 <div
                   class="bg-sky-300 rounded-lg flex items-center justify-center border border-sky-200"
                 >
                   <div
-                    class="w-full bg-sky-200 h-24 flex flex-col items-center justify-center px-1 rounded-r-lg body-step hover:bg-sky-300 shadow-sm hover:shadow-lg"
+                    class="w-full h-24 flex flex-col items-center justify-center px-1 rounded-r-lg body-step shadow-sm hover:shadow-lg"
+                    :class="classStep1"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -56,7 +90,7 @@ const props = defineProps({
                       />
                     </svg>
                     <h2 class="font-bold text-sm pt-2">Step #1</h2>
-                    <p class="text-xs text-sky-600">Siswa Mendaftar</p>
+                    <p class="text-xs" :class="classStep1Label">Siswa Mendaftar</p>
                   </div>
                 </div>
               </div>
@@ -75,7 +109,8 @@ const props = defineProps({
                   class="bg-gray-300 rounded-lg flex items-center justify-center border border-gray-200"
                 >
                   <div
-                    class="w-full bg-gray-200 h-24 flex flex-col items-center justify-center px-1 rounded-r-lg body-step hover:bg-gray-300 shadow-sm hover:shadow-lg"
+                    class="w-full h-24 flex flex-col items-center justify-center px-1 rounded-r-lg body-step shadow-sm hover:shadow-lg"
+                    :class="classStep2"
                   >
                     <svg
                       width="24"
@@ -89,7 +124,9 @@ const props = defineProps({
                       />
                     </svg>
                     <h2 class="font-bold text-sm pt-2">Step #2</h2>
-                    <p class="text-xs text-gray-600">Mengisi Data PKL dan Pembimbing</p>
+                    <p class="text-xs" :class="classStep2Label">
+                      Mengisi Data PKL dan Pembimbing
+                    </p>
                   </div>
                 </div>
               </div>
@@ -106,6 +143,7 @@ const props = defineProps({
               <div class="w-3/12 text-center px-6">
                 <div
                   class="bg-gray-300 rounded-lg flex items-center justify-center border border-gray-200"
+                  :class="classStep3"
                 >
                   <div
                     class="w-full bg-gray-200 h-24 flex flex-col items-center justify-center px-1 rounded-r-lg body-step hover:bg-gray-300 shadow-sm hover:shadow-lg"
@@ -122,7 +160,7 @@ const props = defineProps({
                       />
                     </svg>
                     <h2 class="font-bold text-sm pt-2">Step #3</h2>
-                    <p class="text-xs text-gray-600">Konfirmasi</p>
+                    <p class="text-xs" :class="classStep3Label">Konfirmasi</p>
                   </div>
                 </div>
               </div>
