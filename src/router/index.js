@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 // layouts
 import LandingLayout from '../layouts/LandingLayout.vue';
 import AdminLayout from '../layouts/AdminLayoutTwo.vue';
+// sub layouts
+import SubPendaftaranLayout from '../layouts/pendaftaran/SubPendaftaranLayout.vue';
 // pages
 import NotFound from '../views/NotFound.vue';
 import LandingIndex from '../views/landing/LandingIndex.vue';
@@ -19,10 +21,11 @@ import AdminSiswaProfile from '../views/admin/siswa/ProfileSiswa.vue'
 import AdminTempatPkl from '../views/admin/tempatpkl/Index.vue'
 import AdminPembimbingLapangan from '../views/admin/pembimbinglapangan/Index.vue'
 import AdminPembimbingSekolah from '../views/admin/pembimbingsekolah/Index.vue'
-import AdminPendaftaran from '../views/admin/pendaftaran/Index.vue'
-import AdminPendaftaranDisetujui from '../views/admin/pendaftaran/GetDataDisetujui.vue'
-import AdminPendaftaranProsesSatu from '../views/admin/pendaftaran/ProsesSatu.vue'
 import AdminPendaftaranExample from '../views/admin/pendaftaran/Pendaftaran_nodata2.vue'
+// sub pendaftaran
+import SubProsesSatu from '@/views/admin/pendaftaran/SubProsesSatu.vue';
+import SubPendaftaranIndex from '@/views/admin/pendaftaran/SubPendaftaranIndex.vue';
+import SubPendaftaranDisetujui from '@/views/admin/pendaftaran/SubPendaftaranDisetujui.vue';
 
 const routes = [
   {
@@ -89,20 +92,42 @@ const routes = [
         name: 'AdminPembimbingSekolah',
         component: AdminPembimbingSekolah,
       },
+      // {
+      //   path: '/pages/admin/pendaftaranpkl', //getall
+      //   name: 'AdminPendaftaran',
+      //   component: AdminPendaftaran,
+      // },
+      // {
+      //   path: '/pages/admin/pendaftaranpkl/disetujui', //disetujui
+      //   name: 'AdminPendaftaranDisetujui',
+      //   component: AdminPendaftaranDisetujui,
+      // },
+      // {
+      //   path: '/pages/admin/pendaftaranpkl/proses/satu', //proses
+      //   name: 'AdminPendaftaranProsesSatu',
+      //   component: AdminPendaftaranProsesSatu,
+      // },
       {
-        path: '/pages/admin/pendaftaranpkl', //getall
-        name: 'AdminPendaftaran',
-        component: AdminPendaftaran,
-      },
-      {
-        path: '/pages/admin/pendaftaranpkl/disetujui', //getall
-        name: 'AdminPendaftaranDisetujui',
-        component: AdminPendaftaranDisetujui,
-      },
-      {
-        path: '/pages/admin/pendaftaranpkl/proses/satu', //getall
-        name: 'AdminPendaftaranProsesSatu',
-        component: AdminPendaftaranProsesSatu,
+        path: '/pages/admin/pendaftaranpkl/proses/zero', //proses layout
+        name: 'AdminPendaftaranProsesZero',
+        component: SubPendaftaranLayout,
+        children: [
+          {
+            path: '/pages/admin/pendaftaranpkl', //getall
+            name: 'AdminPendaftaran',
+            component: SubPendaftaranIndex,
+          },
+          {
+              path: '/pages/admin/pendaftaranpkl/disetujui', //disetujui
+              name: 'AdminPendaftaranDisetujui',
+            component: SubPendaftaranDisetujui,
+          },
+          {
+            path: '/pages/admin/pendaftaranpkl/proses/satu', 
+            name: 'AdminPendaftaranProsesSatu',
+            component: SubProsesSatu,
+          },
+        ]
       },
       {
         path: '/pages/admin/pendaftaranpkl/example', 

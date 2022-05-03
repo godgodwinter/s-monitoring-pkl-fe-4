@@ -1,3 +1,36 @@
+<script setup>
+let dataSiswa = [
+  { label: "Canada", id: "ca" },
+  { label: "Afrika", id: "af" },
+  { label: "Indonesia", id: "id" },
+];
+
+let dataTempatPrakerin = [
+  { label: "Malang", id: "M" },
+  { label: "Surabaya", id: "S" },
+  { label: "Blitar", id: "B" },
+];
+
+let dataPembimbingLapangan = [
+  { label: "Paijo", id: "ca" },
+  { label: "Sri", id: "af" },
+  { label: "Wulan", id: "id" },
+];
+
+let dataPembimbingSekolah = [
+  { label: "Jokowi", id: "jk" },
+  { label: "Makrup", id: "mk" },
+  { label: "Amin", id: "am" },
+];
+
+function onSubmit() {
+  // data.value = null;
+  // const res = doStoreData(dataDetail.value);
+  // getData();
+  console.log("tes");
+  resetForm();
+}
+</script>
 <template>
   <div>
     <div class="bg-white p-3 shadow-sm rounded-sm">
@@ -26,19 +59,27 @@
           <div class="grid md:grid-cols-2 text-sm">
             <div class="grid grid-cols-2">
               <div class="px-4 py-2 font-semibold">Pilih Siswa</div>
-              <div class="px-4 py-2">Jane</div>
+              <div class="px-4 py-2">
+                <v-select :options="dataSiswa"></v-select>
+              </div>
             </div>
             <div class="grid grid-cols-2">
               <div class="px-4 py-2 font-semibold">Pilih Tempat Prakerin</div>
-              <div class="px-4 py-2">Female</div>
+              <div class="px-4 py-2">
+                <v-select :options="dataTempatPrakerin"></v-select>
+              </div>
             </div>
             <div class="grid grid-cols-2">
               <div class="px-4 py-2 font-semibold">Pilih Pembimbing Lapangan</div>
-              <div class="px-4 py-2">+62 998001001</div>
+              <div class="px-4 py-2">
+                <v-select :options="dataPembimbingLapangan"></v-select>
+              </div>
             </div>
             <div class="grid grid-cols-2">
               <div class="px-4 py-2 font-semibold">Pilih Pembimbing Sekolah</div>
-              <div class="px-4 py-2">Beech Creek, PA, Pennsylvania</div>
+              <div class="px-4 py-2">
+                <v-select :options="dataPembimbingSekolah"></v-select>
+              </div>
             </div>
             <div class="grid grid-cols-2">
               <div class="px-4 py-2 font-semibold">Status</div>

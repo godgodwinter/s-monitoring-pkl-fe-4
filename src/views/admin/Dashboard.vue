@@ -1,10 +1,48 @@
+<script setup>
+import VTailwindModal from "../../components/atoms/VTailwindModal.vue";
+import VButton from "../../components/atoms/VButton.vue";
+
+import { ref } from "vue";
+let show = ref(false);
+function confirm() {
+  // some code...
+  console.log("tutup modal");
+  show.value = false;
+}
+function cancel(close) {
+  // some code...
+  close();
+}
+</script>
 <template>
   <div class="pt-10 px-10">
     <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-700 shadow-sm"
       >Dashboard</span
     >
   </div>
+  <div>
+    <v-tailwind-modal
+      v-model="show"
+      @confirm="confirm"
+      @cancel="cancel"
+      :transition="{
+        'enter-active-class': 'transition duration-200 ease-in-out transform',
+        'enter-class': 'translate-y-full',
+        'enter-to-class': 'translate-y-0',
+        'leave-active-class': 'transition duration-200 ease-in-out transform',
+        'leave-to-class': 'translate-y-full',
+        'leave-class': 'translate-y-0',
+      }"
+    >
+      <template v-slot:title>Hello, vue-final-modal</template>
+      <p>
+        Vue Final Modal is a renderless, stackable, detachable and lightweight modal
+        component.
+      </p>
+    </v-tailwind-modal>
 
+    <v-button @click="show = true">Open modal</v-button>
+  </div>
   <div class="px-4">
     <div class="grid grid-cols-1 gap-5 mt-6 sm:grid-cols-2 lg:grid-cols-4">
       <template v-for="i in 4" :key="i">
