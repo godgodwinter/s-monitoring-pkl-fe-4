@@ -15,6 +15,7 @@ const data = ref("");
 const dataDetail = ref({
   nama: "",
 });
+const dataTemp = ref({});
 let dataId = null;
 // function Form and Validation
 const getData = async () => {
@@ -94,15 +95,31 @@ function validateData(value) {
   return true;
 }
 function onSubmit() {
-  data.value = null;
-  const res = doStoreData(dataDetail.value);
-  getData();
-  // console.log("tes");
-  resetForm();
+  // data.value = null;
+  let err = 0;
+  if (dataTemp.value.agama == null) {
+    Toast.danger("Warning", "Agama tidak boleh kosong");
+    err++;
+  } else {
+    if (dataTemp.value.agama.label == null) {
+      Toast.danger("Warning", "Agama tidak boleh kosong");
+      err++;
+    }
+  }
+
+  if (err < 1) {
+    dataDetail.value.agama = dataTemp.value.agama.label;
+    // console.log(dataTemp.value.agama.label);
+    const res = doStoreData(dataDetail.value, dataTemp.value);
+    getData();
+    // console.log("tes");
+    // resetForm();
+  }
 }
 const doEditData = async (id) => {
   dataId = id;
   getDataId();
+  dataTemp.value.agama = { label: dataDetail.value.agama };
 };
 
 const doStoreData = async (d) => {
@@ -151,7 +168,17 @@ function resetForm() {
     nama: "",
   };
   dataId = null;
+  dataTemp.value.agama = null;
 }
+
+let dataAgama = [
+  { label: "Islam" },
+  { label: "Protestan" },
+  { label: "Katolik" },
+  { label: "Hindu" },
+  { label: "Buddha" },
+  { label: "Khonghucu" },
+];
 </script>
 <template>
   <BreadCrumb>
@@ -308,7 +335,9 @@ function resetForm() {
                     <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
                       >Agama</label
                     >
-                    <Field
+
+                    <v-select :options="dataAgama" v-model="dataTemp.agama"></v-select>
+                    <!-- <Field
                       v-model="dataDetail.agama"
                       :rules="validateData"
                       type="text"
@@ -316,7 +345,7 @@ function resetForm() {
                       ref="agama"
                       class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                       required
-                    />
+                    /> -->
                     <div class="text-xs text-red-600 mt-1">{{ errors.agama }}</div>
                   </div>
                 </div>
