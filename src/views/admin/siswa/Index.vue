@@ -11,6 +11,7 @@ import ButtonEdit from "@/components/atoms/ButtonEdit.vue";
 import ButtonDelete from "@/components/atoms/ButtonDel.vue";
 const router = useRouter();
 const route = useRoute();
+const dataAsli = ref("");
 const data = ref("");
 const dataKelas = ref("");
 const dataDetail = ref({
@@ -23,7 +24,19 @@ const getData = async () => {
   try {
     const response = await Api.get("admin/siswa");
     // console.log(response);
-    data.value = response.data;
+    dataAsli.value = response.data;
+    data.value = dataAsli.value.map((item) => {
+      let dk = null;
+      if (item.kelas) {
+        dk = `${item.kelas.tingkatan} ${item.kelas.jurusan} ${item.kelas.suffix}`;
+      }
+      return {
+        id: item.id,
+        nama: item.nama,
+        status_login: item.status_login,
+        kelas: dk,
+      };
+    });
     return response;
   } catch (error) {
     Toast.danger("Warning", "Token anda kadaluarsa! Silahkan login kembali");
@@ -73,6 +86,11 @@ const columns = [
   {
     label: "Nama",
     field: "nama",
+    type: "String",
+  },
+  {
+    label: "Kelas",
+    field: "kelas",
     type: "String",
   },
   {
