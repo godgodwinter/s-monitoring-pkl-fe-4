@@ -12,6 +12,7 @@ import ButtonDelete from "@/components/atoms/ButtonDel.vue";
 const router = useRouter();
 const route = useRoute();
 const data = ref("");
+const dataKelas = ref("");
 const dataDetail = ref({
   nama: "",
 });
@@ -31,6 +32,27 @@ const getData = async () => {
 };
 
 getData();
+
+const getDataKelas = async () => {
+  try {
+    const response = await Api.get("admin/kelas");
+    // console.log(response);
+    let tempKelas = response.data;
+    dataKelas.value = tempKelas.map((item) => {
+      return {
+        label: `${item.tingkatan} ${item.jurusan} ${item.suffix}`,
+        id: item.id,
+      };
+    });
+    console.log(dataKelas.value);
+    return response;
+  } catch (error) {
+    Toast.danger("Warning", "Token anda kadaluarsa! Silahkan login kembali");
+    console.error(error);
+  }
+};
+
+getDataKelas();
 
 const columns = [
   {
@@ -64,6 +86,22 @@ const getDataId = async () => {
   try {
     const response = await Api.get(`admin/siswa/${dataId}`);
     dataDetail.value = response.data;
+    dataTemp.value.agama = { label: dataDetail.value.agama };
+    dataTemp.value.jk = { label: dataDetail.value.jk };
+    let getNamaKelas = dataDetail.value.kelas.jurusan;
+    dataTemp.value.kelas_id = {
+      label:
+        dataDetail.value.kelas.length > 0
+          ? `${dataDetail.value.kelas.tingkatan} ${dataDetail.value.kelas.jurusan} ${dataDetail.value.kelas.suffix}`
+          : null,
+      id: dataDetail.value.kelas_id,
+    };
+    // dataTemp.value.kelas_id = {
+    //   label: dataDetail.value.kelas
+    //     ? `${dataDetail.value.kelas.tingkatan} ${dataDetail.value.kelas.jurusan} ${dataDetail.value.kelas.suffix}`
+    //     : null,
+    //   id: dataDetail.value.kelas.id,
+    // };
     // console.log(response);
     return response;
   } catch (error) {
@@ -106,9 +144,30 @@ function onSubmit() {
       err++;
     }
   }
+  if (dataTemp.value.jk == null) {
+    Toast.danger("Warning", "Jenis kelamin tidak boleh kosong");
+    err++;
+  } else {
+    if (dataTemp.value.jk.label == null) {
+      Toast.danger("Warning", "Jenis kelamin tidak boleh kosong");
+      err++;
+    }
+  }
+
+  if (dataTemp.value.kelas_id == null) {
+    Toast.danger("Warning", "Kelas tidak boleh kosong");
+    err++;
+  } else {
+    if (dataTemp.value.kelas_id.label == null) {
+      Toast.danger("Warning", "Kelas tidak boleh kosong");
+      err++;
+    }
+  }
 
   if (err < 1) {
     dataDetail.value.agama = dataTemp.value.agama.label;
+    dataDetail.value.jk = dataTemp.value.jk.label;
+    dataDetail.value.kelas_id = dataTemp.value.kelas_id.id;
     // console.log(dataTemp.value.agama.label);
     const res = doStoreData(dataDetail.value, dataTemp.value);
     getData();
@@ -119,7 +178,6 @@ function onSubmit() {
 const doEditData = async (id) => {
   dataId = id;
   getDataId();
-  dataTemp.value.agama = { label: dataDetail.value.agama };
 };
 
 const doStoreData = async (d) => {
@@ -169,6 +227,7 @@ function resetForm() {
   };
   dataId = null;
   dataTemp.value.agama = null;
+  dataTemp.value.jk = null;
 }
 
 let dataAgama = [
@@ -179,6 +238,8 @@ let dataAgama = [
   { label: "Buddha" },
   { label: "Khonghucu" },
 ];
+
+let dataJk = [{ label: "Laki-laki" }, { label: "Perempuan" }];
 </script>
 <template>
   <BreadCrumb>
@@ -337,15 +398,6 @@ let dataAgama = [
                     >
 
                     <v-select :options="dataAgama" v-model="dataTemp.agama"></v-select>
-                    <!-- <Field
-                      v-model="dataDetail.agama"
-                      :rules="validateData"
-                      type="text"
-                      name="agama"
-                      ref="agama"
-                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                      required
-                    /> -->
                     <div class="text-xs text-red-600 mt-1">{{ errors.agama }}</div>
                   </div>
                 </div>
@@ -409,7 +461,8 @@ let dataAgama = [
                     <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
                       >Jenis Kelamin</label
                     >
-                    <Field
+                    <v-select :options="dataJk" v-model="dataTemp.jk"></v-select>
+                    <!-- <Field
                       v-model="dataDetail.jk"
                       :rules="validateData"
                       type="text"
@@ -417,7 +470,7 @@ let dataAgama = [
                       ref="jk"
                       class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                       required
-                    />
+                    /> -->
                     <div class="text-xs text-red-600 mt-1">{{ errors.jk }}</div>
                   </div>
                 </div>
@@ -444,7 +497,8 @@ let dataAgama = [
                     <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
                       >Kelas</label
                     >
-                    <Field
+                    <v-select :options="dataKelas" v-model="dataTemp.kelas_id"></v-select>
+                    <!-- <Field
                       v-model="dataDetail.kelas_id"
                       :rules="validateData"
                       type="text"
@@ -452,7 +506,7 @@ let dataAgama = [
                       ref="kelas_id"
                       class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                       required
-                    />
+                    /> -->
                     <div class="text-xs text-red-600 mt-1">{{ errors.kelas_id }}</div>
                   </div>
                 </div>
