@@ -1035,6 +1035,11 @@ vue-good-table-next@^0.1.0:
     date-fns "^2.25.0"
     lodash.isequal "^4.5.0"
 
+vue-pdf-embed@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/vue-pdf-embed/-/vue-pdf-embed-1.1.1.tgz#049aad4476cf93d1feedd341741c5965fd897e22"
+  integrity sha512-Ydbgiay/xIp0aW1mv62/JNkUlsk9dpbba+K03CKniIoos+N0URab+jEZW5RzJ0JbN6bplp+j+pAc78El1d8htw==
+
 vue-router@4:
   version "4.0.14"
   resolved "https://registry.npmjs.org/vue-router/-/vue-router-4.0.14.tgz"

@@ -1,4 +1,6 @@
 <script setup>
+import { ref } from "vue";
+import VuePdfEmbed from "vue-pdf-embed";
 import Toast from "@/components/lib/Toast.js";
 import Popper from "../../../components/atoms/Popper.vue";
 import FormPendaftaranBaru from "../../../components/organismes/pendaftaran/FormPendaftaranBaru.vue";
@@ -30,6 +32,12 @@ function onSubmit() {
     console.log(dataDetail.value);
   }
 }
+let embedSrc = ref();
+function handleChange() {
+  embedSrc.value = URL.createObjectURL(event.target.files[0]);
+}
+let pdfSource =
+  "https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/examples/learning/helloworld.pdf";
 </script>
 <template>
   <CardStepPendaftaran :step="3"></CardStepPendaftaran>
@@ -103,6 +111,12 @@ function onSubmit() {
               </div>
             </div>
             <div class="grid grid-cols-2">
+              <div class="px-4 py-2 font-semibold">Upload Balasan</div>
+              <div class="px-4 py-2">
+                <input @change="handleChange" type="file" />
+              </div>
+            </div>
+            <div class="grid grid-cols-2">
               <div class="px-4 py-2 font-semibold">Status</div>
               <div class="px-4 py-2">
                 <span
@@ -110,6 +124,11 @@ function onSubmit() {
                   >Menunggu</span
                 >
               </div>
+            </div>
+            <div class="grid grid-cols-1">
+              <div class="px-4 py-2 font-semibold">Preview PDF</div>
+              <vue-pdf-embed :source="embedSrc" v-if="embedSrc" />
+              <div class="shadow shadow-lg h-48" id="previewpdf" v-else />
             </div>
           </div>
         </div>
@@ -130,3 +149,14 @@ function onSubmit() {
     </div>
   </div>
 </template>
+<style>
+/* body {
+  padding: 16px;
+  background-color: #ccc;
+} */
+
+.vue-pdf-embed > div {
+  margin-bottom: 8px;
+  box-shadow: 0 2px 8px 4px rgba(0, 0, 0, 0.1);
+}
+</style>
