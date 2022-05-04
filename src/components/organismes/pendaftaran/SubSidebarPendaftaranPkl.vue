@@ -1,6 +1,7 @@
 <script setup>
 import MenuInformasiPendaftaranPkl from "@/components/moleculars/MenuInformasiPendaftaranPkl.vue";
 import ButtonDataOne from "@/components/atoms/ButtonDataOne.vue";
+import Popper from "@/components/atoms/Popper.vue";
 </script>
 <template>
   <div>
@@ -17,11 +18,22 @@ import ButtonDataOne from "@/components/atoms/ButtonDataOne.vue";
       >
         <li class="flex items-center py-3">
           <span>Status Pendaftaran</span>
-          <span class="ml-auto"
-            ><span class="bg-green-500 py-1 px-2 rounded text-white text-sm"
-              >Aktif</span
-            ></span
-          >
+          <span class="ml-auto">
+            <div class="flex justify-center">
+              <Popper content="Aktif">
+                <template #content>
+                  <div class="form-check form-switch">
+                    <input
+                      class="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-white bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm"
+                      type="checkbox"
+                      role="switch"
+                      id="flexSwitchCheckChecked"
+                      checked
+                    /></div
+                ></template>
+              </Popper>
+            </div>
+          </span>
         </li>
       </ul>
     </div>

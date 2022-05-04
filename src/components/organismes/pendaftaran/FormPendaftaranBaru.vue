@@ -17,23 +17,23 @@ let dataSiswa = [
   { label: "Indonesia", id: "id" },
 ];
 
-let dataTempatPrakerin = [
-  { label: "Malang", id: "M" },
-  { label: "Surabaya", id: "S" },
-  { label: "Blitar", id: "B" },
-];
+// let dataTempatPrakerin = [
+//   { label: "Malang", id: "M" },
+//   { label: "Surabaya", id: "S" },
+//   { label: "Blitar", id: "B" },
+// ];
 
-let dataPembimbingLapangan = [
-  { label: "Paijo", id: "ca" },
-  { label: "Sri", id: "af" },
-  { label: "Wulan", id: "id" },
-];
+// let dataPembimbingLapangan = [
+//   { label: "Paijo", id: "ca" },
+//   { label: "Sri", id: "af" },
+//   { label: "Wulan", id: "id" },
+// ];
 
-let dataPembimbingSekolah = [
-  { label: "Jokowi", id: "jk" },
-  { label: "Makrup", id: "mk" },
-  { label: "Amin", id: "am" },
-];
+// let dataPembimbingSekolah = [
+//   { label: "Jokowi", id: "jk" },
+//   { label: "Makrup", id: "mk" },
+//   { label: "Amin", id: "am" },
+// ];
 
 function onSubmit() {
   // data.value = null;
@@ -44,18 +44,18 @@ function onSubmit() {
     Toast.danger("Warning", "Siswa belum dipilih");
     err++;
   }
-  if (dataDetail.value.tempatpkl == null) {
-    Toast.danger("Warning", "Tempat Prakerin belum dipilih");
-    err++;
-  }
-  if (dataDetail.value.pembimbinglapangan == null) {
-    Toast.danger("Warning", "Pembimbing Lapangan belum dipilih");
-    err++;
-  }
-  if (dataDetail.value.pembimbingsekolah == null) {
-    Toast.danger("Warning", "Pembimbing Sekolah belum dipilih");
-    err++;
-  }
+  // if (dataDetail.value.tempatpkl == null) {
+  //   Toast.danger("Warning", "Tempat Prakerin belum dipilih");
+  //   err++;
+  // }
+  // if (dataDetail.value.pembimbinglapangan == null) {
+  //   Toast.danger("Warning", "Pembimbing Lapangan belum dipilih");
+  //   err++;
+  // }
+  // if (dataDetail.value.pembimbingsekolah == null) {
+  //   Toast.danger("Warning", "Pembimbing Sekolah belum dipilih");
+  //   err++;
+  // }
   if (err == 0) {
     Toast.success("Success", "Simpan dan lanjutkan");
     router.push({ name: "AdminPendaftaranProsesDua" });
@@ -95,7 +95,7 @@ function onSubmit() {
                 <v-select :options="dataSiswa" v-model="dataDetail.siswa"></v-select>
               </div>
             </div>
-            <div class="grid grid-cols-2">
+            <!-- <div class="grid grid-cols-2">
               <div class="px-4 py-2 font-semibold">Pilih Tempat Prakerin</div>
               <div class="px-4 py-2">
                 <v-select
@@ -103,8 +103,8 @@ function onSubmit() {
                   v-model="dataDetail.tempatpkl"
                 ></v-select>
               </div>
-            </div>
-            <div class="grid grid-cols-2">
+            </div> -->
+            <!-- <div class="grid grid-cols-2">
               <div class="px-4 py-2 font-semibold">Pilih Pembimbing Lapangan</div>
               <div class="px-4 py-2">
                 <v-select
@@ -121,7 +121,7 @@ function onSubmit() {
                   v-model="dataDetail.pembimbingsekolah"
                 ></v-select>
               </div>
-            </div>
+            </div> -->
             <div class="grid grid-cols-2">
               <div class="px-4 py-2 font-semibold">Status</div>
               <div class="px-4 py-2">
