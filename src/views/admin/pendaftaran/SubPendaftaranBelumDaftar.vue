@@ -1,27 +1,34 @@
 <script setup>
 import { ref } from "vue";
+import { useRouter, useRoute } from "vue-router";
 import Api from "@/axios/axios.js";
 import Toast from "@/components/lib/Toast.js";
 import ButtonEdit from "@/components/atoms/ButtonEdit.vue";
 import ButtonDelete from "@/components/atoms/ButtonDel.vue";
-const dataAsli = ref("");
 const data = ref("");
+const dataAsli = ref("");
+const dataDetail = ref({
+  nama: "",
+});
+let dataId = null;
+// function Form and Validation
 const getData = async () => {
   try {
-    const response = await Api.get("admin/pendaftaranpkl/list/disetujui");
+    const response = await Api.get("admin/pendaftaranpkl/list/belumdaftar");
     // console.log(response);
+    // data.value = response.data;
     dataAsli.value = response.data;
     data.value = dataAsli.value.map((item) => {
       let dk = null;
-      if (item.siswa) {
-        dk = `${item.siswa.nama}`;
+      if (item.pendaftaranprakerin) {
+        dk = `${item.pendaftaranprakerin.status}`;
       } else {
         dk = "Belum Daftar";
       }
       return {
         id: item.id,
-        nama: dk,
-        status: item.status,
+        nama: item.nama,
+        pendaftaranprakerin: dk,
       };
     });
     return response;
@@ -56,7 +63,7 @@ const columns = [
   },
   {
     label: "Status PKL", //aktif / nonaktif / disabled (telah lulus/keluar/dll)
-    field: "status",
+    field: "pendaftaranprakerin",
     type: "String",
   },
 ];
@@ -82,7 +89,7 @@ const columns = [
             />
           </svg>
         </span>
-        <span class="tracking-wide">Data Siswa Disetujui</span>
+        <span class="tracking-wide">Data Siswa Belum Daftar</span>
       </div>
       <div class="text-gray-700">
         <!-- table -->
@@ -152,17 +159,17 @@ const columns = [
                 <div class="text-center">{{ props.index + 1 }}</div>
               </span>
 
-              <span v-else-if="props.column.field == 'status'">
-                <div class="text-center">
-                  <span class="text-green-500"> {{ props.row.status }}</span>
+              <span v-else-if="props.column.field == 'pendaftaranprakerin'">
+                <div
+                  class="text-center"
+                  v-if="props.row.pendaftaranprakerin == 'Disetujui'"
+                >
+                  <span class="text-green-500"> {{ props.row.pendaftaranprakerin }}</span>
+                </div>
+                <div class="text-center" v-else>
+                  <span class="text-yellow-500">Belum Daftar</span>
                 </div>
               </span>
-
-              <!-- <span v-else-if="props.column.field == 'nama'">
-                <div class="text-center">
-                  <span class="text-green-500"> {{ props.row.siswa.nama }}</span>
-                </div>
-              </span> -->
 
               <span v-else>
                 {{ props.formattedRow[props.column.field] }}

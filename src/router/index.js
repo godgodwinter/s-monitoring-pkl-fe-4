@@ -24,6 +24,7 @@ import AdminPembimbingSekolah from '../views/admin/pembimbingsekolah/Index.vue'
 import AdminPendaftaranExample from '../views/admin/pendaftaran/Pendaftaran_nodata2.vue'
 // sub pendaftaran
 import SubPendaftaranIndex from '@/views/admin/pendaftaran/SubPendaftaranIndex.vue';
+import SubPendaftaranBelumDaftar from '@/views/admin/pendaftaran/SubPendaftaranBelumDaftar.vue';
 import SubPendaftaranDisetujui from '@/views/admin/pendaftaran/SubPendaftaranDisetujui.vue';
 import SubProsesSatu from '@/views/admin/pendaftaran/SubProsesSatu.vue';
 import SubProsesDua from '@/views/admin/pendaftaran/SubProsesDua.vue';
@@ -118,6 +119,11 @@ const routes = [
             path: '/pages/admin/pendaftaranpkl', //getall
             name: 'AdminPendaftaran',
             component: SubPendaftaranIndex,
+          },
+          {
+              path: '/pages/admin/pendaftaranpkl/belumdaftar', //disetujui
+              name: 'AdminPendaftaranBelumDaftar',
+            component: SubPendaftaranBelumDaftar,
           },
           {
               path: '/pages/admin/pendaftaranpkl/disetujui', //disetujui

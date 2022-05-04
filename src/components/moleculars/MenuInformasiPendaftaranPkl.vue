@@ -45,7 +45,7 @@ getData();
       <router-link :to="{ name: 'AdminPendaftaran' }">
         <ButtonDataTwo title="Semua Siswa" :titleShort="data.siswa"
       /></router-link>
-      <router-link :to="{ name: 'AdminPendaftaran' }"
+      <router-link :to="{ name: 'AdminPendaftaranBelumDaftar' }"
         ><ButtonDataTwo title="Belum Daftar" :titleShort="data.belumdaftar"
       /></router-link>
       <ButtonDataTwo title="Menunggu" :titleShort="data.menunggu" />
