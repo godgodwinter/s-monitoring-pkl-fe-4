@@ -6,6 +6,7 @@ import Toast from "@/components/lib/Toast.js";
 import ButtonEdit from "@/components/atoms/ButtonEdit.vue";
 import ButtonDelete from "@/components/atoms/ButtonDel.vue";
 const data = ref("");
+const dataAsli = ref("");
 const dataDetail = ref({
   nama: "",
 });
@@ -15,7 +16,22 @@ const getData = async () => {
   try {
     const response = await Api.get("admin/pendaftaranpkl/list/getall");
     // console.log(response);
-    data.value = response.data;
+    // data.value = response.data;
+    dataAsli.value = response.data;
+    data.value = dataAsli.value.map((item) => {
+      let dk = null;
+      if (item.pendaftaranprakerin) {
+        dk = `${item.pendaftaranprakerin.status}`;
+        console.log(item.pendaftaranprakerin);
+      } else {
+        dk = "Belum Daftar";
+      }
+      return {
+        id: item.id,
+        nama: item.nama,
+        pendaftaranprakerin: dk,
+      };
+    });
     return response;
   } catch (error) {
     Toast.danger("Warning", "Token anda kadaluarsa! Silahkan login kembali");
@@ -145,14 +161,11 @@ const columns = [
               </span>
 
               <span v-else-if="props.column.field == 'pendaftaranprakerin'">
-                <div class="text-center" v-if="props.row.pendaftaranprakerin.length > 0">
-                  <span
-                    class="text-green-500"
-                    v-for="item in props.row.pendaftaranprakerin"
-                    :key="item.id"
-                  >
-                    {{ item.status }}</span
-                  >
+                <div
+                  class="text-center"
+                  v-if="props.row.pendaftaranprakerin == 'Disetujui'"
+                >
+                  <span class="text-green-500"> {{ props.row.pendaftaranprakerin }}</span>
                 </div>
                 <div class="text-center" v-else>
                   <span class="text-yellow-500">Belum Daftar</span>
