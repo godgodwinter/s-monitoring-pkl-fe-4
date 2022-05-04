@@ -22,7 +22,6 @@ const getData = async () => {
       let dk = null;
       if (item.pendaftaranprakerin) {
         dk = `${item.pendaftaranprakerin.status}`;
-        console.log(item.pendaftaranprakerin);
       } else {
         dk = "Belum Daftar";
       }

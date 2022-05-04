@@ -4,12 +4,25 @@ import Api from "@/axios/axios.js";
 import Toast from "@/components/lib/Toast.js";
 import ButtonEdit from "@/components/atoms/ButtonEdit.vue";
 import ButtonDelete from "@/components/atoms/ButtonDel.vue";
+const dataAsli = ref("");
 const data = ref("");
 const getData = async () => {
   try {
     const response = await Api.get("admin/pendaftaranpkl/list/disetujui");
     // console.log(response);
-    data.value = response.data;
+    dataAsli.value = response.data;
+    data.value = dataAsli.value.map((item) => {
+      let dk = null;
+      if (item.siswa) {
+        dk = `${item.siswa.nama}`;
+      } else {
+        dk = "Belum Daftar";
+      }
+      return {
+        id: item.id,
+        nama: dk,
+      };
+    });
     return response;
   } catch (error) {
     Toast.danger("Warning", "Token anda kadaluarsa! Silahkan login kembali");
@@ -144,11 +157,11 @@ const columns = [
                 </div>
               </span>
 
-              <span v-else-if="props.column.field == 'nama'">
+              <!-- <span v-else-if="props.column.field == 'nama'">
                 <div class="text-center">
                   <span class="text-green-500"> {{ props.row.siswa.nama }}</span>
                 </div>
-              </span>
+              </span> -->
 
               <span v-else>
                 {{ props.formattedRow[props.column.field] }}
