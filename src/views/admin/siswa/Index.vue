@@ -9,6 +9,7 @@ import BreadCrumbSpace from "@/components/atoms/BreadCrumbSpace.vue";
 import Button from "@/components/atoms/ButtonFour.vue";
 import ButtonEdit from "@/components/atoms/ButtonEdit.vue";
 import ButtonDelete from "@/components/atoms/ButtonDel.vue";
+import Popper from "../../../components/atoms/Popper.vue";
 const router = useRouter();
 const route = useRoute();
 const dataAsli = ref("");
@@ -27,8 +28,8 @@ const getData = async () => {
     dataAsli.value = response.data;
     data.value = dataAsli.value.map((item) => {
       let dk = null;
-      if (item.kelas) {
-        dk = `${item.kelas.tingkatan} ${item.kelas.jurusan} ${item.kelas.suffix}`;
+      if (item.kelasdetail) {
+        dk = `${item.kelasdetail.kelas.tingkatan} ${item.kelasdetail.kelas.jurusan} ${item.kelasdetail.kelas.suffix}`;
       }
       return {
         id: item.id,
@@ -57,7 +58,7 @@ const getDataKelas = async () => {
         id: item.id,
       };
     });
-    console.log(dataKelas.value);
+    // console.log(dataKelas.value);
     return response;
   } catch (error) {
     Toast.danger("Warning", "Token anda kadaluarsa! Silahkan login kembali");
@@ -106,14 +107,14 @@ const getDataId = async () => {
     dataDetail.value = response.data;
     dataTemp.value.agama = { label: dataDetail.value.agama };
     dataTemp.value.jk = { label: dataDetail.value.jk };
-    let getNamaKelas = dataDetail.value.kelas.jurusan;
+    dataTemp.value.kelasdetail = { label: dataDetail.value.kelasdetail };
     dataTemp.value.kelas_id = {
-      label:
-        dataDetail.value.kelas.length > 0
-          ? `${dataDetail.value.kelas.tingkatan} ${dataDetail.value.kelas.jurusan} ${dataDetail.value.kelas.suffix}`
-          : null,
+      label: dataDetail.value.kelasdetail
+        ? `${dataDetail.value.kelasdetail.kelas.tingkatan} ${dataDetail.value.kelasdetail.kelas.jurusan} ${dataDetail.value.kelasdetail.kelas.suffix}`
+        : null,
       id: dataDetail.value.kelas_id,
     };
+    // console.log(dataDetail.value.kelasdetail);
     // dataTemp.value.kelas_id = {
     //   label: dataDetail.value.kelas
     //     ? `${dataDetail.value.kelas.tingkatan} ${dataDetail.value.kelas.jurusan} ${dataDetail.value.kelas.suffix}`
@@ -290,45 +291,52 @@ let dataJk = [{ label: "Laki-laki" }, { label: "Perempuan" }];
               <div class="text-sm font-medium text-center flex justify-center">
                 <ButtonEdit @click="doEditData(props.row.id)" />
                 <ButtonDelete @click="doDeleteData(props.row.id)" />
-                <button
-                  class="text-orange-100 block rounded-sm font-bold py-1 px-1 mr-2 flex items-center hover:text-orange-300 bg-orange-400 rounded-lg"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                    />
-                  </svg>
-                </button>
-
-                <router-link :to="{ name: 'AdminSiswaProfile' }">
-                  <button
-                    class="text-sky-100 block rounded-sm font-bold py-1 px-1 mr-2 flex items-center hover:text-sky-300 bg-sky-400 rounded-lg"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      stroke-width="2"
+                <Popper content="Reset Password">
+                  <template #content>
+                    <button
+                      class="text-orange-100 block rounded-sm font-bold py-1 px-1 mr-2 flex items-center hover:text-orange-300 bg-orange-400 rounded-lg"
                     >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                  </button>
-                </router-link>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                        />
+                      </svg>
+                    </button>
+                  </template>
+                </Popper>
+
+                <Popper content="Detail Data">
+                  <template #content>
+                    <router-link :to="{ name: 'AdminSiswaProfile' }">
+                      <button
+                        class="text-sky-100 block rounded-sm font-bold py-1 px-1 mr-2 flex items-center hover:text-sky-300 bg-sky-400 rounded-lg"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+                      </button>
+                    </router-link> </template
+                ></Popper>
               </div>
             </span>
 
