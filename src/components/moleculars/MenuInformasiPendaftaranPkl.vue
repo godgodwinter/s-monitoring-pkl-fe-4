@@ -1,4 +1,5 @@
 <script setup>
+import Popper from "@/components/atoms/Popper.vue";
 import ButtonDataTwo from "../atoms/ButtonDataTwo.vue";
 import { ref } from "vue";
 import Api from "@/axios/axios.js";
@@ -41,6 +42,7 @@ getData();
       </span>
       <span>Informasi Pendaftaran</span>
     </div>
+
     <div class="grid grid-cols-2 xl:grid-cols-3" v-if="data">
       <router-link :to="{ name: 'AdminPendaftaran' }">
         <ButtonDataTwo title="Semua Siswa" :titleShort="data.siswa"
@@ -56,5 +58,27 @@ getData();
       <ButtonDataTwo title="Sedang PKL" :titleShort="data.sedangpkl" />
       <ButtonDataTwo title="Telah Selesai PKL" :titleShort="data.telahselesai" />
     </div>
+    <ul
+      class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm"
+    >
+      <li class="flex items-center py-3">
+        <span>Menu Refresh Data Sidebar</span>
+        <span class="ml-auto">
+          <div class="flex justify-center">
+            <Popper content="Tombol Refresh Data" @click="getData()">
+              <template #content>
+                <div class="form-check form-switch">
+                  <button
+                    class="bg-emerald-600 py-2 px-2 rounded-full text-gray-100 text-xs font-bold"
+                  >
+                    Refresh
+                  </button>
+                </div></template
+              >
+            </Popper>
+          </div>
+        </span>
+      </li>
+    </ul>
   </div>
 </template>
