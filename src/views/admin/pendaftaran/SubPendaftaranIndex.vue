@@ -166,6 +166,12 @@ const columns = [
                 >
                   <span class="text-green-500"> {{ props.row.pendaftaranprakerin }}</span>
                 </div>
+                <div
+                  class="text-center"
+                  v-if="props.row.pendaftaranprakerin == 'Proses Daftar'"
+                >
+                  <span class="text-green-500"> {{ props.row.pendaftaranprakerin }}</span>
+                </div>
                 <div class="text-center" v-else>
                   <span class="text-yellow-500">Belum Daftar</span>
                 </div>

@@ -1,4 +1,8 @@
 <script setup>
+import Api from "@/axios/axios.js";
+import { useStore } from "vuex";
+import { computed } from "vue";
+const store = useStore();
 import { ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import Toast from "@/components/lib/Toast.js";
@@ -7,6 +11,11 @@ import CardStepPendaftaran from "../../../components/organismes/pendaftaran/Card
 import Popper from "../../../components/atoms/Popper.vue";
 const router = useRouter();
 const route = useRoute();
+
+const getSiswa = computed(function () {
+  return store.state.siswaSelected;
+});
+console.log(getSiswa);
 const dataDetail = ref({
   siswa: { label: "Indonesia", id: "id" },
   tempatpkl: null,

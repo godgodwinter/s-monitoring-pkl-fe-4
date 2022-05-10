@@ -4,42 +4,38 @@ import { useStore } from "vuex";
 import { computed } from "vue";
 const store = useStore();
 import { ref } from "vue";
-import Toast from "@/components/lib/Toast.js";
 import { useRouter, useRoute } from "vue-router";
+import Toast from "@/components/lib/Toast.js";
+import FormPendaftaranBaru from "../../../components/organismes/pendaftaran/FormPendaftaranBaru.vue";
+import CardStepPendaftaran from "../../../components/organismes/pendaftaran/CardStepPendaftaran.vue";
+import Popper from "../../../components/atoms/Popper.vue";
 const router = useRouter();
 const route = useRoute();
-let id = route.params.id ? route.params.id : null;
+const id = route.params.id;
+let dataId = null;
 const dataDetail = ref({
-  siswa: null,
+  siswa: { label: "-", id: id },
   tempatpkl: null,
   tempatpkl: null,
   pembimbinglapangan: null,
   pembimbingsekolah: null,
 });
-console.log(id);
-
-let dataId = null;
-// getDataSiswa yang belum daftar
 let dataSiswa = ref([]);
-// let dataSiswa = [
-//   { label: "Canada", id: "ca" },
-//   { label: "Afrika", id: "af" },
-//   { label: "Indonesia", id: "id" },
-// ];
+let dataAsli = ref([]);
 let status = ref("Menunggu");
 const periksaId = async () => {
   try {
     const response = await Api.get(`admin/pendaftaranpkl/list/periksaid/${id}`);
     // console.log(response);
     status.value = response.data;
-    if (response.data != "Belum Daftar") {
-      Toast.danger("Warning", "Sudah Daftar Prakerin, Lanjut ke Proses selanjutnya");
+    if (response.data == "Belum Daftar") {
+      Toast.danger("Warning", "Belum Daftar Prakerin, Daftar lebih dahulu");
       router.push({
-        name: "AdminPendaftaranProsesDuaId",
+        name: "AdminPendaftaranProsesSatu",
         params: { id: id },
       });
     }
-    getDataId();
+    getData();
 
     return response;
   } catch (error) {
@@ -47,132 +43,68 @@ const periksaId = async () => {
     console.error(error);
   }
 };
-let dataAsli = ref([]);
-const getDataId = async () => {
+const getData = async () => {
   try {
     const response = await Api.get(`admin/siswa/${id}`);
     // console.log(response);
     dataAsli.value = response.data;
-    dataDetail.value.siswa = {
-      label: ` ${dataAsli.value.nama} - ${dataAsli.value.kelasdetail.kelas.tingkatan} ${dataAsli.value.kelasdetail.kelas.jurusan} ${dataAsli.value.kelasdetail.kelas.suffix}`,
-      id,
-    };
-    return response;
-  } catch (error) {
-    Toast.danger(
-      "Warning",
-      "Data tidak ditemukan / Token anda kadaluarsa! Silahkan login kembali"
-    );
-    console.error(error);
-  }
-};
-if (id) {
-  periksaId();
-}
-const getData = async () => {
-  try {
-    const response = await Api.get("admin/pendaftaranpkl/list/belumdaftar");
-    // console.log(response);
-    dataAsli.value = response.data;
-    dataSiswa.value = dataAsli.value.map((item) => {
-      let dk = null;
-      if (item.kelasdetail) {
-        dk = `${item.kelasdetail.kelas.tingkatan} ${item.kelasdetail.kelas.jurusan} ${item.kelasdetail.kelas.suffix}`;
-      }
-      return {
-        label: `${item.nama} - ${dk}`,
-        id: item.id,
-      };
-    });
-    // console.log(dataSiswa.value);
+    dataDetail.value.siswa.label = ` ${dataAsli.value.nama} - ${dataAsli.value.kelasdetail.kelas.tingkatan} ${dataAsli.value.kelasdetail.kelas.jurusan} ${dataAsli.value.kelasdetail.kelas.suffix}`;
     return response;
   } catch (error) {
     Toast.danger("Warning", "Token anda kadaluarsa! Silahkan login kembali");
     console.error(error);
   }
 };
-getData();
+periksaId();
 
-// let dataTempatPrakerin = [
-//   { label: "Malang", id: "M" },
-//   { label: "Surabaya", id: "S" },
-//   { label: "Blitar", id: "B" },
-// ];
+let dataTempatPrakerin = [
+  { label: "Malang", id: "M" },
+  { label: "Surabaya", id: "S" },
+  { label: "Blitar", id: "B" },
+];
 
-// let dataPembimbingLapangan = [
-//   { label: "Paijo", id: "ca" },
-//   { label: "Sri", id: "af" },
-//   { label: "Wulan", id: "id" },
-// ];
+let dataPembimbingLapangan = [
+  { label: "Paijo", id: "ca" },
+  { label: "Sri", id: "af" },
+  { label: "Wulan", id: "id" },
+];
 
-// let dataPembimbingSekolah = [
-//   { label: "Jokowi", id: "jk" },
-//   { label: "Makrup", id: "mk" },
-//   { label: "Amin", id: "am" },
-// ];
-
-const doStoreData = async (d, tglnow) => {
-  // console.log(data);
-  try {
-    if (dataId) {
-      const response = await Api.put(`admin/pendaftaranprakerin/store`, {
-        siswa_id: dataDetail.value.siswa.id,
-        tgl_daftar: tglnow,
-      });
-
-      Toast.success("Success", "Data Berhasil diupdate!");
-      getData();
-      return response.data;
-    }
-    const response = await Api.post("admin/pendaftaranprakerin/store", {
-      siswa_id: dataDetail.value.siswa.id,
-      tgl_daftar: tglnow,
-    });
-
-    getData();
-    Toast.success("Success", "Data Berhasil ditambahkan!");
-    localStorage.setItem("setSiswaSelected", dataDetail.value.siswa);
-    router.push({
-      name: "AdminPendaftaranProsesDuaId",
-      params: { id: dataDetail.value.siswa.id },
-    });
-    return response.data;
-  } catch (error) {
-    Toast.danger("Warning", "Data gagal ditambahkan!");
-    console.error(error);
-  }
-};
+let dataPembimbingSekolah = [
+  { label: "Jokowi", id: "jk" },
+  { label: "Makrup", id: "mk" },
+  { label: "Amin", id: "am" },
+];
 function onSubmit() {
   // data.value = null;
+  // const res = doStoreData(dataDetail.value);
   // getData();
   let err = 0;
-  if (dataDetail.value.siswa == null) {
-    Toast.danger("Warning", "Siswa belum dipilih");
+  // if (dataDetail.value.siswa == null) {
+  //   Toast.danger("Warning", "Siswa belum dipilih");
+  //   err++;
+  // }
+  if (dataDetail.value.tempatpkl == null) {
+    Toast.danger("Warning", "Tempat Prakerin belum dipilih");
     err++;
   }
-  // if (dataDetail.value.tempatpkl == null) {
-  //   Toast.danger("Warning", "Tempat Prakerin belum dipilih");
-  //   err++;
-  // }
-  // if (dataDetail.value.pembimbinglapangan == null) {
-  //   Toast.danger("Warning", "Pembimbing Lapangan belum dipilih");
-  //   err++;
-  // }
-  // if (dataDetail.value.pembimbingsekolah == null) {
-  //   Toast.danger("Warning", "Pembimbing Sekolah belum dipilih");
-  //   err++;
-  // }
+  if (dataDetail.value.pembimbinglapangan == null) {
+    Toast.danger("Warning", "Pembimbing Lapangan belum dipilih");
+    err++;
+  }
+  if (dataDetail.value.pembimbingsekolah == null) {
+    Toast.danger("Warning", "Pembimbing Sekolah belum dipilih");
+    err++;
+  }
   if (err == 0) {
-    console.log(dataDetail.value.siswa.id);
-    let tglnow = new Date().toISOString().slice(0, 10);
-    console.log(tglnow);
-    const res = doStoreData(dataDetail.value, tglnow);
-    // Toast.success("Success", "Simpan dan lanjutkan");
-    // router.push({ name: "AdminPendaftaranProsesDua" });
+    Toast.success("Success", "Simpan dan lanjutkan");
+    router.push({ name: "AdminPendaftaranProsesTiga" });
+    console.log(dataDetail.value);
   }
 }
 </script>
 <template>
+  <CardStepPendaftaran :step="2"></CardStepPendaftaran>
+
   <div>
     <div class="bg-white p-3 shadow-sm rounded-sm">
       <!-- About Section -->
@@ -194,17 +126,21 @@ function onSubmit() {
               />
             </svg>
           </span>
-          <span class="tracking-wide">Form Pendaftaran Baru</span>
+          <span class="tracking-wide">Form Data PKL dan Pembimbing</span>
         </div>
         <div class="text-gray-700">
           <div class="grid md:grid-cols-2 text-sm">
             <div class="grid grid-cols-2">
               <div class="px-4 py-2 font-semibold">Pilih Siswa</div>
               <div class="px-4 py-2">
-                <v-select :options="dataSiswa" v-model="dataDetail.siswa"></v-select>
+                <v-select
+                  :options="dataSiswa"
+                  v-model="dataDetail.siswa"
+                  v-bind:class="{ disabled: true }"
+                ></v-select>
               </div>
             </div>
-            <!-- <div class="grid grid-cols-2">
+            <div class="grid grid-cols-2">
               <div class="px-4 py-2 font-semibold">Pilih Tempat Prakerin</div>
               <div class="px-4 py-2">
                 <v-select
@@ -212,8 +148,8 @@ function onSubmit() {
                   v-model="dataDetail.tempatpkl"
                 ></v-select>
               </div>
-            </div> -->
-            <!-- <div class="grid grid-cols-2">
+            </div>
+            <div class="grid grid-cols-2">
               <div class="px-4 py-2 font-semibold">Pilih Pembimbing Lapangan</div>
               <div class="px-4 py-2">
                 <v-select
@@ -230,13 +166,13 @@ function onSubmit() {
                   v-model="dataDetail.pembimbingsekolah"
                 ></v-select>
               </div>
-            </div> -->
+            </div>
             <div class="grid grid-cols-2">
               <div class="px-4 py-2 font-semibold">Status</div>
               <div class="px-4 py-2">
                 <span
-                  class="bg-gray-400 py-2 px-2 rounded-lg text-white font-bold text-sm"
-                  >Belum Daftar</span
+                  class="bg-orange-400 py-2 px-2 rounded-lg text-white font-bold text-sm"
+                  >{{ status }}</span
                 >
               </div>
             </div>
@@ -258,4 +194,26 @@ function onSubmit() {
       <!-- End of about section -->
     </div>
   </div>
+  <!-- <H1>Proses langkah ke dua</H1> -->
+
+  <!-- <Popper content="This is the Popper content">
+    <template #content>
+      <router-link
+        :to="{ name: 'AdminPendaftaranProsesTiga' }"
+        class="bg-gray-300 py-1 px-1"
+        >Langkah ke tiga</router-link
+      ></template
+    >
+  </Popper> -->
+  <!-- <FormPendaftaranBaru></FormPendaftaranBaru> -->
 </template>
+<style>
+.disabled {
+  pointer-events: none;
+  color: #bfcbd9;
+  cursor: not-allowed;
+  background-image: none;
+  background-color: #eef1f6;
+  border-color: #d1dbe5;
+}
+</style>

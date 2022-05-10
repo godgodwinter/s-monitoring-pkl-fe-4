@@ -29,6 +29,8 @@ export default createStore({
       },
 
       tapelAktif: localStorage.getItem('tapelAktif') ? localStorage.getItem('tapelAktif') : '',
+      // proses pendaftaran pkl 
+      siswaSelected: null,
     };
   },
   getters: {
@@ -48,6 +50,10 @@ export default createStore({
     },
     setTapelAktif(state, value) {
       state.tapelAktif = value;
+    },
+    // proses pendaftaran pkl 
+    setSiswaSelected(state, value) {
+      state.siswaSelected = value;
     },
   },
 
