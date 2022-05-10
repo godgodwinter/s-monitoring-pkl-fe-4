@@ -50,7 +50,9 @@ getData();
       <router-link :to="{ name: 'AdminPendaftaranBelumDaftar' }"
         ><ButtonDataTwo title="Belum Daftar" :titleShort="data.belumdaftar"
       /></router-link>
-      <ButtonDataTwo title="Menunggu" :titleShort="data.menunggu" />
+      <router-link :to="{ name: 'AdminPendaftaranMenunggu' }"
+        ><ButtonDataTwo title="Proses Daftar" :titleShort="data.menunggu"
+      /></router-link>
 
       <router-link :to="{ name: 'AdminPendaftaranDisetujui' }">
         <ButtonDataTwo title="Disetujui" :titleShort="data.disetujui"
