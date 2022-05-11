@@ -37,6 +37,21 @@ const periksaId = async () => {
         name: "AdminPendaftaranProsesSatu",
         params: { id: id },
       });
+    } else if (response.data == "Disetujui") {
+      Toast.danger(
+        "Warning",
+        "Data ditemukan, Proses pendaftaran siswa ini telah selesai!"
+      );
+      router.push({
+        name: "AdminPendaftaranProsesSatu",
+        params: { id: id },
+      });
+    } else if (response.data == "Menunggu") {
+      Toast.danger("Warning", "Data ditemukan, Lanjut ke proses selanjutnya");
+      router.push({
+        name: "AdminPendaftaranProsesTiga",
+        params: { id: id },
+      });
     }
     getData();
 
@@ -97,6 +112,49 @@ const getDataLangkah2 = async () => {
   }
 };
 getDataLangkah2();
+const doStoreData = async (d, tglnow) => {
+  // console.log(data);
+  try {
+    if (dataId) {
+      const response = await Api.put(
+        `admin/pendaftaranprakerin/${id}/pendaftaranprakerin_detail/store`,
+        {
+          tempatpkl_id: dataDetail.value.tempatpkl.id,
+          pembimbinglapangan_id: dataDetail.value.pembimbinglapangan.id,
+          pembimbingsekolah_id: dataDetail.value.pembimbingsekolah.id,
+          tgl_pengajuan: tglnow,
+          // keterangan: dataDetail.value.keterangan.id,
+        }
+      );
+
+      Toast.success("Success", "Data Berhasil diupdate!");
+      getData();
+      return response.data;
+    }
+    const response = await Api.post(
+      `admin/pendaftaranprakerin/${id}/pendaftaranprakerin_detail/store`,
+      {
+        tempatpkl_id: dataDetail.value.tempatpkl.id,
+        pembimbinglapangan_id: dataDetail.value.pembimbinglapangan.id,
+        pembimbingsekolah_id: dataDetail.value.pembimbingsekolah.id,
+        tgl_pengajuan: tglnow,
+        // keterangan: dataDetail.value.keterangan.id,
+      }
+    );
+
+    getData();
+    Toast.success("Success", "Data Berhasil ditambahkan!");
+    localStorage.setItem("setSiswaSelected", dataDetail.value.siswa);
+    router.push({
+      name: "AdminPendaftaranProsesTiga",
+      params: { id: dataDetail.value.siswa.id },
+    });
+    return response.data;
+  } catch (error) {
+    Toast.danger("Warning", "Data gagal ditambahkan!");
+    console.error(error);
+  }
+};
 function onSubmit() {
   // data.value = null;
   // const res = doStoreData(dataDetail.value);
@@ -119,9 +177,12 @@ function onSubmit() {
     err++;
   }
   if (err == 0) {
-    Toast.success("Success", "Simpan dan lanjutkan");
-    router.push({ name: "AdminPendaftaranProsesTiga" });
-    console.log(dataDetail.value);
+    let tglnow = new Date().toISOString().slice(0, 10);
+    const res = doStoreData(dataDetail.value, tglnow);
+    // console.log(dataDetail.value);
+    // Toast.success("Success", "Simpan dan lanjutkan");
+    // router.push({ name: "AdminPendaftaranProsesTiga" });
+    // console.log(dataDetail.value);
   }
 }
 </script>
@@ -206,12 +267,6 @@ function onSubmit() {
           class="block w-full text-blue-800 text-sm font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4"
         >
           Simpan dan Lanjutkan
-        </button>
-
-        <button
-          class="block w-full text-red-900 text-sm font-semibold rounded-lg bg-yellow-100 hover:bg-yellow-200 focus:outline-none focus:shadow-outline focus:bg-yellow-100 hover:shadow-xs p-3 my-4"
-        >
-          Reset Form
         </button>
       </div>
       <!-- End of about section -->

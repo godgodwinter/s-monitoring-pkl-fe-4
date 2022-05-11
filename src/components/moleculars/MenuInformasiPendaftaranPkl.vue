@@ -50,15 +50,18 @@ getData();
       <router-link :to="{ name: 'AdminPendaftaranBelumDaftar' }"
         ><ButtonDataTwo title="Belum Daftar" :titleShort="data.belumdaftar"
       /></router-link>
+      <router-link :to="{ name: 'AdminPendaftaranProsesDaftar' }"
+        ><ButtonDataTwo title="Proses Daftar" :titleShort="data.prosesdaftar"
+      /></router-link>
       <router-link :to="{ name: 'AdminPendaftaranMenunggu' }"
-        ><ButtonDataTwo title="Proses Daftar" :titleShort="data.menunggu"
+        ><ButtonDataTwo title="Menunggu Acc" :titleShort="data.menunggu"
       /></router-link>
 
       <router-link :to="{ name: 'AdminPendaftaranDisetujui' }">
         <ButtonDataTwo title="Disetujui" :titleShort="data.disetujui"
       /></router-link>
-      <ButtonDataTwo title="Sedang PKL" :titleShort="data.sedangpkl" />
-      <ButtonDataTwo title="Telah Selesai PKL" :titleShort="data.telahselesai" />
+      <!-- <ButtonDataTwo title="Sedang PKL" :titleShort="data.sedangpkl" />
+      <ButtonDataTwo title="Telah Selesai PKL" :titleShort="data.telahselesai" /> -->
     </div>
     <ul
       class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm"

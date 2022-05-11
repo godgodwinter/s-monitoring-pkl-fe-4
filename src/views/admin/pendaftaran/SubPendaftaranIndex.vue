@@ -187,9 +187,17 @@ function doLanjutkanProses(id) {
                 </div>
                 <div
                   class="text-center"
-                  v-if="props.row.pendaftaranprakerin == 'Proses Daftar'"
+                  v-else-if="props.row.pendaftaranprakerin == 'Proses Daftar'"
                 >
                   <span class="text-green-500"> {{ props.row.pendaftaranprakerin }}</span>
+                </div>
+                <div
+                  class="text-center"
+                  v-else-if="props.row.pendaftaranprakerin == 'Menunggu'"
+                >
+                  <span class="text-green-500">
+                    {{ props.row.pendaftaranprakerin }} Acc</span
+                  >
                 </div>
                 <div class="text-center" v-else>
                   <span class="text-yellow-500">Belum Daftar</span>

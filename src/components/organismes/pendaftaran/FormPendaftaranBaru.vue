@@ -32,14 +32,16 @@ const periksaId = async () => {
     const response = await Api.get(`admin/pendaftaranpkl/list/periksaid/${id}`);
     // console.log(response);
     status.value = response.data;
-    if (response.data != "Belum Daftar") {
+    if (response.data != "Belum Daftar" && response.data != "Disetujui") {
       Toast.danger("Warning", "Sudah Daftar Prakerin, Lanjut ke Proses selanjutnya");
       router.push({
         name: "AdminPendaftaranProsesDuaId",
         params: { id: id },
       });
     }
-    getDataId();
+    if (status.value != "Disetujui") {
+      getDataId();
+    }
 
     return response;
   } catch (error) {
@@ -66,6 +68,7 @@ const getDataId = async () => {
     console.error(error);
   }
 };
+
 if (id) {
   periksaId();
 }
@@ -91,7 +94,9 @@ const getData = async () => {
     console.error(error);
   }
 };
-getData();
+// if (status.value != "Disetujui") {
+//   getData();
+// }
 
 // let dataTempatPrakerin = [
 //   { label: "Malang", id: "M" },
@@ -121,7 +126,7 @@ const doStoreData = async (d, tglnow) => {
       });
 
       Toast.success("Success", "Data Berhasil diupdate!");
-      getData();
+      // getData();
       return response.data;
     }
     const response = await Api.post("admin/pendaftaranprakerin/store", {
@@ -129,7 +134,7 @@ const doStoreData = async (d, tglnow) => {
       tgl_daftar: tglnow,
     });
 
-    getData();
+    // getData();
     Toast.success("Success", "Data Berhasil ditambahkan!");
     localStorage.setItem("setSiswaSelected", dataDetail.value.siswa);
     router.push({
@@ -163,9 +168,9 @@ function onSubmit() {
   //   err++;
   // }
   if (err == 0) {
-    console.log(dataDetail.value.siswa.id);
+    // console.log(dataDetail.value.siswa.id);
     let tglnow = new Date().toISOString().slice(0, 10);
-    console.log(tglnow);
+    // console.log(tglnow);
     const res = doStoreData(dataDetail.value, tglnow);
     // Toast.success("Success", "Simpan dan lanjutkan");
     // router.push({ name: "AdminPendaftaranProsesDua" });

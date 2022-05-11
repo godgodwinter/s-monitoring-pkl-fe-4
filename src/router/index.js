@@ -26,6 +26,7 @@ import AdminPendaftaranExample from '../views/admin/pendaftaran/Pendaftaran_noda
 import SubPendaftaranIndex from '@/views/admin/pendaftaran/SubPendaftaranIndex.vue';
 import SubPendaftaranBelumDaftar from '@/views/admin/pendaftaran/SubPendaftaranBelumDaftar.vue';
 import SubPendaftaranMenunggu from '@/views/admin/pendaftaran/SubPendaftaranMenunggu.vue';
+import SubPendaftaranProsesDaftar from '@/views/admin/pendaftaran/SubPendaftaranProsesDaftar.vue';
 import SubPendaftaranDisetujui from '@/views/admin/pendaftaran/SubPendaftaranDisetujui.vue';
 import SubProsesSatu from '@/views/admin/pendaftaran/SubProsesSatu.vue';
 import SubProsesDua from '@/views/admin/pendaftaran/SubProsesDua.vue';
@@ -128,6 +129,11 @@ const routes = [
             component: SubPendaftaranBelumDaftar,
           },
           {
+              path: '/pages/admin/pendaftaranpkl/prosesdaftar', //prosesdaftar
+              name: 'AdminPendaftaranProsesDaftar',
+            component: SubPendaftaranProsesDaftar,
+          },
+          {
               path: '/pages/admin/pendaftaranpkl/menunggu', //menunggu
               name: 'AdminPendaftaranMenunggu',
             component: SubPendaftaranMenunggu,
@@ -153,7 +159,7 @@ const routes = [
             component: SubProsesDuaId,
           },
           {
-            path: '/pages/admin/pendaftaranpkl/proses/tiga', 
+            path: '/pages/admin/pendaftaranpkl/proses/tiga/:id?', 
             name: 'AdminPendaftaranProsesTiga',
             component: SubProsesTiga,
           },
