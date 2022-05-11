@@ -32,7 +32,7 @@ const getData = async () => {
     });
     return response;
   } catch (error) {
-    Toast.danger("Warning", "Token anda kadaluarsa! Silahkan login kembali");
+    Toast.danger("Warning", "Tpooken anda kadaluarsa! Silahkan login kembali");
     console.error(error);
   }
 };

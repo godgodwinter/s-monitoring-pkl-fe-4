@@ -22,6 +22,9 @@ const dataDetail = ref({
 });
 let dataSiswa = ref([]);
 let dataAsli = ref([]);
+let dataAsliTempatPkl = ref([]);
+let dataAsliPembimbingLapangan = ref([]);
+let dataAsliPembimbingSekolah = ref([]);
 let status = ref("Menunggu");
 const periksaId = async () => {
   try {
@@ -57,23 +60,43 @@ const getData = async () => {
 };
 periksaId();
 
-let dataTempatPrakerin = [
-  { label: "Malang", id: "M" },
-  { label: "Surabaya", id: "S" },
-  { label: "Blitar", id: "B" },
-];
+let dataTempatPrakerin = ref([]);
+let dataPembimbingLapangan = ref([]);
+let dataPembimbingSekolah = ref([]);
+const getDataLangkah2 = async () => {
+  try {
+    const response = await Api.get(`admin/pendaftaranpkl/list/getpilihanlankah2`);
+    // console.log(response);
+    dataAsliTempatPkl.value = response.data.tempatpkl;
+    dataTempatPrakerin.value = dataAsliTempatPkl.value.map((item) => {
+      return {
+        id: item.id,
+        label: `${item.nama} - ${item.alamat}`,
+      };
+    });
 
-let dataPembimbingLapangan = [
-  { label: "Paijo", id: "ca" },
-  { label: "Sri", id: "af" },
-  { label: "Wulan", id: "id" },
-];
+    dataAsliPembimbingLapangan.value = response.data.pembimbinglapangan;
+    dataPembimbingLapangan.value = dataAsliPembimbingLapangan.value.map((item) => {
+      return {
+        id: item.id,
+        label: `${item.nama} - ${item.nomeridentitas}`,
+      };
+    });
 
-let dataPembimbingSekolah = [
-  { label: "Jokowi", id: "jk" },
-  { label: "Makrup", id: "mk" },
-  { label: "Amin", id: "am" },
-];
+    dataAsliPembimbingSekolah.value = response.data.pembimbingsekolah;
+    dataPembimbingSekolah.value = dataAsliPembimbingSekolah.value.map((item) => {
+      return {
+        id: item.id,
+        label: `${item.nama} - ${item.nomeridentitas}`,
+      };
+    });
+    return response;
+  } catch (error) {
+    Toast.danger("Warning", "Token anda kadaluarsa! Silahkan login kembali");
+    console.error(error);
+  }
+};
+getDataLangkah2();
 function onSubmit() {
   // data.value = null;
   // const res = doStoreData(dataDetail.value);
@@ -129,7 +152,7 @@ function onSubmit() {
           <span class="tracking-wide">Form Data PKL dan Pembimbing</span>
         </div>
         <div class="text-gray-700">
-          <div class="grid md:grid-cols-2 text-sm">
+          <div class="grid md:grid-cols-1 text-sm">
             <div class="grid grid-cols-2">
               <div class="px-4 py-2 font-semibold">Pilih Siswa</div>
               <div class="px-4 py-2">
