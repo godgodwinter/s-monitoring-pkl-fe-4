@@ -75,7 +75,7 @@ if (id) {
 const getData = async () => {
   try {
     const response = await Api.get("admin/pendaftaranpkl/list/belumdaftar");
-    // console.log(response);
+    console.log(response.data);
     dataAsli.value = response.data;
     dataSiswa.value = dataAsli.value.map((item) => {
       let dk = null;
@@ -94,9 +94,9 @@ const getData = async () => {
     console.error(error);
   }
 };
-// if (status.value != "Disetujui") {
-//   getData();
-// }
+if (status.value != "Disetujui") {
+  getData();
+}
 
 // let dataTempatPrakerin = [
 //   { label: "Malang", id: "M" },
