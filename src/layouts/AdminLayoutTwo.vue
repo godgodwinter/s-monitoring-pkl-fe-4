@@ -1,4 +1,6 @@
 <script setup>
+import Api from "@/axios/axios.js";
+import { ref } from "vue";
 // library
 import { useStore } from "vuex";
 import { computed } from "vue";
@@ -11,6 +13,7 @@ import Footer from "../components/template/Footer.vue";
 const store = useStore();
 const router = useRouter();
 
+const getDataSettings = computed(() => store.state.dataSettings);
 const dataToken = computed(() => store.state.token);
 
 const dataIsLogin = computed(() => store.state.isLogin);
@@ -27,6 +30,37 @@ function isLogin() {
 
 isLogin();
 // periksa token asli/tidaknya(token expired) jika token tidak valid maka redirect ke landing page
+
+const data = ref("");
+const dataAuth = ref({
+  name: "Nama User",
+  nomeridentitas: "1",
+  hakakses: "User",
+});
+const getData = async () => {
+  try {
+    const response = await Api.get("admin/settings/get");
+    // console.log(response);
+    // data.value = response.data;
+    data.value = response.data;
+    dataAuth.value = {
+      name: response.dataAuth.name,
+      nomeridentitas: response.dataAuth.nomeridentitas,
+      hakakses: "Admin",
+    };
+    // console.log(data.value);
+    store.commit("setDataSettings", data.value);
+    store.commit("setDataAuth", dataAuth.value);
+    // console.log(getDataSettings.value);
+
+    return response;
+  } catch (error) {
+    Toast.danger("Warning", "Gagal memuat data settings Aplikasi");
+    console.error(error);
+  }
+};
+
+getData();
 </script>
 <template>
   <!-- <div class="font-serif">

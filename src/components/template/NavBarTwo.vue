@@ -4,6 +4,9 @@ const store = useStore();
 import { computed } from "vue";
 import { useStore } from "vuex  ";
 import { useRouter, useRoute } from "vue-router";
+
+const getDataSettings = computed(() => store.state.dataSettings);
+
 let isMenuActive = ref(false);
 const router = useRouter();
 const isSideBarActive = computed(function () {
@@ -75,7 +78,9 @@ function toggleSideBar() {
               class="h-6 mr-2"
               alt="Windster Logo"
             />
-            <span class="self-center whitespace-nowrap">SI MONITORING PKL</span>
+            <span class="self-center whitespace-nowrap">{{
+              getDataSettings.app_nama
+            }}</span>
           </router-link>
           <!-- <form action="#" method="GET" class="hidden lg:block lg:pl-32">
             <label for="topbar-search" class="sr-only">Search</label>
@@ -130,7 +135,7 @@ function toggleSideBar() {
           </button>
           <div class="hidden lg:flex items-center">
             <span class="text-base font-normal text-gray-500 mr-5">
-              Tahun Pelajaran : 2021/2022
+              Tahun Pelajaran : {{ getDataSettings.app_tapel_aktif_nama }}
             </span>
             <!-- <span class="text-base font-normal text-gray-500 mr-5">Open source ❤️ </span> -->
             <div class="-mb-1">

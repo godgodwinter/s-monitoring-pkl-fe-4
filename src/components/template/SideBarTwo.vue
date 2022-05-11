@@ -5,6 +5,10 @@ import { useRouter, useRoute } from "vue-router";
 
 const store = useStore();
 const router = useRouter();
+
+const getDataSettings = computed(() => store.state.dataSettings);
+
+const getDataAuth = computed(() => store.state.dataAuth);
 const isSideBarActive = computed(() => store.state.isSideBarActive);
 // console.log(isSideBarActive.value);
 
@@ -35,9 +39,15 @@ async function goLogout() {
                   class="rounded-full w-20 h-20 object-cover"
                 />
                 <div>
-                  <p class="text-gray-500 text-md font-semibold">Paijo</p>
-                  <p class="text-gray-500 text-sm font-medium">admin</p>
-                  <p class="text-gray-500 text-xs font-light mt-2">Administrator</p>
+                  <p class="text-gray-500 text-md font-semibold">
+                    {{ getDataAuth.name }}
+                  </p>
+                  <p class="text-gray-500 text-sm font-medium">
+                    {{ getDataAuth.nomeridentitas }}
+                  </p>
+                  <p class="text-gray-500 text-xs font-light mt-2">
+                    {{ getDataAuth.hakakses }}
+                  </p>
                 </div>
               </div>
             </li>

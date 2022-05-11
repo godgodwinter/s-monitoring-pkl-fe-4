@@ -31,6 +31,22 @@ export default createStore({
       tapelAktif: localStorage.getItem('tapelAktif') ? localStorage.getItem('tapelAktif') : '',
       // proses pendaftaran pkl 
       siswaSelected: null,
+      //getSettings
+      dataSettings: {
+        'app_nama' : 'SI MONITORING PKL',
+        'app_namapendek' : 'SIPKL',
+        'app_tapel_aktif' : '2',
+        'app_tapel_aktif_nama' : '2022/2023',
+        'pendaftaranpkl' : 'Aktif',
+        'login_siswa' : 'Aktif',
+        'login_pembimbingsekolah' : 'Aktif',
+        'login_pembimbinglapangan' : 'Aktif',
+      },
+      dataAuth: {
+        'name' : 'Nama User',
+        'nomeridentitas' : '1',
+        'hakakses' : 'User',
+      },
     };
   },
   getters: {
@@ -54,6 +70,12 @@ export default createStore({
     // proses pendaftaran pkl 
     setSiswaSelected(state, value) {
       state.siswaSelected = value;
+    },
+    setDataSettings(state, value) {
+      state.dataSettings = value;
+    },
+    setDataAuth(state, value) {
+      state.dataAuth = value;
     },
   },
 
