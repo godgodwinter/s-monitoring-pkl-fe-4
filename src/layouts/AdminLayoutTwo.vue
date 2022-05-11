@@ -79,12 +79,14 @@ getData();
         id="main-content"
         class="h-full w-full bg-gray-50 relative overflow-y-auto lg:ml-96"
       >
-        <main>
+        <main class="pb-4">
           <router-view />
         </main>
       </div>
     </div>
-    <Footer />
+    <div class="">
+      <Footer />
+    </div>
   </div>
 
   <!-- <main class="container mx-w-6xl mx-auto font-serif">
