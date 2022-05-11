@@ -79,7 +79,7 @@ const routes = [
         component: AdminSiswa,
       },
       {
-        path: '/pages/admin/siswa/profile', 
+        path: '/pages/admin/siswa/profile/:id?', 
         name: 'AdminSiswaProfile',
         component: AdminSiswaProfile,
       },

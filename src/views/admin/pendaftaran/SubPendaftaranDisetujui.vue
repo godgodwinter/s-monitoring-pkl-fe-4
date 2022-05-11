@@ -122,8 +122,12 @@ function doLanjutkanProses(id) {
                       <ButtonDelete></ButtonDelete>
                     </template>
                   </Popper> -->
-
-                  <router-link :to="{ name: 'AdminSiswaProfile' }">
+                  <router-link
+                    :to="{
+                      name: 'AdminSiswaProfile',
+                      params: { id: props.row.siswa_id },
+                    }"
+                  >
                     <Popper content="Detail Data">
                       <template #content>
                         <button

@@ -88,7 +88,7 @@ import BreadCrumbSpace from "@/components/atoms/BreadCrumbSpace.vue";
             </span>
             <span>Data Siswa</span>
           </div>
-          <div class="grid grid-cols-3">
+          <div class="grid grid-cols-2 xl:grid-cols-3">
             <div class="text-center my-2">
               <div
                 class="h-16 w-16 rounded-full mx-auto bg-slate-500 hover:text-white flex text-xl font-bold items-center justify-center text-slate-200 hover:bg-slate-800"

@@ -104,10 +104,17 @@ const doStoreData = async (d, tglnow) => {
     );
 
     Toast.success("Success", "Data Berhasil ditambahkan!");
-    router.push({
-      name: "AdminPendaftaranDisetujui",
-      params: { id: dataDetail.value.siswa.id },
-    });
+    if (dataDetail.value.status.id == "Disetujui") {
+      router.push({
+        name: "AdminPendaftaranDisetujui",
+        params: { id: dataDetail.value.siswa.id },
+      });
+    } else {
+      router.push({
+        name: "AdminPendaftaranProsesDaftar",
+        params: { id: dataDetail.value.siswa.id },
+      });
+    }
     return response.data;
   } catch (error) {
     Toast.danger("Warning", "Data gagal ditambahkan!");

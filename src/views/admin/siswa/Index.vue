@@ -333,7 +333,9 @@ let dataJk = [{ label: "Laki-laki" }, { label: "Perempuan" }];
 
                 <Popper content="Detail Data">
                   <template #content>
-                    <router-link :to="{ name: 'AdminSiswaProfile' }">
+                    <router-link
+                      :to="{ name: 'AdminSiswaProfile', params: { id: props.row.id } }"
+                    >
                       <button
                         class="text-sky-100 block rounded-sm font-bold py-1 px-1 mr-2 flex items-center hover:text-sky-300 bg-sky-400 rounded-lg"
                       >

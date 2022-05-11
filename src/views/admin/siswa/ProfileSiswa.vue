@@ -1,6 +1,77 @@
 <script setup>
+import Api from "@/axios/axios.js";
+import { useStore } from "vuex";
+import { computed } from "vue";
+import { useRouter, useRoute } from "vue-router";
+const router = useRouter();
+const route = useRoute();
+const store = useStore();
+import { ref } from "vue";
+import Toast from "@/components/lib/Toast.js";
 import BreadCrumb from "@/components/atoms/BreadCrumb.vue";
 import BreadCrumbSpace from "@/components/atoms/BreadCrumbSpace.vue";
+const id = route.params.id;
+let dataId = null;
+let dataSiswa = ref([]);
+let dataAsli = ref([]);
+let status = ref([]);
+const dataDetail = ref({
+  siswa: { label: "-", id: id },
+  tempatpkl: { label: "-", id: id, tgl_pengajuan: "" },
+  pembimbinglapangan: { label: "-", id: id },
+  pembimbingsekolah: { label: "-", id: id },
+});
+const getDataId = async () => {
+  try {
+    const response = await Api.get(`admin/siswa/${id}`);
+    // console.log(response.data);
+    dataAsli.value = response.data;
+    dataSiswa.value = response.data;
+    dataDetail.value.siswa.label = ` ${dataAsli.value.nama} `;
+    dataSiswa.value.kelas = ` ${dataAsli.value.kelasdetail.kelas.tingkatan} ${dataAsli.value.kelasdetail.kelas.jurusan} ${dataAsli.value.kelasdetail.kelas.suffix} `;
+    return response;
+  } catch (error) {
+    Toast.danger("Warning", "Token anda kadaluarsa! Silahkan login kembali");
+    console.error(error);
+  }
+};
+
+const periksaId = async () => {
+  try {
+    const response = await Api.get(`admin/pendaftaranpkl/list/periksaid/${id}`);
+    status.value = response.data;
+    if (response.data == "Belum Daftar") {
+      Toast.danger("Warning", "Belum Daftar Prakerin, Daftar lebih dahulu");
+    } else if (response.data == "Proses Daftar") {
+      Toast.danger("Warning", "Data Prakerin ditemukan, Data belum lengkap!");
+    } else if (response.data == "Menunggu") {
+      Toast.success(
+        "Success",
+        "Data ditemukan, Proses pendaftaran siswa sedang menunggu Acc!"
+      );
+    } else if (response.data == "Disetujui") {
+      Toast.success(
+        "Success",
+        "Data ditemukan, Proses pendaftaran siswa ini telah selesai!"
+      );
+    }
+    dataDetail.value.tempatpkl.label = ` ${response.tempatpkl.nama} `;
+    dataDetail.value.tempatpkl.tgl_pengajuan = ` ${response.tgl_pengajuan} `;
+    dataDetail.value.pembimbinglapangan.label = ` ${response.pembimbinglapangan.nama} `;
+    dataDetail.value.pembimbingsekolah.label = ` ${response.pembimbingsekolah.nama} `;
+
+    return response;
+  } catch (error) {
+    // Toast.danger("Warning", "Token anda kadaluarsa! Silahkan login kembali");
+    console.error(error);
+  }
+};
+if (id == "") {
+  Toast.danger("Warning", "Data siswa tidak ditemukan");
+} else {
+  getDataId();
+  periksaId();
+}
 </script>
 <template>
   <BreadCrumb>
@@ -32,8 +103,12 @@ import BreadCrumbSpace from "@/components/atoms/BreadCrumbSpace.vue";
               alt=""
             />
           </div>
-          <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">Nama Siswa</h1>
-          <h3 class="text-gray-600 font-lg text-semibold leading-6">NIS : 123</h3>
+          <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">
+            {{ dataSiswa.nama }}
+          </h1>
+          <h3 class="text-gray-600 font-lg text-semibold leading-6">
+            NIS : {{ dataSiswa.nomeridentitas }}
+          </h3>
           <!-- <p class="text-sm text-gray-500 hover:text-gray-600 leading-6">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit,
             eligendi dolorum sequi illum qui unde aspernatur non deserunt
@@ -52,9 +127,9 @@ import BreadCrumbSpace from "@/components/atoms/BreadCrumbSpace.vue";
             <li class="flex items-center py-3">
               <span>Status PKL</span>
               <span class="ml-auto"
-                ><span class="bg-orange-500 py-1 px-2 rounded text-white text-sm"
-                  >Belum Daftar</span
-                ></span
+                ><span class="bg-orange-500 py-1 px-2 rounded text-white text-sm">{{
+                  status
+                }}</span></span
               >
             </li>
             <!-- <li class="flex items-center py-3">
@@ -70,7 +145,7 @@ import BreadCrumbSpace from "@/components/atoms/BreadCrumbSpace.vue";
           <div
             class="flex items-center space-x-3 font-semibold text-gray-900 text-xl leading-8"
           >
-            <span class="text-green-500">
+            <!-- <span class="text-green-500">
               <svg
                 class="h-5 fill-current"
                 xmlns="http://www.w3.org/2000/svg"
@@ -86,9 +161,9 @@ import BreadCrumbSpace from "@/components/atoms/BreadCrumbSpace.vue";
                 />
               </svg>
             </span>
-            <span>Data Siswa</span>
+            <span>Data Siswa</span> -->
           </div>
-          <div class="grid grid-cols-2 xl:grid-cols-3">
+          <!-- <div class="grid grid-cols-2 xl:grid-cols-3">
             <div class="text-center my-2">
               <div
                 class="h-16 w-16 rounded-full mx-auto bg-slate-500 hover:text-white flex text-xl font-bold items-center justify-center text-slate-200 hover:bg-slate-800"
@@ -113,7 +188,7 @@ import BreadCrumbSpace from "@/components/atoms/BreadCrumbSpace.vue";
               </div>
               <p class="text-main-color text-sm text-slate-700">Pelanggaran</p>
             </div>
-          </div>
+          </div> -->
         </div>
         <!-- End of Data Statistik card -->
       </div>
@@ -145,54 +220,56 @@ import BreadCrumbSpace from "@/components/atoms/BreadCrumbSpace.vue";
             <div class="grid md:grid-cols-2 text-sm">
               <div class="grid grid-cols-2">
                 <div class="px-4 py-2 font-semibold">Nama Lengkap</div>
-                <div class="px-4 py-2">Jane</div>
+                <div class="px-4 py-2">{{ dataSiswa.nama }}</div>
               </div>
               <div class="grid grid-cols-2">
                 <div class="px-4 py-2 font-semibold">NIS</div>
-                <div class="px-4 py-2">123</div>
+                <div class="px-4 py-2">{{ dataSiswa.nomeridentitas }}</div>
               </div>
               <div class="grid grid-cols-2">
                 <div class="px-4 py-2 font-semibold">Jenis Kelamin</div>
-                <div class="px-4 py-2">Female</div>
+                <div class="px-4 py-2">{{ dataSiswa.jk }}</div>
               </div>
               <div class="grid grid-cols-2">
                 <div class="px-4 py-2 font-semibold">No. Telp</div>
-                <div class="px-4 py-2">+62 998001001</div>
+                <div class="px-4 py-2">{{ dataSiswa.telp }}</div>
               </div>
               <div class="grid grid-cols-2">
                 <div class="px-4 py-2 font-semibold">Alamat Lengkap</div>
-                <div class="px-4 py-2">Beech Creek, PA, Pennsylvania</div>
+                <div class="px-4 py-2">{{ dataSiswa.alamat }}</div>
               </div>
               <div class="grid grid-cols-2">
                 <div class="px-4 py-2 font-semibold">Agama</div>
-                <div class="px-4 py-2">Islam</div>
+                <div class="px-4 py-2">{{ dataSiswa.agama }}</div>
               </div>
               <div class="grid grid-cols-2">
                 <div class="px-4 py-2 font-semibold">Kelas</div>
-                <div class="px-4 py-2">X IPA 1</div>
+                <div class="px-4 py-2">{{ dataSiswa.kelas }}</div>
               </div>
               <div class="grid grid-cols-2">
                 <div class="px-4 py-2 font-semibold">Tempat, Tanggal Lahir</div>
-                <div class="px-4 py-2">Malang, 12 Februari 1998</div>
+                <div class="px-4 py-2">
+                  {{ dataSiswa.tempatlahir }}, {{ dataSiswa.tgllahir }}
+                </div>
               </div>
             </div>
           </div>
-          <button
+          <!-- <button
             class="block w-full text-blue-800 text-sm font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4"
           >
             Update Data
-          </button>
+          </button> -->
 
-          <button
+          <!-- <button
             class="block w-full text-red-900 text-sm font-semibold rounded-lg bg-yellow-100 hover:bg-yellow-200 focus:outline-none focus:shadow-outline focus:bg-yellow-100 hover:shadow-xs p-3 my-4"
           >
             Reset Password
-          </button>
+          </button> -->
         </div>
         <!-- End of about section -->
 
         <!-- About Section -->
-        <div class="bg-white p-3 shadow-sm rounded-sm">
+        <div class="bg-white p-3 shadow-sm rounded-sm" v-if="status == 'Disetujui'">
           <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
             <span clas="text-green-500">
               <svg
@@ -216,16 +293,16 @@ import BreadCrumbSpace from "@/components/atoms/BreadCrumbSpace.vue";
             <div class="grid md:grid-cols-2 text-sm">
               <div class="grid grid-cols-2">
                 <div class="px-4 py-2 font-semibold">Tempat PKL</div>
-                <div class="px-4 py-2">PT ABCD Indonesia</div>
+                <div class="px-4 py-2">{{ dataDetail.tempatpkl.label }}</div>
               </div>
               <div class="grid grid-cols-2">
                 <div class="px-4 py-2 font-semibold">Tanggal Daftar</div>
-                <div class="px-4 py-2">22 Januari 2022</div>
+                <div class="px-4 py-2">{{ dataDetail.tempatpkl.tgl_pengajuan }}</div>
               </div>
               <div class="grid grid-cols-2">
                 <div class="px-4 py-2 font-semibold">Status Prakerin</div>
                 <div class="px-4 py-2">
-                  Belum Dafyar/ Proses Daftar / Sedang Prakerin / Telah Selesai
+                  {{ status }}
                 </div>
               </div>
               <div class="grid grid-cols-2">
@@ -234,33 +311,70 @@ import BreadCrumbSpace from "@/components/atoms/BreadCrumbSpace.vue";
               </div>
               <div class="grid grid-cols-2">
                 <div class="px-4 py-2 font-semibold">Pembimbing Lapangan</div>
-                <div class="px-4 py-2">Sukro - +628512345678</div>
+                <div class="px-4 py-2">
+                  {{ dataDetail.pembimbinglapangan.label }} - +628512345678
+                </div>
               </div>
               <div class="grid grid-cols-2">
                 <div class="px-4 py-2 font-semibold">Pembimbing Sekolah</div>
-                <div class="px-4 py-2">Jokowi - +628512345678</div>
-              </div>
-              <div class="grid grid-cols-2">
-                <div class="px-4 py-2 font-semibold">Kehadiran</div>
-                <div class="px-4 py-2">15/15</div>
-              </div>
-              <div class="grid grid-cols-2">
-                <div class="px-4 py-2 font-semibold">Jurnal</div>
-                <div class="px-4 py-2">12/15</div>
+                <div class="px-4 py-2">
+                  {{ dataDetail.pembimbingsekolah.label }} - +628512345678
+                </div>
               </div>
             </div>
           </div>
-          <button
-            class="block w-full text-blue-800 text-sm font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4"
-          >
-            Update Data
-          </button>
+        </div>
+        <div class="bg-white p-3 shadow-sm rounded-sm" v-else>
+          <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
+            <span clas="text-green-500">
+              <svg
+                class="h-5"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
+              </svg>
+            </span>
+            <span class="tracking-wide">Prakerin</span>
+          </div>
+          <div class="text-gray-700">
+            <div class="grid md:grid-cols-2 text-sm">
+              <div class="grid grid-cols-2">
+                <div class="px-4 py-2 font-semibold">Tempat PKL</div>
+                <div class="px-4 py-2">{{ dataDetail.tempatpkl.label }}</div>
+              </div>
+              <div class="grid grid-cols-2">
+                <div class="px-4 py-2 font-semibold">Tanggal Daftar</div>
+                <div class="px-4 py-2">{{ dataDetail.tempatpkl.tgl_pengajuan }}</div>
+              </div>
+              <div class="grid grid-cols-2">
+                <div class="px-4 py-2 font-semibold">Status Prakerin</div>
+                <div class="px-4 py-2">
+                  {{ status }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <router-link :to="{ name: 'AdminPendaftaranProsesSatu', params: { id: id } }">
+            <button
+              class="block w-full text-blue-800 text-sm font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4"
+            >
+              Daftar / Update Data Prakerin
+            </button>
+          </router-link>
         </div>
         <!-- End of about section -->
         <div class="my-4"></div>
 
         <!-- Experience and education -->
-        <div class="bg-white p-3 shadow-sm rounded-sm">
+        <!-- <div class="bg-white p-3 shadow-sm rounded-sm">
           <div class="grid grid-cols-2">
             <div>
               <div
@@ -408,8 +522,8 @@ import BreadCrumbSpace from "@/components/atoms/BreadCrumbSpace.vue";
               </ul>
             </div>
           </div>
-          <!-- End of Experience and education grid -->
-        </div>
+        </div> -->
+        <!-- End of Experience and education grid -->
         <!-- End of profile tab -->
       </div>
     </div>

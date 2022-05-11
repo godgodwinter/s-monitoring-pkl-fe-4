@@ -145,8 +145,9 @@ function doLanjutkanProses(id) {
                       </button>
                     </template>
                   </Popper>
-
-                  <router-link :to="{ name: 'AdminSiswaProfile' }">
+                  <router-link
+                    :to="{ name: 'AdminSiswaProfile', params: { id: props.row.id } }"
+                  >
                     <Popper content="Detail Data">
                       <template #content>
                         <button
