@@ -11,7 +11,8 @@ import ButtonEdit from "@/components/atoms/ButtonEdit.vue";
 import ButtonDelete from "@/components/atoms/ButtonDel.vue";
 const router = useRouter();
 const route = useRoute();
-const data = ref("");
+const data = ref([]);
+const dataIndex = ref(null);
 const dataDetail = ref({
   nama: "",
 });
@@ -22,6 +23,7 @@ const getData = async () => {
     const response = await Api.get("admin/tapel");
     // console.log(response);
     data.value = response.data;
+    // console.log(data.value);
     return response;
   } catch (error) {
     Toast.danger("Warning", "Token anda kadaluarsa! Silahkan login kembali");
@@ -70,13 +72,12 @@ const getDataId = async () => {
   }
 };
 
-const doDeleteData = async (id) => {
+const doDeleteData = async (id, index) => {
   if (confirm("Do you really want to delete?")) {
     try {
       const response = await Api.delete(`admin/tapel/${id}`);
-
+      data.value.splice(index, 1);
       Toast.success("Success", "Data Berhasil dihapus!");
-      getData();
       return response.data;
     } catch (error) {
       console.error(error);
@@ -94,37 +95,56 @@ function validateData(value) {
   return true;
 }
 function onSubmit() {
-  data.value = null;
   const res = doStoreData(dataDetail.value);
-  getData();
+  // getData();
   // console.log("tes");
-  resetForm();
 }
-const doEditData = async (id) => {
+const doEditData = async (id, index) => {
   dataId = id;
+  dataIndex.value = index;
+
   getDataId();
 };
 
 const doStoreData = async (d) => {
-  // console.log(data);
+  let dataStore = {
+    id: 0,
+    nama: d.nama,
+    status: d.status,
+    created_at: null,
+    deleted_at: null,
+    updated_at: null,
+  };
   try {
     if (dataId) {
-      const response = await Api.put(`admin/tapel/${dataId}`, {
-        nama: d.nama,
-        status: d.status,
-      });
+      const response = await Api.put(`admin/tapel/${dataId}`, dataStore);
 
+      let dataFilter = data.value.filter((item) => item.status == "Aktif");
+      dataFilter.forEach((item) => {
+        item.status = "Nonaktif";
+      });
+      data.value[dataIndex.value] = {
+        nama: dataStore.nama,
+        status: dataStore.status,
+        id: dataId,
+      };
+      // console.log(dataIndex.value);
       Toast.success("Success", "Data Berhasil diupdate!");
-      getData();
+      resetForm();
       return response.data;
     }
-    const response = await Api.post("admin/tapel/store", {
-      nama: d.nama,
-      status: d.status,
-    });
-
-    getData();
+    const response = await Api.post("admin/tapel/store", dataStore);
+    dataStore.id = response.id;
+    if (dataStore.status == "Aktif") {
+      let dataFilter = data.value.filter((item) => item.status == "Aktif");
+      dataFilter.forEach((item) => {
+        item.status = "Nonaktif";
+      });
+    }
+    data.value.push(dataStore);
     Toast.success("Success", "Data Berhasil ditambahkan!");
+    resetForm();
+
     return response.data;
   } catch (error) {
     Toast.danger("Warning", "Data gagal ditambahkan!");
@@ -136,6 +156,7 @@ function resetForm() {
   dataDetail.value = {
     nama: "",
   };
+  dataIndex.value = null;
   dataId = null;
 }
 </script>
@@ -168,8 +189,8 @@ function resetForm() {
           <template #table-row="props">
             <span v-if="props.column.field == 'actions'">
               <div class="text-sm font-medium text-center flex justify-center">
-                <ButtonEdit @click="doEditData(props.row.id)" />
-                <ButtonDelete @click="doDeleteData(props.row.id)" />
+                <ButtonEdit @click="doEditData(props.row.id, props.index)" />
+                <ButtonDelete @click="doDeleteData(props.row.id, props.index)" />
               </div>
             </span>
 
