@@ -9,6 +9,7 @@ import { useRouter } from "vue-router";
 import NavBar from "../components/template/NavBarTwo.vue";
 import SideBar from "../components/template/SideBarTwo.vue";
 import Footer from "../components/template/Footer.vue";
+import Toast from "@/components/lib/Toast.js";
 
 const store = useStore();
 const router = useRouter();

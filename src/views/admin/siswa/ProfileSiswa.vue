@@ -55,10 +55,16 @@ const periksaId = async () => {
         "Data ditemukan, Proses pendaftaran siswa ini telah selesai!"
       );
     }
-    dataDetail.value.tempatpkl.label = ` ${response.tempatpkl.nama} `;
+    dataDetail.value.tempatpkl.label = ` ${
+      response.tempatpkl ? response.tempatpkl.nama : ""
+    } `;
     dataDetail.value.tempatpkl.tgl_pengajuan = ` ${response.tgl_pengajuan} `;
-    dataDetail.value.pembimbinglapangan.label = ` ${response.pembimbinglapangan.nama} `;
-    dataDetail.value.pembimbingsekolah.label = ` ${response.pembimbingsekolah.nama} `;
+    dataDetail.value.pembimbinglapangan.label = ` ${
+      response.pembimbinglapangan ? response.pembimbinglapangan.nama : ""
+    } `;
+    dataDetail.value.pembimbingsekolah.label = ` ${
+      response.pembimbingsekolah ? response.pembimbingsekolah.nama : ""
+    } `;
 
     return response;
   } catch (error) {

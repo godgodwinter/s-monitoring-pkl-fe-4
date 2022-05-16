@@ -112,7 +112,7 @@ const getDataId = async () => {
       label: dataDetail.value.kelasdetail
         ? `${dataDetail.value.kelasdetail.kelas.tingkatan} ${dataDetail.value.kelasdetail.kelas.jurusan} ${dataDetail.value.kelasdetail.kelas.suffix}`
         : null,
-      id: dataDetail.value.kelas_id,
+      id: dataDetail.value.kelasdetail.kelas_id,
     };
     // console.log(dataDetail.value.kelasdetail);
     // dataTemp.value.kelas_id = {
@@ -205,6 +205,7 @@ function onSubmit() {
     dataDetail.value.jk = dataTemp.value.jk.label;
     dataDetail.value.kelas_id = dataTemp.value.kelas_id.id;
     // console.log(dataTemp.value.agama.label);
+    // console.log(dataTemp.value.kelas_id);
     const res = doStoreData(dataDetail.value, dataTemp.value);
     getData();
     // console.log("tes");
@@ -470,15 +471,20 @@ let dataJk = [{ label: "Laki-laki" }, { label: "Perempuan" }];
                     <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
                       >Tanggal Lahir</label
                     >
-                    <Field
+                    <Datepicker
                       v-model="dataDetail.tgllahir"
+                      format="yyyy/MM/dd"
+                      value-format="yyyy-MM-dd"
                       :rules="validateData"
-                      type="text"
-                      name="tgllahir"
-                      ref="tgllahir"
-                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                       required
-                    />
+                    >
+                      <template #calendar-header="{ index, day }">
+                        <div :class="index === 5 || index === 6 ? 'red-color' : ''">
+                          {{ day }}
+                        </div>
+                      </template>
+                    </Datepicker>
+
                     <div class="text-xs text-red-600 mt-1">{{ errors.tgllahir }}</div>
                   </div>
                 </div>
