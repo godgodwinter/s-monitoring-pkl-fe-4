@@ -32,6 +32,17 @@ const getData = async () => {
 };
 
 getData();
+// const dataSiswaTesting = [
+//   {
+//     id: 12,
+//     iq: "UD Najmudin Putra",
+//   },
+//   {
+//     id: 12,
+//     iq: "UD Najmudin Putra2",
+//   },
+// ];
+// console.log(dataSiswaTesting);
 
 const columns = [
   {

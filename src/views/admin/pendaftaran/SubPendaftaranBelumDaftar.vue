@@ -17,7 +17,7 @@ let dataId = null;
 // function Form and Validation
 const getData = async () => {
   try {
-    const response = await Api.get("admin/pendaftaranpkl/list/belumdaftar");
+    const response = await Api.get("admin/pendaftaranpkl/list/getbelumdaftar");
     // console.log(response);
     // data.value = response.data;
     dataAsli.value = response.data;

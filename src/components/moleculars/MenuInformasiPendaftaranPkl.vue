@@ -51,15 +51,32 @@ getData();
         ><ButtonDataTwo title="Belum Daftar" :titleShort="data.belumdaftar"
       /></router-link>
       <router-link :to="{ name: 'AdminPendaftaranProsesDaftar' }"
-        ><ButtonDataTwo title="Proses Daftar" :titleShort="data.prosesdaftar"
+        ><ButtonDataTwo
+          title="Proses Pengajuan Tempat PKL"
+          :titleShort="data.prosesPengajuanTempatPKL"
       /></router-link>
       <router-link :to="{ name: 'AdminPendaftaranMenunggu' }"
-        ><ButtonDataTwo title="Menunggu Acc" :titleShort="data.menunggu"
+        ><ButtonDataTwo
+          title="Proses Penempatan PKL"
+          :titleShort="data.prosesPenempatanPKL"
+      /></router-link>
+
+      <router-link :to="{ name: 'AdminPendaftaranDisetujui' }">
+        <ButtonDataTwo title="Proses Pemberkasan" :titleShort="data.prosesPemberkasan"
+      /></router-link>
+
+      <router-link :to="{ name: 'AdminPendaftaranDisetujui' }">
+        <ButtonDataTwo title="Proses Persetujuan" :titleShort="data.prosesPersetujuan"
       /></router-link>
 
       <router-link :to="{ name: 'AdminPendaftaranDisetujui' }">
         <ButtonDataTwo title="Disetujui" :titleShort="data.disetujui"
       /></router-link>
+
+      <router-link :to="{ name: 'AdminPendaftaranDisetujui' }">
+        <ButtonDataTwo title="Ditolak" :titleShort="data.ditolak"
+      /></router-link>
+
       <!-- <ButtonDataTwo title="Sedang PKL" :titleShort="data.sedangpkl" />
       <ButtonDataTwo title="Telah Selesai PKL" :titleShort="data.telahselesai" /> -->
     </div>
