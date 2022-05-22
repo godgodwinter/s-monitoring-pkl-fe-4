@@ -66,6 +66,9 @@ import Popper from "@/components/atoms/Popper.vue";
         <router-link :to="{ name: 'AdminPendaftaranProsesSatu' }">
           <ButtonDataOne title="Daftar Baru" titleShort="DB"></ButtonDataOne
         ></router-link>
+        <router-link :to="{ name: 'ProsesTempatPKL' }">
+          <ButtonDataOne title="Tempat PKL" titleShort="DB"></ButtonDataOne
+        ></router-link>
       </div>
       <MenuInformasiPendaftaranPkl></MenuInformasiPendaftaranPkl>
     </div>

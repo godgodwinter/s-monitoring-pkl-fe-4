@@ -24,7 +24,17 @@ import AdminPembimbingSekolah from '../views/admin/pembimbingsekolah/Index.vue'
 import AdminPendaftaranExample from '../views/admin/pendaftaran/Pendaftaran_nodata2.vue'
 // sub pendaftaran
 import SubPendaftaranIndex from '@/views/admin/pendaftaran/SubPendaftaranIndex.vue';
+// List Pendaftaran
 import SubPendaftaranBelumDaftar from '@/views/admin/pendaftaran/SubPendaftaranBelumDaftar.vue';
+import ListProsesPengajuanTempatPKL from '@/views/admin/pendaftaran/list/ListProsesPengajuanTempatPKL.vue';
+import ListProsesPenempatanPKL from '@/views/admin/pendaftaran/list/ListProsesPenempatanPKL.vue';
+import ListProsesPemberkasan from '@/views/admin/pendaftaran/list/ListProsesPemberkasan.vue';
+import ListProsesPersetujuan from '@/views/admin/pendaftaran/list/ListProsesPersetujuan.vue';
+// List Pendaftaran
+// Proses Pendaftaran
+import ProsesTempatPKL from '@/views/admin/pendaftaran/proses/ProsesTempatPKL.vue';
+// Proses Pendaftaran
+
 import SubPendaftaranMenunggu from '@/views/admin/pendaftaran/SubPendaftaranMenunggu.vue';
 import SubPendaftaranProsesDaftar from '@/views/admin/pendaftaran/SubPendaftaranProsesDaftar.vue';
 import SubPendaftaranDisetujui from '@/views/admin/pendaftaran/SubPendaftaranDisetujui.vue';
@@ -123,11 +133,41 @@ const routes = [
             name: 'AdminPendaftaran',
             component: SubPendaftaranIndex,
           },
+          // LIST PENDAFTARAN
           {
               path: '/pages/admin/pendaftaranpkl/belumdaftar', //belumdaftar
               name: 'AdminPendaftaranBelumDaftar',
             component: SubPendaftaranBelumDaftar,
           },
+          {
+              path: '/pages/admin/pendaftaranpkl/list/prosespengajuan',
+              name: 'ListProsesPengajuanTempatPKL',
+            component: ListProsesPengajuanTempatPKL,
+          },
+          {
+              path: '/pages/admin/pendaftaranpkl/list/prosespenempatan',
+              name: 'ListProsesPenempatanPKL',
+            component: ListProsesPenempatanPKL,
+          },
+          {
+              path: '/pages/admin/pendaftaranpkl/list/prosespemberkasan', 
+              name: 'ListProsesPemberkasan',
+            component: ListProsesPemberkasan,
+          },
+          {
+              path: '/pages/admin/pendaftaranpkl/list/prosespersetujuan', 
+              name: 'ListProsesPersetujuan',
+            component: ListProsesPersetujuan,
+          },
+
+          // LIST PENDAFTARAN
+          // PROSES PENDAFTARAN
+          {
+            path: '/pages/admin/pendaftaranpkl/proses/tempatpkl', 
+            name: 'ProsesTempatPKL',
+          component: ProsesTempatPKL,
+        },
+          // PROSES PENDAFTARAN
           {
               path: '/pages/admin/pendaftaranpkl/prosesdaftar', //prosesdaftar
               name: 'AdminPendaftaranProsesDaftar',

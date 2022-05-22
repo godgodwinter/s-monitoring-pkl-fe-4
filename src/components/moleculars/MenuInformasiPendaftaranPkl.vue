@@ -50,22 +50,22 @@ getData();
       <router-link :to="{ name: 'AdminPendaftaranBelumDaftar' }"
         ><ButtonDataTwo title="Belum Daftar" :titleShort="data.belumdaftar"
       /></router-link>
-      <router-link :to="{ name: 'AdminPendaftaranProsesDaftar' }"
+      <router-link :to="{ name: 'ListProsesPengajuanTempatPKL' }"
         ><ButtonDataTwo
           title="Proses Pengajuan Tempat PKL"
           :titleShort="data.prosesPengajuanTempatPKL"
       /></router-link>
-      <router-link :to="{ name: 'AdminPendaftaranMenunggu' }"
+      <router-link :to="{ name: 'ListProsesPenempatanPKL' }"
         ><ButtonDataTwo
           title="Proses Penempatan PKL"
           :titleShort="data.prosesPenempatanPKL"
       /></router-link>
 
-      <router-link :to="{ name: 'AdminPendaftaranDisetujui' }">
+      <router-link :to="{ name: 'ListProsesPemberkasan' }">
         <ButtonDataTwo title="Proses Pemberkasan" :titleShort="data.prosesPemberkasan"
       /></router-link>
 
-      <router-link :to="{ name: 'AdminPendaftaranDisetujui' }">
+      <router-link :to="{ name: 'ListProsesPersetujuan' }">
         <ButtonDataTwo title="Proses Persetujuan" :titleShort="data.prosesPersetujuan"
       /></router-link>
 
