@@ -83,7 +83,8 @@ module.exports = {
       },
     },
   },
-  plugins: [
+  plugins: [ 
+    require("daisyui"),
     require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),
     require('@tailwindcss/aspect-ratio'),

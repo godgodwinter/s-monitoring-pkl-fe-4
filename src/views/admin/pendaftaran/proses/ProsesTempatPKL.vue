@@ -1,4 +1,5 @@
 <script setup>
+import Api from "@/axios/axios.js";
 import { ref } from "vue";
 import CardCompany from "@/components/atoms/CardCompanySatu.vue";
 import Toast from "@/components/lib/Toast.js";
@@ -18,6 +19,78 @@ const btnSiswaClick = () => {
 const doSubmit = () => {
   Toast.warning("Info", "Belum ada fitur ini");
 };
+
+let statusPerusahaan = [
+  {
+    label: "Semua Data",
+    id: "Semua Data",
+  },
+  {
+    label: "Tersedia",
+    id: "Tersedia",
+  },
+  {
+    label: "Tidak Tersedia",
+    id: "Tidak Tersedia",
+  },
+];
+
+let inputTersedia = ref({
+  label: "Tersedia",
+  id: "Tersedia",
+});
+let inputCari = ref("");
+let tempatPKLAsli = ref([]);
+let tempatPKL = ref([]);
+// 1. loadPilihanTempatPKL
+const getPilihanTempatPKL = async () => {
+  try {
+    const response = await Api.get(
+      `admin/pendaftaranpkl/getdatatempatpkl?cari=${inputCari.value}&tersedia=${
+        inputTersedia.value ? inputTersedia.value.label : ""
+      }`
+    );
+    // data.value = response.data;
+    tempatPKLAsli.value = response.data;
+    tempatPKL.value = response.data;
+    // console.log(response.data);
+  } catch (error) {
+    Toast.danger("Warning", "Data gagal dimuat");
+    console.error(error);
+  }
+};
+getPilihanTempatPKL();
+const doCari = async () => {
+  getPilihanTempatPKL();
+};
+
+//
+const tempatPklTerpilih = ref();
+const setTempatPkl = (index, id, nama, alamat, tersedia, terisi, kuota) => {
+  let dataTempatPkl = {
+    id: id,
+    nama: nama,
+    alamat: alamat,
+    tersedia: tersedia,
+    terisi: terisi,
+    kuota: kuota,
+  };
+
+  localStorage.setItem("dataTempatPkl", JSON.stringify(dataTempatPkl));
+  getTempatPkl();
+  Toast.success("Info", "Data berhasil disimpan");
+};
+
+const getTempatPkl = () => {
+  tempatPklTerpilih.value = JSON.parse(localStorage.getItem("dataTempatPkl"));
+  console.log(tempatPklTerpilih.value.nama);
+};
+
+const removeTempatPkl = () => {
+  localStorage.removeItem("dataTempatPkl");
+  getTempatPkl();
+};
+getTempatPkl();
 </script>
 <template>
   <!-- head Tampilkan Tempat PKL Terpilih dan Siswa di tempat tersebut -->
@@ -45,9 +118,51 @@ const doSubmit = () => {
       </button>
     </div>
     <div class="flex flex-wrap py-4 w-full">
-      <div class="w-full md:w-1/2 py-2 px-2">
-        <p class="text-gray-500 text-lg">Belum memilih tempat PKL!</p>
-        <CardCompany></CardCompany>
+      <div class="w-full 2xl:w-1/2 py-2 px-2">
+        <div class="card w-96 bg-base-100 shadow-xl" v-if="tempatPklTerpilih">
+          <figure>
+            <img
+              src="https://api.lorem.space/image/shoes?w=400&h=225"
+              alt="Shoes"
+            />
+          </figure>
+          <div class="card-body">
+            <h2 class="card-title">
+              {{ tempatPklTerpilih.nama }}
+              <!-- <div class="badge badge-secondary">NEW</div> -->
+            </h2>
+            <p>{{ tempatPklTerpilih.alamat }}</p>
+            <div class="card-actions justify-end">
+              <div
+                class="badge badge-outline"
+                v-if="tempatPklTerpilih.tersedia > 0"
+              >
+                Tersedia
+              </div>
+              <div
+                class="badge badge-outline"
+                v-else="tempatPklTerpilih.tersedia > 0"
+              >
+                Tidak Tersedia
+              </div>
+              <div class="badge badge-outline">
+                {{ tempatPklTerpilih.terisi }}/ {{ tempatPklTerpilih.kuota }}
+              </div>
+            </div>
+            <div class="card-actions justify-end">
+              <button
+                class="btn btn-warning btn-warning-content"
+                @click="removeTempatPkl()"
+              >
+                Tutup
+              </button>
+            </div>
+          </div>
+        </div>
+        <div v-else>
+          <p class="text-gray-500 text-lg">Belum memilih tempat PKL!</p>
+        </div>
+        <!-- <CardCompany></CardCompany> -->
       </div>
       <div class="w-full md:w-1/2">
         <div class="w-full md:w-1/2 py-2 px-2">
@@ -74,7 +189,9 @@ const doSubmit = () => {
   <div class="bg-white shadow-sm rounded-sm py-4 px-4 border pt-10 mt-2">
     <div id="containerTempatPrakerin" v-if="container == 'tempatPKL'">
       <div id="headTitle">
-        <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
+        <div
+          class="flex items-center space-x-2 font-semibold text-gray-900 leading-8"
+        >
           <span clas="text-green-500">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -95,7 +212,10 @@ const doSubmit = () => {
         </div>
       </div>
       <div id="body">
-        <div id="bodyHeader" class="flex flex-col md:flex-row justify-center gap-2">
+        <div
+          id="bodyHeader"
+          class="flex flex-col md:flex-row justify-center gap-2"
+        >
           <v-select
             class="py-2 px-3 w-72 mx-auto md:mx-0"
             :options="statusPerusahaan"
@@ -150,9 +270,59 @@ const doSubmit = () => {
           </button>
         </div>
         <div id="bodyContent" class="text-gray-700">
-          <div class="grid sm:grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-2 text-sm">
+          <div
+            class="grid sm:grid-cols-1 md:grid-cols-2 2xl:grid-cols-2 gap-2 text-sm"
+          >
             <!-- <img src="@/assets/img/photo/company-1.jpg" alt="company-1.jpg" /> -->
-
+            <div class="" v-for="(item, index) in tempatPKL">
+              <div
+                class="card card-side bg-base-100 shadow-xl h-72"
+                :key="item.id"
+              >
+                <figure>
+                  <img
+                    src="https://api.lorem.space/image/movie?w=200&h=280"
+                    alt="Movie"
+                  />
+                </figure>
+                <div class="card-body">
+                  <h2 class="card-title">{{ item.nama }}</h2>
+                  <p class="text-ellipsis overflow-hidden">{{ item.alamat }}</p>
+                  <div class="card-actions justify-end">
+                    <div
+                      class="badge badge-outline tooltip"
+                      data-tip="Status Tempat PKL"
+                    >
+                      Tersedia
+                    </div>
+                    <div
+                      class="badge badge-outline tooltip"
+                      data-tip="Terisi / Kuota"
+                    >
+                      0/4
+                    </div>
+                  </div>
+                  <div class="card-actions justify-end">
+                    <button
+                      class="btn btn-primary btn-primary-content"
+                      @click="
+                        setTempatPkl(
+                          index,
+                          item.id,
+                          item.nama,
+                          item.alamat,
+                          item.tersedia,
+                          item.terisi,
+                          item.kuota
+                        )
+                      "
+                    >
+                      Pilih
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
             <!-- <div v-for="(item, index) in tempatPKL" :key="item.id">
               <CardCompany
                 :id="item.id"
@@ -162,20 +332,22 @@ const doSubmit = () => {
                 :jmlTersedia="item.terisi + '/' + item.kuota"
               ></CardCompany>
             </div> -->
-            <div v-for="n in 10">
+            <!-- <div v-for="n in 10">
               <CardCompany
                 title="Nama Tempat Prakerin"
                 :tersedia="randomAngka()"
                 :jmlTersedia="randomAngka()"
               ></CardCompany>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
     </div>
     <div id="containerTempatPrakerin" v-if="container == 'siswa'">
       <div id="headTitle">
-        <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
+        <div
+          class="flex items-center space-x-2 font-semibold text-gray-900 leading-8"
+        >
           <span clas="text-green-500">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -196,7 +368,10 @@ const doSubmit = () => {
         </div>
       </div>
       <div id="body">
-        <div id="bodyHeader" class="flex flex-col md:flex-row justify-center gap-2">
+        <div
+          id="bodyHeader"
+          class="flex flex-col md:flex-row justify-center gap-2"
+        >
           <v-select
             class="py-2 px-3 w-72 mx-auto md:mx-0"
             :options="statusPerusahaan"
@@ -251,7 +426,9 @@ const doSubmit = () => {
           </button>
         </div>
         <div id="bodyContent" class="text-gray-700">
-          <div class="grid sm:grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-2 text-sm">
+          <div
+            class="grid sm:grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-2 text-sm"
+          >
             <!-- <img src="@/assets/img/photo/company-1.jpg" alt="company-1.jpg" /> -->
 
             <!-- <div v-for="(item, index) in tempatPKL" :key="item.id">

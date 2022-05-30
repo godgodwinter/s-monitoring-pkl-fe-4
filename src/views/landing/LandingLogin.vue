@@ -102,7 +102,9 @@ isLogin();
       <div
         class="absolute inset-0 bg-gradient-to-r from-cyan-400 to-sky-500 shadow-lg transform -skew-y-2 sm:skew-y-0 sm:-rotate-2 sm:rounded-3xl"
       ></div>
-      <div class="relative px-4 py-10 bg-white shadow-2xl sm:rounded-3xl sm:p-10">
+      <div
+        class="relative px-4 py-10 bg-white shadow-2xl sm:rounded-3xl sm:p-10"
+      >
         <div class="max-w-md mx-auto">
           <!-- <div>
             <img
@@ -111,20 +113,28 @@ isLogin();
             />
           </div> -->
           <div class="divide-y divide-gray-200">
-            <div class="flex flex-col bg-white shadow-sm px-10 py-4 rounded-3xl w-50">
-              <div class="font-medium self-center text-xl sm:text-3xl text-gray-800">
+            <div
+              class="flex flex-col bg-white shadow-sm px-10 py-4 rounded-3xl w-50"
+            >
+              <div
+                class="font-medium self-center text-xl sm:text-3xl text-gray-800"
+              >
                 LOGIN
                 <!-- {{dataToken}}
                                 {{dataIsLogin}} -->
               </div>
-              <div class="mt-4 self-center text-xl sm:text-sm text-gray-800 text-center">
+              <div
+                class="mt-4 self-center text-xl sm:text-sm text-gray-800 text-center"
+              >
                 Masuk sebagai Administrator
               </div>
 
               <Form v-slot="{ errors }" @submit="onSubmit">
                 <div class="mt-10">
                   <div class="flex flex-col mb-5">
-                    <label for="email" class="mb-1 text-xs tracking-wide text-gray-600"
+                    <label
+                      for="email"
+                      class="mb-1 text-xs tracking-wide text-gray-600"
                       >Username or Email:</label
                     >
                     <div class="relative">
@@ -172,7 +182,9 @@ isLogin();
               </Form>
             </div>
 
-            <div class="pt-6 text-base leading-6 font-bold sm:text-lg sm:leading-7">
+            <div
+              class="pt-6 text-base leading-6 font-bold sm:text-lg sm:leading-7"
+            >
               <div class="flex justify-center items-center mt-6">
                 <a
                   href="#"

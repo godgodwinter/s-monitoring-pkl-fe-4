@@ -71,23 +71,20 @@ getData();
     <NavBar />
     <SideBar />
 
-    <div class="flex overflow-hidden bg-white pt-16">
-      <div
-        class="bg-gray-900 opacity-50 hidden fixed inset-0 z-10"
-        id="sidebarBackdrop"
-      />
+    <div class="flex overflow-hidden pt-16">
+      <div class="opacity-50 hidden fixed inset-0 z-10" id="sidebarBackdrop" />
       <div
         id="main-content"
-        class="h-full w-full bg-gray-50 relative overflow-y-auto lg:ml-96"
+        class="w-full bg-gray-50 relative overflow-y-auto lg:ml-96"
       >
-        <main class="pb-4">
+        <main class="pb-4 min-h-screen bg-base-100">
           <router-view />
         </main>
       </div>
     </div>
-    <div class="">
+    <!-- <div class="">
       <Footer />
-    </div>
+    </div> -->
   </div>
 
   <!-- <main class="container mx-w-6xl mx-auto font-serif">

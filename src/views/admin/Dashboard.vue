@@ -16,12 +16,13 @@ function cancel(close) {
 </script>
 <template>
   <div class="pt-10 px-10">
-    <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-700 shadow-sm"
+    <span
+      class="text-2xl sm:text-3xl leading-none font-bold text-gray-700 shadow-sm"
       >Dashboard</span
     >
   </div>
   <div>
-    <v-tailwind-modal
+    <!-- <v-tailwind-modal
       v-model="show"
       @confirm="confirm"
       @cancel="cancel"
@@ -39,14 +40,94 @@ function cancel(close) {
         Vue Final Modal is a renderless, stackable, detachable and lightweight modal
         component.
       </p>
-    </v-tailwind-modal>
+    </v-tailwind-modal> -->
 
-    <v-button @click="show = true">Open modal</v-button>
+    <!-- <v-button @click="show = true">Open modal</v-button> -->
+  </div>
+  <div class="stats shadow">
+    <div class="stat">
+      <div class="stat-figure text-primary">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          class="inline-block w-8 h-8 stroke-current"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+          ></path>
+        </svg>
+      </div>
+      <div class="stat-title">Total Likes</div>
+      <div class="stat-value text-primary">25.6K</div>
+      <div class="stat-desc">21% more than last month</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-figure text-secondary">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          class="inline-block w-8 h-8 stroke-current"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M13 10V3L4 14h7v7l9-11h-7z"
+          ></path>
+        </svg>
+      </div>
+      <div class="stat-title">Page Views</div>
+      <div class="stat-value text-secondary">2.6M</div>
+      <div class="stat-desc">21% more than last month</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-figure text-secondary">
+        <div class="avatar online">
+          <div class="w-16 rounded-full">
+            <img src="https://api.lorem.space/image/face?w=128&h=128" />
+          </div>
+        </div>
+      </div>
+      <div class="stat-value">86%</div>
+      <div class="stat-title">Tasks done</div>
+      <div class="stat-desc text-secondary">31 tasks remaining</div>
+    </div>
+  </div>
+
+  <div class="w-full px-2 py-2">
+    <div class="stats shadow">
+      <div class="stat place-items-center">
+        <div class="stat-title">Downloads</div>
+        <div class="stat-value">31K</div>
+        <div class="stat-desc">From January 1st to February 1st</div>
+      </div>
+
+      <div class="stat place-items-center">
+        <div class="stat-title">Users</div>
+        <div class="stat-value text-secondary">4,200</div>
+        <div class="stat-desc text-secondary">↗︎ 40 (2%)</div>
+      </div>
+
+      <div class="stat place-items-center">
+        <div class="stat-title">New Registers</div>
+        <div class="stat-value">1,200</div>
+        <div class="stat-desc">↘︎ 90 (14%)</div>
+      </div>
+    </div>
   </div>
   <div class="px-4">
     <div class="grid grid-cols-1 gap-5 mt-6 sm:grid-cols-2 lg:grid-cols-4">
       <template v-for="i in 4" :key="i">
-        <div class="p-4 transition-shadow border rounded-lg shadow-sm hover:shadow-lg">
+        <div
+          class="p-4 transition-shadow border rounded-lg shadow-sm hover:shadow-lg"
+        >
           <div class="flex items-start justify-between">
             <div class="flex flex-col space-y-2">
               <span class="text-gray-400">Total Users</span>
@@ -55,7 +136,8 @@ function cancel(close) {
             <div class="p-10 bg-gray-200 rounded-md"></div>
           </div>
           <div>
-            <span class="inline-block px-2 text-sm text-white bg-green-300 rounded"
+            <span
+              class="inline-block px-2 text-sm text-white bg-green-300 rounded"
               >14%</span
             >
             <span>from 2019</span>
@@ -110,7 +192,13 @@ function cancel(close) {
               stroke-width="10"
               stroke-linecap="round"
             />
-            <circle cx="73.5" cy="72.5" r="29" fill="#e4e4f2" stroke="#e4e4f2" />
+            <circle
+              cx="73.5"
+              cy="72.5"
+              r="29"
+              fill="#e4e4f2"
+              stroke="#e4e4f2"
+            />
             <path
               d="M74 82.8332C68.0167 82.8332 63.1666 77.9831 63.1666 71.9998C63.1666 66.0166 68.0167 61.1665 74 61.1665C79.9832 61.1665 84.8333 66.0166 84.8333 71.9998C84.8333 77.9831 79.9832 82.8332 74 82.8332ZM74 80.6665C76.2985 80.6665 78.5029 79.7534 80.1282 78.1281C81.7535 76.5028 82.6666 74.2984 82.6666 71.9998C82.6666 69.7013 81.7535 67.4969 80.1282 65.8716C78.5029 64.2463 76.2985 63.3332 74 63.3332C71.7014 63.3332 69.497 64.2463 67.8717 65.8716C66.2464 67.4969 65.3333 69.7013 65.3333 71.9998C65.3333 74.2984 66.2464 76.5028 67.8717 78.1281C69.497 79.7534 71.7014 80.6665 74 80.6665ZM70.75 67.6665H77.25L79.9583 71.4582L74 77.4165L68.0416 71.4582L70.75 67.6665ZM71.8658 69.8332L70.8691 71.2307L74 74.3615L77.1308 71.2307L76.1341 69.8332H71.8658Z"
               fill="#6A6A9F"
@@ -173,7 +261,10 @@ function cancel(close) {
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path d="M6.00001 0L12 8H-3.05176e-05L6.00001 0Z" fill="currentColor" />
+                  <path
+                    d="M6.00001 0L12 8H-3.05176e-05L6.00001 0Z"
+                    fill="currentColor"
+                  />
                 </svg>
                 <span>2%</span>
               </div>
@@ -194,7 +285,13 @@ function cancel(close) {
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <rect opacity="0.4" width="17" height="21" rx="1" fill="#e4e4f2" />
+                    <rect
+                      opacity="0.4"
+                      width="17"
+                      height="21"
+                      rx="1"
+                      fill="#e4e4f2"
+                    />
                     <rect
                       opacity="0.4"
                       x="19"
@@ -251,7 +348,13 @@ function cancel(close) {
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <rect opacity="0.4" width="17" height="21" rx="1" fill="#e4e4f2" />
+                    <rect
+                      opacity="0.4"
+                      width="17"
+                      height="21"
+                      rx="1"
+                      fill="#e4e4f2"
+                    />
                     <rect
                       opacity="0.4"
                       x="19"
@@ -308,7 +411,13 @@ function cancel(close) {
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <rect opacity="0.4" width="17" height="21" rx="1" fill="#e4e4f2" />
+                    <rect
+                      opacity="0.4"
+                      width="17"
+                      height="21"
+                      rx="1"
+                      fill="#e4e4f2"
+                    />
                     <rect
                       opacity="0.4"
                       x="19"
@@ -360,7 +469,9 @@ function cancel(close) {
         </div>
       </div>
       <div>
-        <div class="h-full py-6 px-6 rounded-xl border border-gray-200 bg-white">
+        <div
+          class="h-full py-6 px-6 rounded-xl border border-gray-200 bg-white"
+        >
           <h5 class="text-xl text-gray-700">Downloads</h5>
           <div class="my-8">
             <h1 class="text-5xl font-bold text-gray-800">64,5%</h1>
@@ -421,7 +532,13 @@ function cancel(close) {
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <rect opacity="0.4" width="17" height="21" rx="1" fill="#e4e4f2" />
+                    <rect
+                      opacity="0.4"
+                      width="17"
+                      height="21"
+                      rx="1"
+                      fill="#e4e4f2"
+                    />
                     <rect
                       opacity="0.4"
                       x="19"
@@ -478,7 +595,13 @@ function cancel(close) {
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <rect opacity="0.4" width="17" height="21" rx="1" fill="#e4e4f2" />
+                    <rect
+                      opacity="0.4"
+                      width="17"
+                      height="21"
+                      rx="1"
+                      fill="#e4e4f2"
+                    />
                     <rect
                       opacity="0.4"
                       x="19"
@@ -587,12 +710,17 @@ function cancel(close) {
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path d="M6.00001 0L12 8H-3.05176e-05L6.00001 0Z" fill="currentColor" />
+                  <path
+                    d="M6.00001 0L12 8H-3.05176e-05L6.00001 0Z"
+                    fill="currentColor"
+                  />
                 </svg>
                 <span>2%</span>
               </div>
             </div>
-            <span class="block text-center text-gray-500">Compared to last week 13</span>
+            <span class="block text-center text-gray-500"
+              >Compared to last week 13</span
+            >
           </div>
           <table class="mt-6 -mb-2 w-full text-gray-600">
             <tbody>
@@ -606,7 +734,13 @@ function cancel(close) {
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <rect opacity="0.4" width="17" height="21" rx="1" fill="#e4e4f2" />
+                    <rect
+                      opacity="0.4"
+                      width="17"
+                      height="21"
+                      rx="1"
+                      fill="#e4e4f2"
+                    />
                     <rect
                       opacity="0.4"
                       x="19"
@@ -663,7 +797,13 @@ function cancel(close) {
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <rect opacity="0.4" width="17" height="21" rx="1" fill="#e4e4f2" />
+                    <rect
+                      opacity="0.4"
+                      width="17"
+                      height="21"
+                      rx="1"
+                      fill="#e4e4f2"
+                    />
                     <rect
                       opacity="0.4"
                       x="19"
@@ -720,7 +860,13 @@ function cancel(close) {
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <rect opacity="0.4" width="17" height="21" rx="1" fill="#e4e4f2" />
+                    <rect
+                      opacity="0.4"
+                      width="17"
+                      height="21"
+                      rx="1"
+                      fill="#e4e4f2"
+                    />
                     <rect
                       opacity="0.4"
                       x="19"

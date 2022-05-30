@@ -22,16 +22,18 @@ async function goLogout() {
   <aside
     :class="{ hidden: !isSideBarActive }"
     id="sidebar"
-    class="fixed z-20 h-full top-0 left-0 pt-16 flex lg:flex flex-shrink-0 flex-col w-64 lg:w-96 transition-width duration-75"
+    class="bg-base-100 fixed z-20 h-full top-0 left-0 pt-16 flex lg:flex flex-shrink-0 flex-col w-64 lg:w-96 transition-width duration-75"
     aria-label="Sidebar"
   >
     <div
-      class="relative flex-1 flex flex-col min-h-0 border-r border-gray-200 bg-white pt-0"
+      class="relative flex-1 flex flex-col min-h-0 border-r border-gray-200 pt-0"
     >
       <div class="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
-        <div class="flex-1 px-3 bg-white divide-y space-y-1">
-          <ul class="space-y-2 pb-2 lg:flex flex-wrap px-2 gap-2 justify-center">
-            <li class="bg-white lg:w-full">
+        <div class="flex-1 px-3 divide-y space-y-1">
+          <ul
+            class="space-y-2 pb-2 lg:flex flex-wrap px-2 gap-2 justify-center"
+          >
+            <li class="lg:w-full">
               <div class="flex gap-2 items-center justify-center">
                 <img
                   src="@/assets/img/avatar/baemon-ava-2.jpg"
@@ -51,10 +53,10 @@ async function goLogout() {
                 </div>
               </div>
             </li>
-            <li class="bg-white lg:w-1/2">
+            <li class="lg:w-1/2">
               <button
                 @click="goLogout()"
-                class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group border border-2"
+                class="btn btn-primary text-primary-content font-normal rounded-lg flex items-center p-2"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -72,8 +74,10 @@ async function goLogout() {
               </button>
             </li>
           </ul>
-          <ul class="space-y-2 pb-2 lg:flex flex-wrap px-2 gap-0 justify-between">
-            <li class="bg-white lg:w-full">
+          <ul
+            class="space-y-2 pb-2 lg:flex flex-wrap px-2 gap-0 justify-between"
+          >
+            <li class="lg:w-full">
               <router-link
                 :to="{ name: 'AdminDashboard' }"
                 class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group"
@@ -92,7 +96,7 @@ async function goLogout() {
               </router-link>
             </li>
 
-            <li class="bg-white lg:w-full">
+            <li class="lg:w-full">
               <router-link
                 :to="{ name: 'AdminTapel' }"
                 class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group"
@@ -114,7 +118,7 @@ async function goLogout() {
                 <span class="ml-3">Tahun Pelajaran </span>
               </router-link>
             </li>
-            <li class="bg-white lg:w-full">
+            <li class="lg:w-full">
               <router-link
                 :to="{ name: 'AdminKelas' }"
                 class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group"
@@ -136,7 +140,7 @@ async function goLogout() {
                 <span class="ml-3">Kelas </span>
               </router-link>
             </li>
-            <li class="bg-white lg:w-full">
+            <li class="lg:w-full">
               <router-link
                 :to="{ name: 'AdminTempatPkl' }"
                 class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group"
@@ -159,7 +163,7 @@ async function goLogout() {
                 <span class="ml-3">Tempat PKL </span>
               </router-link>
             </li>
-            <li class="bg-white lg:w-full">
+            <li class="lg:w-full">
               <router-link
                 :to="{ name: 'AdminSiswa' }"
                 class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group"
@@ -177,7 +181,7 @@ async function goLogout() {
                 <span class="ml-3">Siswa </span>
               </router-link>
             </li>
-            <li class="bg-white lg:w-full">
+            <li class="lg:w-full">
               <router-link
                 :to="{ name: 'AdminPembimbingLapangan' }"
                 class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group"
@@ -197,7 +201,7 @@ async function goLogout() {
                 <span class="ml-3">Pembimbing Lapangan </span>
               </router-link>
             </li>
-            <li class="bg-white lg:w-full">
+            <li class="lg:w-full">
               <router-link
                 :to="{ name: 'AdminPembimbingSekolah' }"
                 class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group"
@@ -215,7 +219,7 @@ async function goLogout() {
                 <span class="ml-3">Pembimbing Sekolah </span>
               </router-link>
             </li>
-            <!-- <li class="bg-white lg:w-full">
+            <!-- <li class="  lg:w-full">
               <router-link
                 :to="{ name: 'LandingIndex' }"
                 class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group"
@@ -235,7 +239,7 @@ async function goLogout() {
                 <span class="ml-3">PKL </span>
               </router-link>
             </li> -->
-            <li class="bg-white lg:w-full">
+            <li class="lg:w-full">
               <router-link
                 :to="{ name: 'AdminPendaftaran' }"
                 class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group"

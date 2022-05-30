@@ -30,7 +30,7 @@ function toggleSideBar() {
 // }
 </script>
 <template>
-  <nav class="bg-white border-b border-gray-200 fixed z-30 w-full">
+  <nav class="bg-base-100 border-b border-gray-200 fixed z-30 w-full">
     <div class="px-3 py-3 lg:px-5 lg:pl-3">
       <div class="flex items-center justify-between">
         <div class="flex items-center justify-start">
@@ -182,7 +182,7 @@ function toggleSideBar() {
                 <!-- Dropdown menu -->
                 <!-- <div
                   v-if="isMenuActive"
-                  class="absolute z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700"
+                  class="absolute z-10 w-44   rounded divide-y divide-gray-100 shadow dark:bg-gray-700"
                 >
                   <ul
                     class="py-1 text-sm text-gray-700 dark:text-gray-200"

@@ -176,7 +176,8 @@ function resetForm() {
     <template v-slot:content> Tapel <BreadCrumbSpace /> Index</template>
   </BreadCrumb>
   <div class="pt-4 px-10">
-    <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-700 shadow-sm"
+    <span
+      class="text-2xl sm:text-3xl leading-none font-bold text-gray-700 shadow-sm"
       >Tahun Pelajaran</span
     >
   </div>
@@ -201,7 +202,9 @@ function resetForm() {
             <span v-if="props.column.field == 'actions'">
               <div class="text-sm font-medium text-center flex justify-center">
                 <ButtonEdit @click="doEditData(props.row.id, props.index)" />
-                <ButtonDelete @click="doDeleteData(props.row.id, props.index)" />
+                <ButtonDelete
+                  @click="doDeleteData(props.row.id, props.index)"
+                />
               </div>
             </span>
 
@@ -217,7 +220,7 @@ function resetForm() {
       </div>
     </div>
 
-    <div class="wfull lg:w-4/12 mx-4">
+    <div class="w-full lg:w-4/12 mx-4">
       <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
         <button
           class="text-base font-normal text-gray-800 hover:text-gray-400 hover:bg-gray-100 bg-gray-300 border-2 px-2 py-2 rounded-md mb-2"
@@ -232,7 +235,9 @@ function resetForm() {
               <div class="bg-white rounded-lg p-0 sm:p-6 xl:p-0">
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                    <label
+                      for="name"
+                      class="text-sm font-medium text-gray-900 block mb-2"
                       >Nama</label
                     >
                     <Field
@@ -244,12 +249,16 @@ function resetForm() {
                       class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                       required
                     />
-                    <div class="text-xs text-red-600 mt-1">{{ errors.nama }}</div>
+                    <div class="text-xs text-red-600 mt-1">
+                      {{ errors.nama }}
+                    </div>
                   </div>
                 </div>
                 <div class="grid grid-cols-1 gap-6 mt-4">
                   <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-1"
+                    <label
+                      for="name"
+                      class="text-sm font-medium text-gray-900 block mb-1"
                       >Status</label
                     >
                     <div class="w-full flex gap-4">
@@ -276,7 +285,9 @@ function resetForm() {
                         /><span class="ml-2 text-gray-700">Nonaktif</span>
                       </label>
                     </div>
-                    <div class="text-xs text-red-600 mt-1">{{ errors.status }}</div>
+                    <div class="text-xs text-red-600 mt-1">
+                      {{ errors.status }}
+                    </div>
                   </div>
                 </div>
                 <div class="w-full flex justify-end mt-4">
