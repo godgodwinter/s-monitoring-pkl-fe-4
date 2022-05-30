@@ -19,7 +19,33 @@ const btnSiswaClick = () => {
 };
 
 const doSubmit = () => {
-  Toast.warning("Info", "Belum ada fitur ini");
+  if (confirm("Apakah anda yakin menyimpan data ini?")) {
+    doStoreData();
+  }
+};
+
+const doStoreData = async (d) => {
+  // get dataSiswa from localstorage
+  let dataSiswaLocal = JSON.parse(localStorage.getItem("dataSiswa"));
+  let dataStore = {
+    siswa: dataSiswaLocal,
+  };
+  // console.log(dataStore);
+  try {
+    const response = await Api.post(
+      `admin/pendaftaranprakerin/proses/penempatan/${tempatPklTerpilih.value.id}`,
+      dataStore
+    );
+    Toast.success("Success", "Data Berhasil update!");
+    // resetForm();
+    // router.push({ name: "AdminSekolahDetailSiswa", params: { id: id } });
+    // router.go();
+
+    return response.data;
+  } catch (error) {
+    Toast.danger("Warning", "Data gagal ditambahkan!");
+    console.error(error);
+  }
 };
 
 let statusPerusahaan = [
@@ -229,13 +255,26 @@ const doCariSiswa = async () => {
 
 const setSiswaLocal = async (index, id, nama, kelas) => {
   let dataSiswa = JSON.parse(localStorage.getItem("dataSiswa"));
-  // check if dataSiswa already on local
-  if (dataSiswa) {
+  // check if dataSiswa.length > tempatPklTerpilih.tersedia
+  if (dataSiswa.length + 1 > tempatPklTerpilih.value.kuota) {
+    Toast.warning("Warning", "Kuota tempat prakerin sudah penuh");
+  } else {
     // check if dataSiswa already on local
-    if (dataSiswa.length > 0) {
+    if (dataSiswa) {
       // check if dataSiswa already on local
-      if (dataSiswa.find((item) => item.id === id)) {
-        Toast.warning("Warning", "Siswa sudah terdaftar");
+      if (dataSiswa.length > 0) {
+        // check if dataSiswa already on local
+        if (dataSiswa.find((item) => item.id === id)) {
+          Toast.warning("Warning", "Siswa sudah terdaftar");
+        } else {
+          dataSiswa.push({
+            id: id,
+            nama: nama,
+            kelas: kelas,
+          });
+          localStorage.setItem("dataSiswa", JSON.stringify(dataSiswa));
+          Toast.success("Info", "Data berhasil disimpan");
+        }
       } else {
         dataSiswa.push({
           id: id,
@@ -246,6 +285,7 @@ const setSiswaLocal = async (index, id, nama, kelas) => {
         Toast.success("Info", "Data berhasil disimpan");
       }
     } else {
+      let dataSiswa = [];
       dataSiswa.push({
         id: id,
         nama: nama,
@@ -254,23 +294,8 @@ const setSiswaLocal = async (index, id, nama, kelas) => {
       localStorage.setItem("dataSiswa", JSON.stringify(dataSiswa));
       Toast.success("Info", "Data berhasil disimpan");
     }
-  } else {
-    let dataSiswa = [];
-    dataSiswa.push({
-      id: id,
-      nama: nama,
-      kelas: kelas,
-    });
-    localStorage.setItem("dataSiswa", JSON.stringify(dataSiswa));
-    Toast.success("Info", "Data berhasil disimpan");
   }
-  // array push
-  // dataSiswa.push({
-  //   id: id,
-  //   nama: nama,
-  //   kelas: kelas,
-  // });
-  //
+
   data.value = dataSiswa;
   setSiswa(data.value);
 };
@@ -324,7 +349,7 @@ const setSiswaLocal = async (index, id, nama, kelas) => {
               </div>
               <div
                 class="badge badge-outline"
-                v-else="tempatPklTerpilih.tersedia > 0"
+                v-else="tempatPklTerpilih.tersedia < 1"
               >
                 Tidak Tersedia
               </div>
@@ -517,7 +542,7 @@ const setSiswaLocal = async (index, id, nama, kelas) => {
                       class="badge badge-outline tooltip"
                       data-tip="Terisi / Kuota"
                     >
-                      0/4
+                      {{ item.terisi }}/{{ item.kuota }}
                     </div>
                   </div>
                   <div class="card-actions justify-end">

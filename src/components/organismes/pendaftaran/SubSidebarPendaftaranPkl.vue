@@ -8,9 +8,15 @@ import Popper from "@/components/atoms/Popper.vue";
     <!-- Profile Card -->
     <div class="bg-white p-3 border-t-4 border-green-400">
       <div class="image overflow-hidden">
-        <img class="h-20 w-20 mx-auto" src="@/assets/img/flat/portfolio_2.png" alt="" />
+        <img
+          class="h-20 w-20 mx-auto"
+          src="@/assets/img/flat/portfolio_2.png"
+          alt=""
+        />
       </div>
-      <p class="text-sm text-gray-500 hover:text-gray-600 leading-6 text-center pt-2">
+      <p
+        class="text-sm text-gray-500 hover:text-gray-600 leading-6 text-center pt-2"
+      >
         Menu - menu pedaftaran Prakerin / PKL
       </p>
       <ul
@@ -63,9 +69,9 @@ import Popper from "@/components/atoms/Popper.vue";
         <span>Menu Utama</span>
       </div>
       <div class="grid grid-cols-2 xl:grid-cols-3">
-        <router-link :to="{ name: 'AdminPendaftaranProsesSatu' }">
+        <!-- <router-link :to="{ name: 'AdminPendaftaranProsesSatu' }">
           <ButtonDataOne title="Daftar Baru" titleShort="DB"></ButtonDataOne
-        ></router-link>
+        ></router-link> -->
         <router-link :to="{ name: 'ProsesTempatPKL' }">
           <ButtonDataOne title="Tempat PKL" titleShort="DB"></ButtonDataOne
         ></router-link>
