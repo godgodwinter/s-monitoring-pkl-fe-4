@@ -184,6 +184,7 @@ const getDataId = async () => {
       data.value = dataSiswa.value.map((item, index) => {
         return {
           ...item,
+          id: item.siswa.id,
           nama: item.siswa.nama,
           kelas: `${item.siswa.kelasdetail.kelas.tingkatan} ${item.siswa.kelasdetail.kelas.jurusan} ${item.siswa.kelasdetail.kelas.suffix}`,
         };
