@@ -3,6 +3,8 @@ import Api from "@/axios/axios.js";
 import { ref } from "vue";
 import CardCompany from "@/components/atoms/CardCompanySatu.vue";
 import Toast from "@/components/lib/Toast.js";
+import ButtonEdit from "@/components/atoms/ButtonEdit.vue";
+import ButtonDelete from "@/components/atoms/ButtonDel.vue";
 let randomAngka = () => {
   return Math.floor(Math.random() * 4);
 };
@@ -39,6 +41,7 @@ let inputTersedia = ref({
   label: "Tersedia",
   id: "Tersedia",
 });
+
 let inputCari = ref("");
 let tempatPKLAsli = ref([]);
 let tempatPKL = ref([]);
@@ -64,6 +67,10 @@ const doCari = async () => {
   getPilihanTempatPKL();
 };
 
+const setSiswa = (item) => {
+  localStorage.setItem("dataSiswa", JSON.stringify(item));
+};
+
 //
 const tempatPklTerpilih = ref();
 const setTempatPkl = (index, id, nama, alamat, tersedia, terisi, kuota) => {
@@ -79,18 +86,194 @@ const setTempatPkl = (index, id, nama, alamat, tersedia, terisi, kuota) => {
   localStorage.setItem("dataTempatPkl", JSON.stringify(dataTempatPkl));
   getTempatPkl();
   Toast.success("Info", "Data berhasil disimpan");
+  getDataId();
+  container.value = "siswa";
+  doCariSiswa();
 };
 
 const getTempatPkl = () => {
-  tempatPklTerpilih.value = JSON.parse(localStorage.getItem("dataTempatPkl"));
-  console.log(tempatPklTerpilih.value.nama);
+  tempatPklTerpilih.value = JSON.parse(localStorage.getItem("dataTempatPkl"))
+    ? JSON.parse(localStorage.getItem("dataTempatPkl"))
+    : "";
 };
 
 const removeTempatPkl = () => {
   localStorage.removeItem("dataTempatPkl");
+  data.value = [];
+  setSiswa(data.value);
   getTempatPkl();
+  container.value = "tempatPKL";
 };
 getTempatPkl();
+
+const doResetAll = () => {
+  removeTempatPkl();
+  data.value = [];
+  Toast.success("Info", "Data berhasil diReset");
+  container.value = "tempatPKL";
+};
+const data = ref([]);
+const columns = [
+  {
+    label: "No",
+    field: "no",
+    width: "50px",
+    tdClass: "text-center",
+    thClass: "text-center",
+  },
+  {
+    label: "Actions",
+    field: "actions",
+    sortable: false,
+    width: "50px",
+    tdClass: "text-center",
+    thClass: "text-center",
+  },
+  {
+    label: "Nama",
+    field: "nama",
+    type: "String",
+  },
+  {
+    label: "Kelas",
+    field: "kelas",
+    type: "String",
+  },
+];
+
+const dataTempatPkl = ref();
+const dataSiswa = ref();
+// idsekolah
+const getDataId = async () => {
+  try {
+    const response = await Api.post(
+      `admin/pendaftaranprakerin/proses/datapenempatan/getsiswa`,
+      {
+        tempatpkl_id: tempatPklTerpilih.value.id,
+      }
+    );
+    dataTempatPkl.value = response.data;
+    dataSiswa.value = response.siswa;
+    if (dataSiswa.value.length > 0) {
+      data.value = dataSiswa.value.map((item, index) => {
+        return {
+          ...item,
+          nama: item.siswa.nama,
+          kelas: `${item.siswa.kelasdetail.kelas.tingkatan} ${item.siswa.kelasdetail.kelas.jurusan} ${item.siswa.kelasdetail.kelas.suffix}`,
+        };
+      });
+      setSiswa(data.value);
+    } else {
+      data.value = [];
+      setSiswa(data.value);
+      Toast.warning("Info", "Belum ada siswa yang terdaftar");
+    }
+    // console.log(dataSiswa.value);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+const doDelSiswa = (index) => {
+  data.value.splice(index, 1);
+  setSiswa(data.value);
+};
+
+let statusSiswa = [
+  {
+    label: "Semua Data",
+    id: "Semua Data",
+  },
+  {
+    label: "Memilih Tempat Ini",
+    id: "Memilih Tempat Ini",
+  },
+];
+
+let inputStatusSiswa = ref({
+  label: "Memilih Tempat Ini",
+  id: "Memilih Tempat Ini",
+});
+
+let inputCariSiswa = ref("");
+
+const dataSiswaAsli = ref([]);
+const dataSiswaCari = ref([]);
+const getPilihanSiswa = async () => {
+  try {
+    const response = await Api.get(
+      `admin/pendaftaranpkl/getdatasiswa?cari=${
+        inputCariSiswa.value
+      }&tersedia=${
+        inputStatusSiswa.value ? inputStatusSiswa.value.label : ""
+      }&tempatpkl_id=${tempatPklTerpilih.value.id}`
+    );
+    // data.value = response.data;
+    dataSiswaAsli.value = response.data;
+    dataSiswaCari.value = dataSiswaAsli.value.map((item, index) => {
+      return {
+        ...item,
+        nama: item.nama,
+        kelas: `${item.kelasdetail.kelas.tingkatan} ${item.kelasdetail.kelas.jurusan} ${item.kelasdetail.kelas.suffix}`,
+      };
+    });
+    // console.log(response.data);
+  } catch (error) {
+    Toast.danger("Warning", "Data gagal dimuat");
+    console.error(error);
+  }
+};
+const doCariSiswa = async () => {
+  getPilihanSiswa();
+};
+
+const setSiswaLocal = async (index, id, nama, kelas) => {
+  let dataSiswa = JSON.parse(localStorage.getItem("dataSiswa"));
+  // check if dataSiswa already on local
+  if (dataSiswa) {
+    // check if dataSiswa already on local
+    if (dataSiswa.length > 0) {
+      // check if dataSiswa already on local
+      if (dataSiswa.find((item) => item.id === id)) {
+        Toast.warning("Warning", "Siswa sudah terdaftar");
+      } else {
+        dataSiswa.push({
+          id: id,
+          nama: nama,
+          kelas: kelas,
+        });
+        localStorage.setItem("dataSiswa", JSON.stringify(dataSiswa));
+        Toast.success("Info", "Data berhasil disimpan");
+      }
+    } else {
+      dataSiswa.push({
+        id: id,
+        nama: nama,
+        kelas: kelas,
+      });
+      localStorage.setItem("dataSiswa", JSON.stringify(dataSiswa));
+      Toast.success("Info", "Data berhasil disimpan");
+    }
+  } else {
+    let dataSiswa = [];
+    dataSiswa.push({
+      id: id,
+      nama: nama,
+      kelas: kelas,
+    });
+    localStorage.setItem("dataSiswa", JSON.stringify(dataSiswa));
+    Toast.success("Info", "Data berhasil disimpan");
+  }
+  // array push
+  // dataSiswa.push({
+  //   id: id,
+  //   nama: nama,
+  //   kelas: kelas,
+  // });
+  //
+  data.value = dataSiswa;
+  setSiswa(data.value);
+};
 </script>
 <template>
   <!-- head Tampilkan Tempat PKL Terpilih dan Siswa di tempat tersebut -->
@@ -111,7 +294,7 @@ getTempatPkl();
         Pilih Siswa
       </button>
       <button
-        @click="btnSiswaClick()"
+        @click="doResetAll()"
         class="bg-orange-200 text-gray-500 px-4 py-2 rounded-lg shadow-sm hover:bg-orange-500 hover:text-white border border-slate-500"
       >
         RESET
@@ -165,9 +348,44 @@ getTempatPkl();
         <!-- <CardCompany></CardCompany> -->
       </div>
       <div class="w-full md:w-1/2">
-        <div class="w-full md:w-1/2 py-2 px-2">
-          <p class="text-gray-500 text-lg">Belum memilih tempat PKL!</p>
-          <p class="text-gray-500 text-lg">Tabel!</p>
+        <div class="w-full py-2 px-2">
+          <div v-if="data">
+            <vue-good-table
+              :columns="columns"
+              :rows="data"
+              :search-options="{
+                enabled: true,
+              }"
+              :pagination-options="{
+                enabled: true,
+                perPageDropdown: [10, 20, 50],
+              }"
+              styleClass="vgt-table striped bordered condensed"
+              class="py-0"
+            >
+              <template #table-row="props">
+                <span v-if="props.column.field == 'actions'">
+                  <div
+                    class="text-sm font-medium text-center flex justify-center"
+                  >
+                    <ButtonDelete @click="doDelSiswa(index)" />
+                  </div>
+                </span>
+
+                <span v-else-if="props.column.field == 'no'">
+                  <div class="text-center">{{ props.index + 1 }}</div>
+                </span>
+
+                <span v-else>
+                  {{ props.formattedRow[props.column.field] }}
+                </span>
+              </template>
+            </vue-good-table>
+          </div>
+          <div v-else>
+            <p class="text-gray-500 text-lg">Belum memilih tempat PKL!</p>
+            <p class="text-gray-500 text-lg">Tabel!</p>
+          </div>
         </div>
       </div>
     </div>
@@ -374,11 +592,10 @@ getTempatPkl();
         >
           <v-select
             class="py-2 px-3 w-72 mx-auto md:mx-0"
-            :options="statusPerusahaan"
-            v-model="inputTersedia"
+            :options="statusSiswa"
+            v-model="inputStatusSiswa"
             v-bind:class="{ disabled: false }"
           ></v-select>
-          <!-- <InputCari v-model="inputCari"></InputCari> -->
           <div>
             <div class="w-full md:w-72 pt-4 md:pt-2 mx-auto md:mx-0">
               <div class="relative">
@@ -401,8 +618,8 @@ getTempatPkl();
                   </svg>
                 </div>
                 <input
-                  v-model="inputCari"
-                  @keyup="doCari()"
+                  v-model="inputCariSiswa"
+                  @keyup="doCariSiswa()"
                   type="search"
                   class="block p-2 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Cari ..."
@@ -420,7 +637,7 @@ getTempatPkl();
           <button
             type="submit"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            @click="doCari()"
+            @click="doCariSiswa()"
           >
             Pencarian
           </button>
@@ -440,12 +657,55 @@ getTempatPkl();
                 :jmlTersedia="item.terisi + '/' + item.kuota"
               ></CardCompany>
             </div> -->
-            <div v-for="n in 10">
+            <!-- <div v-for="n in 10">
               <CardCompany
                 title="Nama Tempat Prakerin"
                 :tersedia="randomAngka()"
                 :jmlTersedia="randomAngka()"
               ></CardCompany>
+            </div> -->
+            <div class="" v-for="(item, index) in dataSiswaCari">
+              <div
+                class="card card-side bg-base-100 shadow-xl h-72"
+                :key="item.id"
+              >
+                <figure>
+                  <img
+                    src="https://api.lorem.space/image/movie?w=200&h=280"
+                    alt="Movie"
+                  />
+                </figure>
+                <div class="card-body">
+                  <h2 class="card-title">{{ item.nama }}</h2>
+                  <p class="text-ellipsis overflow-hidden">
+                    {{ item.nomeridentitas }} - {{ item.kelas }}
+                  </p>
+                  <div class="card-actions justify-end">
+                    <!-- <div
+                      class="badge badge-outline tooltip"
+                      data-tip="Status Tempat PKL"
+                    >
+                      Tersedia
+                    </div>
+                    <div
+                      class="badge badge-outline tooltip"
+                      data-tip="Terisi / Kuota"
+                    >
+                      0/4
+                    </div> -->
+                  </div>
+                  <div class="card-actions justify-end">
+                    <button
+                      class="btn btn-primary btn-primary-content"
+                      @click="
+                        setSiswaLocal(index, item.id, item.nama, item.kelas)
+                      "
+                    >
+                      Pilih
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
