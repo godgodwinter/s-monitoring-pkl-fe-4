@@ -17,7 +17,9 @@ let dataId = null;
 // function Form and Validation
 const getData = async () => {
   try {
-    const response = await Api.get("admin/pendaftaranpkl/list/prosespenempatanpkl");
+    const response = await Api.get(
+      "admin/pendaftaranpkl/list/prosespenempatanpkl"
+    );
     // console.log(response);
     // data.value = response.data;
     dataAsli.value = response.data;
@@ -81,7 +83,9 @@ function doLanjutkanProses(id) {
   <div class="bg-white p-3 shadow-sm rounded-sm">
     <!-- About Section -->
     <div class="bg-white p-3 shadow-sm rounded-sm">
-      <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
+      <div
+        class="flex items-center space-x-2 font-semibold text-gray-900 leading-8"
+      >
         <span clas="text-green-500">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +102,9 @@ function doLanjutkanProses(id) {
             />
           </svg>
         </span>
-        <span class="tracking-wide">Data Siswa dalam Proses Penempatan PKL</span>
+        <span class="tracking-wide"
+          >Data Siswa dalam Proses Penempatan PKL</span
+        >
       </div>
       <div class="text-gray-700">
         <!-- table -->
@@ -119,8 +125,10 @@ function doLanjutkanProses(id) {
           >
             <template #table-row="props">
               <span v-if="props.column.field == 'actions'">
-                <div class="text-sm font-medium text-center flex justify-center">
-                  <Popper
+                <div
+                  class="text-sm font-medium text-center flex justify-center"
+                >
+                  <!-- <Popper
                     content="Lanjutkan Proses"
                     @click="doLanjutkanProses(props.row.id)"
                   >
@@ -144,9 +152,12 @@ function doLanjutkanProses(id) {
                         </svg>
                       </button>
                     </template>
-                  </Popper>
+                  </Popper> -->
                   <router-link
-                    :to="{ name: 'AdminSiswaProfile', params: { id: props.row.id } }"
+                    :to="{
+                      name: 'AdminSiswaProfile',
+                      params: { id: props.row.id },
+                    }"
                   >
                     <Popper content="Detail Data">
                       <template #content>

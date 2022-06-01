@@ -330,10 +330,7 @@ const setSiswaLocal = async (index, id, nama, kelas) => {
       <div class="w-full 2xl:w-1/2 py-2 px-2">
         <div class="card w-96 bg-base-100 shadow-xl" v-if="tempatPklTerpilih">
           <figure>
-            <img
-              src="https://api.lorem.space/image/shoes?w=400&h=225"
-              alt="Shoes"
-            />
+            <img src="@/assets/img/photo/company-1.jpg" alt="Tempat PKL" />
           </figure>
           <div class="card-body">
             <h2 class="card-title">
@@ -525,8 +522,9 @@ const setSiswaLocal = async (index, id, nama, kelas) => {
               >
                 <figure>
                   <img
-                    src="https://api.lorem.space/image/movie?w=200&h=280"
-                    alt="Movie"
+                    src="@/assets/img/photo/company-1.jpg"
+                    class="object-cover h-full w-32"
+                    alt="Tempat PKL"
                   />
                 </figure>
                 <div class="card-body">
@@ -697,9 +695,11 @@ const setSiswaLocal = async (index, id, nama, kelas) => {
               >
                 <figure>
                   <img
-                    src="https://api.lorem.space/image/movie?w=200&h=280"
-                    alt="Movie"
+                    src="@/assets/img/avatar/profile-2.svg"
+                    alt="Siswa"
+                    class="w-32"
                   />
+                  <!-- <img src="@/assets/img/avatar/bighead-1.svg" alt="Siswa" /> -->
                 </figure>
                 <div class="card-body">
                   <h2 class="card-title">{{ item.nama }}</h2>
