@@ -62,20 +62,24 @@ getData();
       /></router-link>
 
       <router-link :to="{ name: 'ListProsesPemberkasan' }">
-        <ButtonDataTwo title="Proses Pemberkasan" :titleShort="data.prosesPemberkasan"
+        <ButtonDataTwo
+          title="Proses Pemberkasan"
+          :titleShort="data.prosesPemberkasan"
       /></router-link>
 
       <router-link :to="{ name: 'ListProsesPersetujuan' }">
-        <ButtonDataTwo title="Proses Persetujuan" :titleShort="data.prosesPersetujuan"
+        <ButtonDataTwo
+          title="Proses Persetujuan"
+          :titleShort="data.prosesPersetujuan"
       /></router-link>
 
       <router-link :to="{ name: 'AdminPendaftaranDisetujui' }">
         <ButtonDataTwo title="Disetujui" :titleShort="data.disetujui"
       /></router-link>
 
-      <router-link :to="{ name: 'AdminPendaftaranDisetujui' }">
+      <!-- <router-link :to="{ name: 'AdminPendaftaranDisetujui' }">
         <ButtonDataTwo title="Ditolak" :titleShort="data.ditolak"
-      /></router-link>
+      /></router-link> -->
 
       <!-- <ButtonDataTwo title="Sedang PKL" :titleShort="data.sedangpkl" />
       <ButtonDataTwo title="Telah Selesai PKL" :titleShort="data.telahselesai" /> -->

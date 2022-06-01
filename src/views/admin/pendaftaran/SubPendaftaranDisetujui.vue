@@ -22,8 +22,10 @@ const getData = async () => {
         dk = "Belum Daftar";
       }
       return {
+        ...item,
         id: item.id,
         siswa_id: item.siswa_id,
+        nomeridentitas: item.siswa.nomeridentitas,
         nama: dk,
         status: item.status,
       };
@@ -59,6 +61,11 @@ const columns = [
     type: "String",
   },
   {
+    label: "NIS",
+    field: "nomeridentitas",
+    type: "String",
+  },
+  {
     label: "Status PKL", //aktif / nonaktif / disabled (telah lulus/keluar/dll)
     field: "status",
     type: "String",
@@ -75,7 +82,9 @@ function doLanjutkanProses(id) {
   <div class="bg-white p-3 shadow-sm rounded-sm">
     <!-- About Section -->
     <div class="bg-white p-3 shadow-sm rounded-sm">
-      <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
+      <div
+        class="flex items-center space-x-2 font-semibold text-gray-900 leading-8"
+      >
         <span clas="text-green-500">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -113,7 +122,9 @@ function doLanjutkanProses(id) {
           >
             <template #table-row="props">
               <span v-if="props.column.field == 'actions'">
-                <div class="text-sm font-medium text-center flex justify-center">
+                <div
+                  class="text-sm font-medium text-center flex justify-center"
+                >
                   <!-- <Popper
                     content="Hapus Proses"
                     @click="doLanjutkanProses(props.row.siswa_id)"

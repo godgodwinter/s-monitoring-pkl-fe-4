@@ -11,7 +11,7 @@ import ButtonDelete from "@/components/atoms/ButtonDel.vue";
 const data = ref("");
 const dataAsli = ref("");
 const dataDetail = ref({
-  nama: "",
+  ketarangan: "",
 });
 let dataId = null;
 const getData = async () => {
@@ -23,9 +23,11 @@ const getData = async () => {
     data.value = dataAsli.value.map((item) => {
       let dk = null;
       return {
+        ...item,
         id: item.id,
         siswa_id: item.siswa_id,
         nama: item.siswa ? item.siswa.nama : "",
+        nomeridentitas: item.siswa ? item.siswa.nomeridentitas : "",
         pendaftaranprakerin: item.status,
       };
     });
@@ -57,6 +59,11 @@ const columns = [
   {
     label: "Nama",
     field: "nama",
+    type: "String",
+  },
+  {
+    label: "NIS",
+    field: "nomeridentitas",
     type: "String",
   },
   {
@@ -96,6 +103,31 @@ const siswa_id = ref(null);
 const onCickModal = (idModal) => {
   siswa_id.value = idModal;
   getDataModal();
+};
+
+const doStorePersetujuan = async (status) => {
+  try {
+    const response = await Api.post(
+      `admin/pendaftaranprakerin/proses/persetujuanbaru/${dataModal.value.tempatpkl.id}`,
+      {
+        status: status,
+        keterangan: dataDetail.value.keterangan,
+      }
+    );
+    console.log(response.data);
+    Toast.success("Info", "Proses berhasil");
+    router.push({ name: "AdminPendaftaranDisetujui" });
+    return response;
+  } catch (error) {
+    Toast.danger("Warning", "Proses Gagal");
+    console.error(error);
+  }
+};
+
+const doSubmitPersetujuan = (status) => {
+  if (confirm("Apakah anda yakin melanjutkan proses ini?")) {
+    doStorePersetujuan(status);
+  }
 };
 </script>
 <template>
@@ -256,6 +288,17 @@ const onCickModal = (idModal) => {
                 </tbody>
               </table>
             </div>
+
+            <div class="py-4 px-4">
+              <p class="font-bold text-sm py-2">
+                Isi keterangan jika proses ditolak!
+              </p>
+              <textarea
+                v-model="dataDetail.keterangan"
+                class="textarea textarea-error w-96 h-32"
+                placeholder="Keterangan jika ditolak "
+              ></textarea>
+            </div>
           </div>
         </div>
       </div>
@@ -264,10 +307,16 @@ const onCickModal = (idModal) => {
         <div class="card w-96 bg-base-100 shadow-sm">
           <div class="card-body">
             <div class="card-actions justify-end">
-              <button class="btn btn-primary" @click="doSubmitSetujui()">
+              <button
+                class="btn btn-primary"
+                @click="doSubmitPersetujuan('Disetujui')"
+              >
                 Setujui
               </button>
-              <button class="btn btn-danger" @click="doSubmitTolak()">
+              <button
+                class="btn btn-danger"
+                @click="doSubmitPersetujuan('Ditolak')"
+              >
                 Tolak
               </button>
             </div>

@@ -29,6 +29,7 @@ const getData = async () => {
         dk = "Belum Daftar";
       }
       return {
+        ...item,
         id: item.id,
         nama: item.nama,
         pendaftaranprakerin: dk,
@@ -62,6 +63,11 @@ const columns = [
   {
     label: "Nama",
     field: "nama",
+    type: "String",
+  },
+  {
+    label: "NIS",
+    field: "nomeridentitas",
     type: "String",
   },
   {

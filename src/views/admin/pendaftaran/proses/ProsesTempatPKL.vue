@@ -5,6 +5,10 @@ import CardCompany from "@/components/atoms/CardCompanySatu.vue";
 import Toast from "@/components/lib/Toast.js";
 import ButtonEdit from "@/components/atoms/ButtonEdit.vue";
 import ButtonDelete from "@/components/atoms/ButtonDel.vue";
+
+import { useRouter, useRoute } from "vue-router";
+const router = useRouter();
+const route = useRoute();
 let randomAngka = () => {
   return Math.floor(Math.random() * 4);
 };
@@ -37,6 +41,8 @@ const doStoreData = async (d) => {
       dataStore
     );
     Toast.success("Success", "Data Berhasil update!");
+
+    router.push({ name: "ListProsesPemberkasan" });
     // resetForm();
     // router.push({ name: "AdminSekolahDetailSiswa", params: { id: id } });
     // router.go();
@@ -99,22 +105,35 @@ const setSiswa = (item) => {
 
 //
 const tempatPklTerpilih = ref();
-const setTempatPkl = (index, id, nama, alamat, tersedia, terisi, kuota) => {
-  let dataTempatPkl = {
-    id: id,
-    nama: nama,
-    alamat: alamat,
-    tersedia: tersedia,
-    terisi: terisi,
-    kuota: kuota,
-  };
+const setTempatPkl = (
+  index,
+  id,
+  nama,
+  alamat,
+  tersedia,
+  terisi,
+  kuota,
+  status
+) => {
+  if (status !== "Tersedia") {
+    Toast.danger("Warning", "Tempat PKL tidak tersedia!");
+  } else {
+    let dataTempatPkl = {
+      id: id,
+      nama: nama,
+      alamat: alamat,
+      tersedia: tersedia,
+      terisi: terisi,
+      kuota: kuota,
+    };
 
-  localStorage.setItem("dataTempatPkl", JSON.stringify(dataTempatPkl));
-  getTempatPkl();
-  Toast.success("Info", "Data berhasil disimpan");
-  getDataId();
-  container.value = "siswa";
-  doCariSiswa();
+    localStorage.setItem("dataTempatPkl", JSON.stringify(dataTempatPkl));
+    getTempatPkl();
+    Toast.success("Info", "Data berhasil disimpan");
+    getDataId();
+    container.value = "siswa";
+    doCariSiswa();
+  }
 };
 
 const getTempatPkl = () => {
@@ -535,7 +554,7 @@ const setSiswaLocal = async (index, id, nama, kelas) => {
                       class="badge badge-outline tooltip"
                       data-tip="Status Tempat PKL"
                     >
-                      Tersedia
+                      {{ item.status }}
                     </div>
                     <div
                       class="badge badge-outline tooltip"
@@ -555,7 +574,8 @@ const setSiswaLocal = async (index, id, nama, kelas) => {
                           item.alamat,
                           item.tersedia,
                           item.terisi,
-                          item.kuota
+                          item.kuota,
+                          item.status
                         )
                       "
                     >
