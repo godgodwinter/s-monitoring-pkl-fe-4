@@ -11,10 +11,14 @@ import Toast from "@/components/lib/Toast.js";
 import BreadCrumb from "@/components/atoms/BreadCrumb.vue";
 import BreadCrumbSpace from "@/components/atoms/BreadCrumbSpace.vue";
 const id = route.params.id;
-let dataId = null;
-let dataSiswa = ref([]);
-let dataAsli = ref([]);
-let status = ref([]);
+const dataId = null;
+const dataSiswa = ref([]);
+const dataAsli = ref([]);
+const tempatpkl = ref([]);
+const anggota = ref([]);
+const pembimbinglapangan = ref([]);
+const pembimbingsekolah = ref([]);
+const status = ref([]);
 const dataDetail = ref({
   siswa: { label: "-", id: id },
   tempatpkl: { label: "-", id: id, tgl_pengajuan: "" },
@@ -23,61 +27,64 @@ const dataDetail = ref({
 });
 const getDataId = async () => {
   try {
-    const response = await Api.get(`admin/siswa/${id}`);
+    const response = await Api.get(`admin/datasiswa/profile/${id}`);
     // console.log(response.data);
-    dataAsli.value = response.data;
-    dataSiswa.value = response.data;
-    dataDetail.value.siswa.label = ` ${dataAsli.value.nama} `;
-    dataSiswa.value.kelas = ` ${dataAsli.value.kelasdetail.kelas.tingkatan} ${dataAsli.value.kelasdetail.kelas.jurusan} ${dataAsli.value.kelasdetail.kelas.suffix} `;
+    dataSiswa.value = response.data.siswa;
+    tempatpkl.value = response.data.tempatpkl;
+    anggota.value = response.data.anggota;
+    status.value = response.data.status;
+    // console.log(dataSiswa.value, tempatpkl.value, anggota.value, status.value);
+    // dataDetail.value.siswa.label = ` ${dataAsli.value.nama} `;
+    // dataSiswa.value.kelas = ` ${dataAsli.value.kelasdetail.kelas.tingkatan} ${dataAsli.value.kelasdetail.kelas.jurusan} ${dataAsli.value.kelasdetail.kelas.suffix} `;
     return response;
   } catch (error) {
     Toast.danger("Warning", "Token anda kadaluarsa! Silahkan login kembali");
     console.error(error);
   }
 };
+getDataId();
+// const periksaId = async () => {
+//   try {
+//     const response = await Api.get(`admin/pendaftaranpkl/list/periksaid/${id}`);
+//     status.value = response.data;
+//     if (response.data == "Belum Daftar") {
+//       Toast.danger("Warning", "Belum Daftar Prakerin, Daftar lebih dahulu");
+//     } else if (response.data == "Proses Daftar") {
+//       Toast.danger("Warning", "Data Prakerin ditemukan, Data belum lengkap!");
+//     } else if (response.data == "Menunggu") {
+//       Toast.success(
+//         "Success",
+//         "Data ditemukan, Proses pendaftaran siswa sedang menunggu Acc!"
+//       );
+//     } else if (response.data == "Disetujui") {
+//       Toast.success(
+//         "Success",
+//         "Data ditemukan, Proses pendaftaran siswa ini telah selesai!"
+//       );
+//     }
+//     dataDetail.value.tempatpkl.label = ` ${
+//       response.tempatpkl ? response.tempatpkl.nama : ""
+//     } `;
+//     dataDetail.value.tempatpkl.tgl_pengajuan = ` ${response.tgl_pengajuan} `;
+//     dataDetail.value.pembimbinglapangan.label = ` ${
+//       response.pembimbinglapangan ? response.pembimbinglapangan.nama : ""
+//     } `;
+//     dataDetail.value.pembimbingsekolah.label = ` ${
+//       response.pembimbingsekolah ? response.pembimbingsekolah.nama : ""
+//     } `;
 
-const periksaId = async () => {
-  try {
-    const response = await Api.get(`admin/pendaftaranpkl/list/periksaid/${id}`);
-    status.value = response.data;
-    if (response.data == "Belum Daftar") {
-      Toast.danger("Warning", "Belum Daftar Prakerin, Daftar lebih dahulu");
-    } else if (response.data == "Proses Daftar") {
-      Toast.danger("Warning", "Data Prakerin ditemukan, Data belum lengkap!");
-    } else if (response.data == "Menunggu") {
-      Toast.success(
-        "Success",
-        "Data ditemukan, Proses pendaftaran siswa sedang menunggu Acc!"
-      );
-    } else if (response.data == "Disetujui") {
-      Toast.success(
-        "Success",
-        "Data ditemukan, Proses pendaftaran siswa ini telah selesai!"
-      );
-    }
-    dataDetail.value.tempatpkl.label = ` ${
-      response.tempatpkl ? response.tempatpkl.nama : ""
-    } `;
-    dataDetail.value.tempatpkl.tgl_pengajuan = ` ${response.tgl_pengajuan} `;
-    dataDetail.value.pembimbinglapangan.label = ` ${
-      response.pembimbinglapangan ? response.pembimbinglapangan.nama : ""
-    } `;
-    dataDetail.value.pembimbingsekolah.label = ` ${
-      response.pembimbingsekolah ? response.pembimbingsekolah.nama : ""
-    } `;
-
-    return response;
-  } catch (error) {
-    // Toast.danger("Warning", "Token anda kadaluarsa! Silahkan login kembali");
-    console.error(error);
-  }
-};
-if (id == "") {
-  Toast.danger("Warning", "Data siswa tidak ditemukan");
-} else {
-  getDataId();
-  periksaId();
-}
+//     return response;
+//   } catch (error) {
+//     // Toast.danger("Warning", "Token anda kadaluarsa! Silahkan login kembali");
+//     console.error(error);
+//   }
+// };
+// if (id == "") {
+//   Toast.danger("Warning", "Data siswa tidak ditemukan");
+// } else {
+//   getDataId();
+//   periksaId();
+// }
 </script>
 <template>
   <BreadCrumb>
@@ -136,7 +143,7 @@ if (id == "") {
               <span class="ml-auto"
                 ><span
                   class="bg-orange-500 py-1 px-2 rounded text-white text-sm"
-                  >{{ status.status }}</span
+                  >{{ status }}</span
                 ></span
               >
             </li>
@@ -308,25 +315,25 @@ if (id == "") {
             <div class="grid md:grid-cols-2 text-sm">
               <div class="grid grid-cols-2">
                 <div class="px-4 py-2 font-semibold">Tempat PKL</div>
-                <div class="px-4 py-2">{{ dataDetail.tempatpkl.label }}</div>
+                <div class="px-4 py-2">{{ tempatpkl.nama }}</div>
               </div>
-              <div class="grid grid-cols-2">
+              <!-- <div class="grid grid-cols-2">
                 <div class="px-4 py-2 font-semibold">Tanggal Daftar</div>
                 <div class="px-4 py-2">
-                  {{ dataDetail.tempatpkl.tgl_pengajuan }}
+                  {{ tempatpkl.tgl_pengajuan }}
                 </div>
-              </div>
+              </div> -->
               <div class="grid grid-cols-2">
                 <div class="px-4 py-2 font-semibold">Status Prakerin</div>
                 <div class="px-4 py-2">
-                  {{ status.status }}
+                  {{ status }}
                 </div>
               </div>
-              <div class="grid grid-cols-2">
+              <!-- <div class="grid grid-cols-2">
                 <div class="px-4 py-2 font-semibold">No. Telp</div>
                 <div class="px-4 py-2">+11 998001001</div>
-              </div>
-              <div class="grid grid-cols-2">
+              </div> -->
+              <!-- <div class="grid grid-cols-2">
                 <div class="px-4 py-2 font-semibold">Pembimbing Lapangan</div>
                 <div class="px-4 py-2">
                   {{ dataDetail.pembimbinglapangan.label }} - +628512345678
@@ -337,62 +344,11 @@ if (id == "") {
                 <div class="px-4 py-2">
                   {{ dataDetail.pembimbingsekolah.label }} - +628512345678
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
-        <div class="bg-white p-3 shadow-sm rounded-sm" v-else>
-          <div
-            class="flex items-center space-x-2 font-semibold text-gray-900 leading-8"
-          >
-            <span clas="text-green-500">
-              <svg
-                class="h-5"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                />
-              </svg>
-            </span>
-            <span class="tracking-wide">Prakerin</span>
-          </div>
-          <div class="text-gray-700">
-            <div class="grid md:grid-cols-2 text-sm">
-              <div class="grid grid-cols-2">
-                <div class="px-4 py-2 font-semibold">Tempat PKL</div>
-                <div class="px-4 py-2">{{ dataDetail.tempatpkl.label }}</div>
-              </div>
-              <div class="grid grid-cols-2">
-                <div class="px-4 py-2 font-semibold">Tanggal Daftar</div>
-                <div class="px-4 py-2">
-                  {{ dataDetail.tempatpkl.tgl_pengajuan }}
-                </div>
-              </div>
-              <div class="grid grid-cols-2">
-                <div class="px-4 py-2 font-semibold">Status Prakerin</div>
-                <div class="px-4 py-2">
-                  {{ status.status }}
-                </div>
-              </div>
-            </div>
-          </div>
-          <router-link
-            :to="{ name: 'AdminPendaftaranProsesSatu', params: { id: id } }"
-          >
-            <button
-              class="block w-full text-blue-800 text-sm font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4"
-            >
-              Daftar / Update Data Prakerin
-            </button>
-          </router-link>
-        </div>
+        <div class="bg-white p-3 shadow-sm rounded-sm" v-else></div>
         <!-- End of about section -->
         <div class="my-4"></div>
 

@@ -16,6 +16,7 @@
     "daisyui": "^2.15.1",
     "jspdf": "^2.5.1",
     "jwt-decode": "^3.1.2",
+    "moment": "^2.29.3",
     "mosha-vue-toastify": "^1.0.23",
     "pinia": "^2.0.14",
     "vee-validate": "^4.5.11",

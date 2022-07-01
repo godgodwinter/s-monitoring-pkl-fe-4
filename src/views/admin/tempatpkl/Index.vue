@@ -1,4 +1,7 @@
 <script setup>
+import moment from "moment/min/moment-with-locales";
+import localization from "moment/locale/id";
+moment.updateLocale("id", localization);
 import { ref } from "vue";
 import { Field, Form } from "vee-validate";
 import { useRouter, useRoute } from "vue-router";
@@ -14,6 +17,8 @@ const route = useRoute();
 const data = ref("");
 const dataDetail = ref({
   nama: "",
+  tgl_mulai: moment().format("YYYY-MM-DD"),
+  tgl_selesai: moment().add("days", 90).format("YYYY-MM-DD"),
 });
 let dataId = null;
 // function Form and Validation
@@ -120,6 +125,8 @@ const doStoreData = async (d) => {
         telp: d.telp,
         penanggungjawab: d.penanggungjawab,
         kuota: d.kuota,
+        tgl_mulai: d.tgl_mulai,
+        tgl_selesai: d.tgl_selesai,
       });
 
       Toast.success("Success", "Data Berhasil diupdate!");
@@ -132,6 +139,8 @@ const doStoreData = async (d) => {
       telp: d.telp,
       penanggungjawab: d.penanggungjawab,
       kuota: d.kuota,
+      tgl_mulai: d.tgl_mulai,
+      tgl_selesai: d.tgl_selesai,
     });
 
     getData();
@@ -155,7 +164,8 @@ function resetForm() {
     <template v-slot:content> Tempat PKL <BreadCrumbSpace /> Index</template>
   </BreadCrumb>
   <div class="pt-4 px-10">
-    <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-700 shadow-sm"
+    <span
+      class="text-2xl sm:text-3xl leading-none font-bold text-gray-700 shadow-sm"
       >Tempat Prakerin</span
     >
   </div>
@@ -211,7 +221,9 @@ function resetForm() {
               <div class="bg-white rounded-lg p-0 sm:p-6 xl:p-0">
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                    <label
+                      for="name"
+                      class="text-sm font-medium text-gray-900 block mb-2"
                       >Nama</label
                     >
                     <Field
@@ -223,12 +235,16 @@ function resetForm() {
                       class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                       required
                     />
-                    <div class="text-xs text-red-600 mt-1">{{ errors.nama }}</div>
+                    <div class="text-xs text-red-600 mt-1">
+                      {{ errors.nama }}
+                    </div>
                   </div>
                 </div>
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                    <label
+                      for="name"
+                      class="text-sm font-medium text-gray-900 block mb-2"
                       >Alamat</label
                     >
                     <Field
@@ -240,12 +256,16 @@ function resetForm() {
                       class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                       required
                     />
-                    <div class="text-xs text-red-600 mt-1">{{ errors.alamat }}</div>
+                    <div class="text-xs text-red-600 mt-1">
+                      {{ errors.alamat }}
+                    </div>
                   </div>
                 </div>
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                    <label
+                      for="name"
+                      class="text-sm font-medium text-gray-900 block mb-2"
                       >Telp</label
                     >
                     <Field
@@ -257,12 +277,16 @@ function resetForm() {
                       class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                       required
                     />
-                    <div class="text-xs text-red-600 mt-1">{{ errors.telp }}</div>
+                    <div class="text-xs text-red-600 mt-1">
+                      {{ errors.telp }}
+                    </div>
                   </div>
                 </div>
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                    <label
+                      for="name"
+                      class="text-sm font-medium text-gray-900 block mb-2"
                       >Penanggung Jawab</label
                     >
                     <Field
@@ -281,7 +305,9 @@ function resetForm() {
                 </div>
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
+                    <label
+                      for="name"
+                      class="text-sm font-medium text-gray-900 block mb-2"
                       >Kuota</label
                     >
                     <Field
@@ -295,6 +321,59 @@ function resetForm() {
                     />
                     <div class="text-xs text-red-600 mt-1">
                       {{ errors.kuota }}
+                    </div>
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 gap-6">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label
+                      for="name"
+                      class="text-sm font-medium text-gray-900 block mb-2"
+                      >Tanggal Mulai PKL</label
+                    >
+                    <Datepicker
+                      v-model="dataDetail.tgl_mulai"
+                      format="yyyy/MM/dd"
+                      value-format="yyyy-MM-dd"
+                    >
+                      <template #calendar-header="{ index, day }">
+                        <div
+                          :class="index === 5 || index === 6 ? 'red-color' : ''"
+                        >
+                          {{ day }}
+                        </div>
+                      </template>
+                    </Datepicker>
+
+                    <div class="text-xs text-red-600 mt-1">
+                      {{ errors.tgl_mulai }}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-6">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label
+                      for="name"
+                      class="text-sm font-medium text-gray-900 block mb-2"
+                      >Tanggal Selesai PKL</label
+                    >
+                    <Datepicker
+                      v-model="dataDetail.tgl_selesai"
+                      format="yyyy/MM/dd"
+                      value-format="yyyy-MM-dd"
+                    >
+                      <template #calendar-header="{ index, day }">
+                        <div
+                          :class="index === 5 || index === 6 ? 'red-color' : ''"
+                        >
+                          {{ day }}
+                        </div>
+                      </template>
+                    </Datepicker>
+
+                    <div class="text-xs text-red-600 mt-1">
+                      {{ errors.tgl_selesai }}
                     </div>
                   </div>
                 </div>

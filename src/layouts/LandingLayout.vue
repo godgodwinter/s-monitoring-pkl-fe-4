@@ -17,6 +17,19 @@ function scrollBehavior(to) {
   }
   return window.scrollTo({ top: 0, behavior: "smooth" });
 }
+
+const linkSiswa = import.meta.env.VITE_API_URLFE_SISWA
+  ? import.meta.env.VITE_API_URLFE_SISWA
+  : "http://localhost:3000/";
+const linkPembimbingLapangan = import.meta.env.VITE_API_URLFE_PEMBIMBINGLAPANGAN
+  ? import.meta.env.VITE_API_URLFE_PEMBIMBINGLAPANGAN
+  : "http://localhost:3000/";
+const linkPembimbingSekolah = import.meta.env.VITE_API_URLFE_PEMBIMBINGSEKOLAH
+  ? import.meta.env.VITE_API_URLFE_PEMBIMBINGSEKOLAH
+  : "http://localhost:3000/";
+const linkAdmin = import.meta.env.VITE_API_URLFE_ADMIN
+  ? import.meta.env.VITE_API_URLFE_ADMIN
+  : "http://localhost:3000/";
 </script>
 <template>
   <!-- aside sidebar -->
@@ -26,23 +39,27 @@ function scrollBehavior(to) {
     class="z-10 top-0 block z-998 font-serif h-full fixed flex-row bg-white w-4/5 md:hidden shadow-xl border-r-2"
   >
     <div class="px-2 ml-5 pt-0 pb-5 overflow-y-auto h-full">
-      <a href="http://127.0.0.1:3000/">
+      <a :href="linkSiswa">
         <h1 class="text-xs text-gray-800 font-bold py-2 pt-6">Home</h1>
       </a>
 
-      <a href="http://127.0.0.1:3000/">
+      <a :href="linkSiswa">
         <h1 class="text-xs text-gray-800 font-bold py-2 pt-6">Siswa</h1>
       </a>
 
-      <a href="http://127.0.0.1:3000/">
-        <h1 class="text-xs text-gray-800 font-bold py-2 pt-6">Pembimbing Lapangan</h1>
+      <a :href="linkPembimbingLapangan">
+        <h1 class="text-xs text-gray-800 font-bold py-2 pt-6">
+          Pembimbing Lapangan
+        </h1>
       </a>
-      <a href="http://127.0.0.1:3000/">
-        <h1 class="text-xs text-gray-800 font-bold py-2 pt-6">Pembimbing Sekolah</h1>
+      <a :href="linkPembimbingSekolah">
+        <h1 class="text-xs text-gray-800 font-bold py-2 pt-6">
+          Pembimbing Sekolah
+        </h1>
       </a>
-      <router-link :to="{ name: 'LandingIndex' }">
+      <a :href="linkAdmin">
         <h1 class="text-xs text-gray-800 font-bold py-2 pt-6">Administrator</h1>
-      </router-link>
+      </a>
 
       <!-- <h1 class="text-xs text-gray-400 font-bold py-2">Installation</h1> -->
     </div>
@@ -87,7 +104,10 @@ function scrollBehavior(to) {
     <div class="container max-w-4xl mx-auto font-serif">
       <div class="w-full">
         <div class="flex justify-between px-3 pt-2 pb-4">
-          <router-link :to="{ name: 'LandingIndex' }" class="flex px-2 py-0 w-2/5">
+          <router-link
+            :to="{ name: 'LandingIndex' }"
+            class="flex px-2 py-0 w-2/5"
+          >
             <img
               src="@/assets/img/logo/google-developers.svg"
               alt="icon"
@@ -103,22 +123,22 @@ function scrollBehavior(to) {
             <div class="hidden md:block">
               <div class="flex justify-end gap-10 pt-2">
                 <a
-                  href="http://127.0.0.1:3000/"
+                  :href="linkSiswa"
                   class="text-gray-800 font-normal text-sm hover:text-sky-600 hover:underline"
                   >Home</a
                 >
                 <a
-                  href="http://127.0.0.1:3000/siswa"
+                  :href="linkSiswa + 'siswa'"
                   class="text-gray-800 font-normal text-sm hover:text-sky-600 hover:underline"
                   >Siswa</a
                 >
                 <a
-                  href="http://127.0.0.1:3000/pengawaslapangan"
+                  :href="linkPembimbingLapangan"
                   class="text-gray-800 font-normal text-sm hover:text-sky-600 hover:underline"
                   >Pembimbing Lapangan</a
                 >
                 <a
-                  href="http://127.0.0.1:3000/pengawassekolah"
+                  :href="linkPembimbingSekolah"
                   class="text-gray-800 font-normal text-sm hover:text-sky-600 hover:underline"
                   >Pembimbing Sekolah</a
                 >
@@ -131,7 +151,10 @@ function scrollBehavior(to) {
               </div>
             </div>
 
-            <span @click="sidebarToggle" class="text-gray-600 text-xl md:hidden block">
+            <span
+              @click="sidebarToggle"
+              class="text-gray-600 text-xl md:hidden block"
+            >
               <svg
                 v-if="!isSidebarActive"
                 xmlns="http://www.w3.org/2000/svg"
