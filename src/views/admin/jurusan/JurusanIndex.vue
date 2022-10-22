@@ -56,7 +56,7 @@ const getDataId = async () => {
   try {
     const response = await Api.get(`admin/jurusan/${dataId}`);
     dataDetail.value = response.data;
-    console.log(response);
+    // console.log(response);
     inputPilihKepalaJurusan.value = { label: response.data.guru ? response.data.guru.nama : null, id: response.data.guru ? response.data.guru.id : null };
 
     return response;
