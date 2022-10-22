@@ -51,7 +51,7 @@ const routes = [
     redirect: '/',
     children: [
       {
-        path: '/', 
+        path: '/',
         name: 'LandingIndex',
         component: LandingLogin,
       },
@@ -69,42 +69,47 @@ const routes = [
     redirect: '/',
     children: [
       {
-        path: '/pages/admin', 
+        path: '/pages/admin',
         name: 'AdminDashboard',
         component: AdminDashboard,
       },
       {
-        path: '/pages/admin/tapel', 
+        path: '/pages/admin/tapel',
         name: 'AdminTapel',
         component: AdminTapel,
       },
       {
-        path: '/pages/admin/kelas', 
+        path: '/pages/admin/jurusan',
+        name: 'admin-jurusan',
+        component: () => import("@/views/admin/jurusan/JurusanIndex.vue"),
+      },
+      {
+        path: '/pages/admin/kelas',
         name: 'AdminKelas',
         component: AdminKelas,
       },
       {
-        path: '/pages/admin/siswa', 
+        path: '/pages/admin/siswa',
         name: 'AdminSiswa',
         component: AdminSiswa,
       },
       {
-        path: '/pages/admin/siswa/profile/:id?', 
+        path: '/pages/admin/siswa/profile/:id?',
         name: 'AdminSiswaProfile',
         component: AdminSiswaProfile,
       },
       {
-        path: '/pages/admin/tempatpkl', 
+        path: '/pages/admin/tempatpkl',
         name: 'AdminTempatPkl',
         component: AdminTempatPkl,
       },
       {
-        path: '/pages/admin/pembimbimbinglapangan', 
+        path: '/pages/admin/pembimbimbinglapangan',
         name: 'AdminPembimbingLapangan',
         component: AdminPembimbingLapangan,
       },
       {
-        path: '/pages/admin/pembimbingsekolah', 
+        path: '/pages/admin/pembimbingsekolah',
         name: 'AdminPembimbingSekolah',
         component: AdminPembimbingSekolah,
       },
@@ -135,78 +140,78 @@ const routes = [
           },
           // LIST PENDAFTARAN
           {
-              path: '/pages/admin/pendaftaranpkl/belumdaftar', //belumdaftar
-              name: 'AdminPendaftaranBelumDaftar',
+            path: '/pages/admin/pendaftaranpkl/belumdaftar', //belumdaftar
+            name: 'AdminPendaftaranBelumDaftar',
             component: SubPendaftaranBelumDaftar,
           },
           {
-              path: '/pages/admin/pendaftaranpkl/list/prosespengajuan',
-              name: 'ListProsesPengajuanTempatPKL',
+            path: '/pages/admin/pendaftaranpkl/list/prosespengajuan',
+            name: 'ListProsesPengajuanTempatPKL',
             component: ListProsesPengajuanTempatPKL,
           },
           {
-              path: '/pages/admin/pendaftaranpkl/list/prosespenempatan',
-              name: 'ListProsesPenempatanPKL',
+            path: '/pages/admin/pendaftaranpkl/list/prosespenempatan',
+            name: 'ListProsesPenempatanPKL',
             component: ListProsesPenempatanPKL,
           },
           {
-              path: '/pages/admin/pendaftaranpkl/list/prosespemberkasan', 
-              name: 'ListProsesPemberkasan',
+            path: '/pages/admin/pendaftaranpkl/list/prosespemberkasan',
+            name: 'ListProsesPemberkasan',
             component: ListProsesPemberkasan,
           },
           {
-              path: '/pages/admin/pendaftaranpkl/list/prosespersetujuan', 
-              name: 'ListProsesPersetujuan',
+            path: '/pages/admin/pendaftaranpkl/list/prosespersetujuan',
+            name: 'ListProsesPersetujuan',
             component: ListProsesPersetujuan,
           },
 
           // LIST PENDAFTARAN
           // PROSES PENDAFTARAN
           {
-            path: '/pages/admin/pendaftaranpkl/proses/tempatpkl', 
+            path: '/pages/admin/pendaftaranpkl/proses/tempatpkl',
             name: 'ProsesTempatPKL',
-          component: ProsesTempatPKL,
-        },
+            component: ProsesTempatPKL,
+          },
           // PROSES PENDAFTARAN
           {
-              path: '/pages/admin/pendaftaranpkl/prosesdaftar', //prosesdaftar
-              name: 'AdminPendaftaranProsesDaftar',
+            path: '/pages/admin/pendaftaranpkl/prosesdaftar', //prosesdaftar
+            name: 'AdminPendaftaranProsesDaftar',
             component: SubPendaftaranProsesDaftar,
           },
           {
-              path: '/pages/admin/pendaftaranpkl/menunggu', //menunggu
-              name: 'AdminPendaftaranMenunggu',
+            path: '/pages/admin/pendaftaranpkl/menunggu', //menunggu
+            name: 'AdminPendaftaranMenunggu',
             component: SubPendaftaranMenunggu,
           },
           {
-              path: '/pages/admin/pendaftaranpkl/disetujui', //disetujui
-              name: 'AdminPendaftaranDisetujui',
+            path: '/pages/admin/pendaftaranpkl/disetujui', //disetujui
+            name: 'AdminPendaftaranDisetujui',
             component: SubPendaftaranDisetujui,
           },
           {
-            path: '/pages/admin/pendaftaranpkl/proses/satu/:id?', 
+            path: '/pages/admin/pendaftaranpkl/proses/satu/:id?',
             name: 'AdminPendaftaranProsesSatu',
             component: SubProsesSatu,
           },
           {
-            path: '/pages/admin/pendaftaranpkl/proses/dua', 
+            path: '/pages/admin/pendaftaranpkl/proses/dua',
             name: 'AdminPendaftaranProsesDua',
             component: SubProsesDua,
           },
           {
-            path: '/pages/admin/pendaftaranpkl/proses/dua/:id?', 
+            path: '/pages/admin/pendaftaranpkl/proses/dua/:id?',
             name: 'AdminPendaftaranProsesDuaId',
             component: SubProsesDuaId,
           },
           {
-            path: '/pages/admin/pendaftaranpkl/proses/tiga/:id?', 
+            path: '/pages/admin/pendaftaranpkl/proses/tiga/:id?',
             name: 'AdminPendaftaranProsesTiga',
             component: SubProsesTiga,
           },
         ]
       },
       {
-        path: '/pages/admin/pendaftaranpkl/example', 
+        path: '/pages/admin/pendaftaranpkl/example',
         name: 'AdminPendaftaranExample',
         component: AdminPendaftaranExample,
       },

@@ -155,11 +155,11 @@ function resetForm() {
 </script>
 <template>
   <BreadCrumb>
-    <template v-slot:content> Pembimbing Sekolah <BreadCrumbSpace /> Index</template>
+    <template v-slot:content> Guru <BreadCrumbSpace /> Index</template>
   </BreadCrumb>
   <div class="pt-4 px-10">
     <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-700 shadow-sm"
-      >Pembimbing Sekolah</span
+      >Guru</span
     >
   </div>
 
