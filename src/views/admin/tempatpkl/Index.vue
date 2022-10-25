@@ -67,12 +67,18 @@ const columns = [
     field: "telp",
     type: "String",
   },
+  {
+    label: "Penanggung jawab / Pembimbing Lapangan",
+    field: "pembimbinglapangan_nama",
+    type: "String",
+  },
 ];
 
 const getDataId = async () => {
   try {
     const response = await Api.get(`admin/tempatpkl/${dataId}`);
     dataDetail.value = response.data;
+    inputPilihPembimbingLapangan.value = { label: response.data.pembimbinglapangan ? response.data.pembimbinglapangan.nama : null, id: response.data.pembimbinglapangan ? response.data.pembimbinglapangan.id : null };
     // console.log(response);
     return response;
   } catch (error) {
@@ -104,11 +110,15 @@ function validateData(value) {
   return true;
 }
 function onSubmit() {
-  data.value = null;
-  const res = doStoreData(dataDetail.value);
-  getData();
-  // console.log("tes");
-  resetForm();
+  if (inputPilihPembimbingLapangan.value) {
+    data.value = null;
+    const res = doStoreData(dataDetail.value);
+    getData();
+    // console.log("tes");
+    resetForm();
+  } else {
+    Toast.danger("Error", "Penanggung Jawab/Pembimbing Lapangan belum dipilih!");
+  }
 }
 const doEditData = async (id) => {
   dataId = id;
@@ -123,7 +133,7 @@ const doStoreData = async (d) => {
         nama: d.nama,
         alamat: d.alamat,
         telp: d.telp,
-        penanggungjawab: d.penanggungjawab,
+        penanggungjawab: inputPilihPembimbingLapangan.value.id,
         kuota: d.kuota,
         tgl_mulai: d.tgl_mulai,
         tgl_selesai: d.tgl_selesai,
@@ -137,7 +147,7 @@ const doStoreData = async (d) => {
       nama: d.nama,
       alamat: d.alamat,
       telp: d.telp,
-      penanggungjawab: d.penanggungjawab,
+      penanggungjawab: inputPilihPembimbingLapangan.value.id,
       kuota: d.kuota,
       tgl_mulai: d.tgl_mulai,
       tgl_selesai: d.tgl_selesai,
@@ -157,35 +167,62 @@ function resetForm() {
     nama: "",
   };
   dataId = null;
+  inputPilihPembimbingLapangan.value = null;
 }
+
+
+
+const dataPembimbingLapangan = ref([]);
+const inputPilihPembimbingLapangan = ref();
+
+let pilihPembimbingLapangan = ref([
+  // {
+  //   label: "Belum masuk Kelas",
+  //   id: "Belum masuk Kelas",
+  // },
+]);
+// get Kelas
+const getDataPembimbingLapangan = async () => {
+  try {
+    const response = await Api.get(`admin/pembimbinglapangan`);
+    // console.log(response);
+    dataPembimbingLapangan.value = response.data;
+    dataPembimbingLapangan.value.forEach(element => {
+      // console.log(element);
+      let temp = {
+        label: element.nama,
+        id: element.id,
+      }
+      pilihPembimbingLapangan.value.push(temp);
+    })
+    // console.log(pilihKepalaJurusan.value);
+    return true;
+  } catch (error) {
+    Toast.danger("Warning", "Data Gagal dimuat");
+    console.error(error);
+  }
+};
+getDataPembimbingLapangan();
 </script>
 <template>
   <BreadCrumb>
-    <template v-slot:content> Tempat PKL <BreadCrumbSpace /> Index</template>
+    <template v-slot:content> Tempat PKL
+      <BreadCrumbSpace /> Index
+    </template>
   </BreadCrumb>
   <div class="pt-4 px-10">
-    <span
-      class="text-2xl sm:text-3xl leading-none font-bold text-gray-700 shadow-sm"
-      >Tempat Prakerin</span
-    >
+    <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-700 shadow-sm">Tempat Prakerin</span>
   </div>
 
   <div class="pt-6 px-4 lg:flex flex-wrap gap-4">
     <div class="w-full lg:w-7/12">
       <div v-if="data">
-        <vue-good-table
-          :columns="columns"
-          :rows="data"
-          :search-options="{
-            enabled: true,
-          }"
-          :pagination-options="{
-            enabled: true,
-            perPageDropdown: [10, 20, 50],
-          }"
-          styleClass="vgt-table striped bordered condensed"
-          class="py-0"
-        >
+        <vue-good-table :columns="columns" :rows="data" :search-options="{
+          enabled: true,
+        }" :pagination-options="{
+          enabled: true,
+          perPageDropdown: [10, 20, 50],
+        }" styleClass="vgt-table striped bordered condensed" class="py-0">
           <template #table-row="props">
             <span v-if="props.column.field == 'actions'">
               <div class="text-sm font-medium text-center flex justify-center">
@@ -210,9 +247,7 @@ function resetForm() {
       <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
         <button
           class="text-base font-normal text-gray-800 hover:text-gray-400 hover:bg-gray-100 bg-gray-300 border-2 px-2 py-2 rounded-md mb-2"
-          @click="resetForm()"
-          v-if="dataDetail.nama"
-        >
+          @click="resetForm()" v-if="dataDetail.nama">
           Reset
         </button>
         <Form v-slot="{ errors }" @submit="onSubmit" v-if="data">
@@ -221,20 +256,10 @@ function resetForm() {
               <div class="bg-white rounded-lg p-0 sm:p-6 xl:p-0">
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label
-                      for="name"
-                      class="text-sm font-medium text-gray-900 block mb-2"
-                      >Nama</label
-                    >
-                    <Field
-                      v-model="dataDetail.nama"
-                      :rules="validateData"
-                      type="text"
-                      name="nama"
-                      ref="nama"
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Nama</label>
+                    <Field v-model="dataDetail.nama" :rules="validateData" type="text" name="nama" ref="nama"
                       class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                      required
-                    />
+                      required />
                     <div class="text-xs text-red-600 mt-1">
                       {{ errors.nama }}
                     </div>
@@ -242,20 +267,10 @@ function resetForm() {
                 </div>
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label
-                      for="name"
-                      class="text-sm font-medium text-gray-900 block mb-2"
-                      >Alamat</label
-                    >
-                    <Field
-                      v-model="dataDetail.alamat"
-                      :rules="validateData"
-                      type="text"
-                      name="alamat"
-                      ref="alamat"
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Alamat</label>
+                    <Field v-model="dataDetail.alamat" :rules="validateData" type="text" name="alamat" ref="alamat"
                       class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                      required
-                    />
+                      required />
                     <div class="text-xs text-red-600 mt-1">
                       {{ errors.alamat }}
                     </div>
@@ -263,20 +278,10 @@ function resetForm() {
                 </div>
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label
-                      for="name"
-                      class="text-sm font-medium text-gray-900 block mb-2"
-                      >Telp</label
-                    >
-                    <Field
-                      v-model="dataDetail.telp"
-                      :rules="validateData"
-                      type="text"
-                      name="telp"
-                      ref="telp"
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Telp</label>
+                    <Field v-model="dataDetail.telp" :rules="validateData" type="text" name="telp" ref="telp"
                       class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                      required
-                    />
+                      required />
                     <div class="text-xs text-red-600 mt-1">
                       {{ errors.telp }}
                     </div>
@@ -284,20 +289,15 @@ function resetForm() {
                 </div>
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label
-                      for="name"
-                      class="text-sm font-medium text-gray-900 block mb-2"
-                      >Penanggung Jawab</label
-                    >
-                    <Field
-                      v-model="dataDetail.penanggungjawab"
-                      :rules="validateData"
-                      type="text"
-                      name="penanggungjawab"
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Penanggung Jawab / Pembimbing
+                      Lapangan</label>
+                    <!-- <Field v-model="dataDetail.penanggungjawab" :rules="validateData" type="text" name="penanggungjawab"
                       ref="penanggungjawab"
                       class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                      required
-                    />
+                      required /> -->
+
+                    <v-select class="py-2 px-3 w-72 mx-auto md:mx-0" :options="pilihPembimbingLapangan"
+                      v-model="inputPilihPembimbingLapangan" v-bind:class="{ disabled: false }"></v-select>
                     <div class="text-xs text-red-600 mt-1">
                       {{ errors.penanggungjawab }}
                     </div>
@@ -305,20 +305,10 @@ function resetForm() {
                 </div>
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label
-                      for="name"
-                      class="text-sm font-medium text-gray-900 block mb-2"
-                      >Kuota</label
-                    >
-                    <Field
-                      v-model="dataDetail.kuota"
-                      :rules="validateData"
-                      type="number"
-                      name="kuota"
-                      ref="kuota"
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Kuota</label>
+                    <Field v-model="dataDetail.kuota" :rules="validateData" type="number" name="kuota" ref="kuota"
                       class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                      required
-                    />
+                      required />
                     <div class="text-xs text-red-600 mt-1">
                       {{ errors.kuota }}
                     </div>
@@ -326,20 +316,10 @@ function resetForm() {
                 </div>
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label
-                      for="name"
-                      class="text-sm font-medium text-gray-900 block mb-2"
-                      >Tanggal Mulai PKL</label
-                    >
-                    <Datepicker
-                      v-model="dataDetail.tgl_mulai"
-                      format="yyyy/MM/dd"
-                      value-format="yyyy-MM-dd"
-                    >
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Tanggal Mulai PKL</label>
+                    <Datepicker v-model="dataDetail.tgl_mulai" format="yyyy/MM/dd" value-format="yyyy-MM-dd">
                       <template #calendar-header="{ index, day }">
-                        <div
-                          :class="index === 5 || index === 6 ? 'red-color' : ''"
-                        >
+                        <div :class="index === 5 || index === 6 ? 'red-color' : ''">
                           {{ day }}
                         </div>
                       </template>
@@ -353,20 +333,10 @@ function resetForm() {
 
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label
-                      for="name"
-                      class="text-sm font-medium text-gray-900 block mb-2"
-                      >Tanggal Selesai PKL</label
-                    >
-                    <Datepicker
-                      v-model="dataDetail.tgl_selesai"
-                      format="yyyy/MM/dd"
-                      value-format="yyyy-MM-dd"
-                    >
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Tanggal Selesai PKL</label>
+                    <Datepicker v-model="dataDetail.tgl_selesai" format="yyyy/MM/dd" value-format="yyyy-MM-dd">
                       <template #calendar-header="{ index, day }">
-                        <div
-                          :class="index === 5 || index === 6 ? 'red-color' : ''"
-                        >
+                        <div :class="index === 5 || index === 6 ? 'red-color' : ''">
                           {{ day }}
                         </div>
                       </template>

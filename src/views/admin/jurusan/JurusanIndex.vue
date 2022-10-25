@@ -89,8 +89,8 @@ function validateData(value) {
   return true;
 }
 function onSubmit() {
-  data.value = null;
   if (inputPilihKepalaJurusan.value) {
+  data.value = null;
     const res = doStoreData(dataDetail.value);
     getData();
     resetForm()
