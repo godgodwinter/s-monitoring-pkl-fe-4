@@ -123,7 +123,7 @@ const doStoreData = async (d) => {
         alamat: d.alamat,
         jk: d.jk,
         telp: d.telp,
-        kelas_id: d.kelas_id,
+        // kelas_id: d.kelas_id,
       });
 
       Toast.success("Success", "Data Berhasil diupdate!");
@@ -139,7 +139,7 @@ const doStoreData = async (d) => {
       alamat: d.alamat,
       jk: d.jk,
       telp: d.telp,
-      kelas_id: d.kelas_id,
+      // kelas_id: d.kelas_id,
     });
 
     getData();
@@ -174,9 +174,9 @@ function resetForm() {
         <vue-good-table :columns="columns" :rows="data" :search-options="{
           enabled: true,
         }" :pagination-options="{
-          enabled: true,
-          perPageDropdown: [10, 20, 50],
-        }" styleClass="vgt-table striped bordered condensed" class="py-0">
+  enabled: true,
+  perPageDropdown: [10, 20, 50],
+}" styleClass="vgt-table striped bordered condensed" class="py-0">
           <template #table-row="props">
             <span v-if="props.column.field == 'actions'">
               <div class="text-sm font-medium text-center flex justify-center">
@@ -325,7 +325,7 @@ function resetForm() {
                     <div class="text-xs text-red-600 mt-1">{{ errors.telp }}</div>
                   </div>
                 </div>
-                <div class="grid grid-cols-1 gap-6">
+                <!-- <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
                     <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Kelas</label>
                     <Field v-model="dataDetail.kelas_id" :rules="validateData" type="text" name="kelas_id"
@@ -334,7 +334,7 @@ function resetForm() {
                       required />
                     <div class="text-xs text-red-600 mt-1">{{ errors.kelas_id }}</div>
                   </div>
-                </div>
+                </div> -->
                 <!-- <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
                     <label for="name" class="text-sm font-medium text-gray-900 block mb-2"

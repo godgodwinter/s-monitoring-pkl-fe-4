@@ -34,6 +34,7 @@ const getData = async () => {
       return {
         id: item.id,
         nama: item.nama,
+        kelas_nama: item.kelas_nama,
         status_login: item.status_login,
         kelas: dk,
       };
@@ -54,7 +55,7 @@ const getDataKelas = async () => {
     let tempKelas = response.data;
     dataKelas.value = tempKelas.map((item) => {
       return {
-        label: `${item.tingkatan} ${item.jurusan} ${item.suffix}`,
+        label: `${item.tingkatan} ${item.jurusan_nama} ${item.suffix}`,
         id: item.id,
       };
     });
@@ -91,7 +92,7 @@ const columns = [
   },
   {
     label: "Kelas",
-    field: "kelas",
+    field: "kelas_nama",
     type: "String",
   },
   {
@@ -110,7 +111,7 @@ const getDataId = async () => {
     dataTemp.value.kelasdetail = { label: dataDetail.value.kelasdetail };
     dataTemp.value.kelas_id = {
       label: dataDetail.value.kelasdetail
-        ? `${dataDetail.value.kelasdetail.kelas.tingkatan} ${dataDetail.value.kelasdetail.kelas.jurusan} ${dataDetail.value.kelasdetail.kelas.suffix}`
+        ? `${dataDetail.value.kelas_nama}`
         : null,
       id: dataDetail.value.kelasdetail.kelas_id,
     };
@@ -280,30 +281,23 @@ let dataJk = [{ label: "Laki-laki" }, { label: "Perempuan" }];
 </script>
 <template>
   <BreadCrumb>
-    <template v-slot:content> Siswa <BreadCrumbSpace /> Index</template>
+    <template v-slot:content> Siswa
+      <BreadCrumbSpace /> Index
+    </template>
   </BreadCrumb>
   <div class="pt-4 px-10">
-    <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-700 shadow-sm"
-      >Siswa</span
-    >
+    <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-700 shadow-sm">Siswa</span>
   </div>
 
   <div class="pt-6 px-4 lg:flex flex-wrap gap-4">
     <div class="w-full lg:w-7/12">
       <div v-if="data">
-        <vue-good-table
-          :columns="columns"
-          :rows="data"
-          :search-options="{
-            enabled: true,
-          }"
-          :pagination-options="{
-            enabled: true,
-            perPageDropdown: [10, 20, 50],
-          }"
-          styleClass="vgt-table striped bordered condensed"
-          class="py-0"
-        >
+        <vue-good-table :columns="columns" :rows="data" :search-options="{
+          enabled: true,
+        }" :pagination-options="{
+  enabled: true,
+  perPageDropdown: [10, 20, 50],
+}" styleClass="vgt-table striped bordered condensed" class="py-0">
           <template #table-row="props">
             <span v-if="props.column.field == 'actions'">
               <div class="text-sm font-medium text-center flex justify-center">
@@ -312,21 +306,11 @@ let dataJk = [{ label: "Laki-laki" }, { label: "Perempuan" }];
                 <Popper content="Reset Password" @click="doResetPassword(props.row.id)">
                   <template #content>
                     <button
-                      class="text-orange-100 block rounded-sm font-bold py-1 px-1 mr-2 flex items-center hover:text-orange-300 bg-orange-400 rounded-lg"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        stroke-width="2"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                        />
+                      class="text-orange-100 block rounded-sm font-bold py-1 px-1 mr-2 flex items-center hover:text-orange-300 bg-orange-400 rounded-lg">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                       </svg>
                     </button>
                   </template>
@@ -334,29 +318,18 @@ let dataJk = [{ label: "Laki-laki" }, { label: "Perempuan" }];
 
                 <Popper content="Detail Data">
                   <template #content>
-                    <router-link
-                      :to="{ name: 'AdminSiswaProfile', params: { id: props.row.id } }"
-                    >
+                    <router-link :to="{ name: 'AdminSiswaProfile', params: { id: props.row.id } }">
                       <button
-                        class="text-sky-100 block rounded-sm font-bold py-1 px-1 mr-2 flex items-center hover:text-sky-300 bg-sky-400 rounded-lg"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="h-6 w-6"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          stroke-width="2"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
+                        class="text-sky-100 block rounded-sm font-bold py-1 px-1 mr-2 flex items-center hover:text-sky-300 bg-sky-400 rounded-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                          stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                       </button>
-                    </router-link> </template
-                ></Popper>
+                    </router-link>
+                  </template>
+                </Popper>
               </div>
             </span>
 
@@ -391,9 +364,7 @@ let dataJk = [{ label: "Laki-laki" }, { label: "Perempuan" }];
       <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
         <button
           class="text-base font-normal text-gray-800 hover:text-gray-400 hover:bg-gray-100 bg-gray-300 border-2 px-2 py-2 rounded-md mb-2"
-          @click="resetForm()"
-          v-if="dataDetail.nama"
-        >
+          @click="resetForm()" v-if="dataDetail.nama">
           Reset
         </button>
         <Form v-slot="{ errors }" @submit="onSubmit" v-if="data">
@@ -402,35 +373,20 @@ let dataJk = [{ label: "Laki-laki" }, { label: "Perempuan" }];
               <div class="bg-white rounded-lg p-0 sm:p-6 xl:p-0">
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
-                      >Nama</label
-                    >
-                    <Field
-                      v-model="dataDetail.nama"
-                      :rules="validateData"
-                      type="text"
-                      name="nama"
-                      ref="nama"
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Nama</label>
+                    <Field v-model="dataDetail.nama" :rules="validateData" type="text" name="nama" ref="nama"
                       class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                      required
-                    />
+                      required />
                     <div class="text-xs text-red-600 mt-1">{{ errors.nama }}</div>
                   </div>
                 </div>
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
-                      >NISN</label
-                    >
-                    <Field
-                      v-model="dataDetail.nomeridentitas"
-                      :rules="validateData"
-                      type="number"
-                      name="nomeridentitas"
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">NISN</label>
+                    <Field v-model="dataDetail.nomeridentitas" :rules="validateData" type="number" name="nomeridentitas"
                       ref="nomeridentitas"
                       class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                      required
-                    />
+                      required />
                     <div class="text-xs text-red-600 mt-1">
                       {{ errors.nomeridentitas }}
                     </div>
@@ -439,9 +395,7 @@ let dataJk = [{ label: "Laki-laki" }, { label: "Perempuan" }];
 
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
-                      >Agama</label
-                    >
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Agama</label>
 
                     <v-select :options="dataAgama" v-model="dataTemp.agama"></v-select>
                     <div class="text-xs text-red-600 mt-1">{{ errors.agama }}</div>
@@ -450,34 +404,20 @@ let dataJk = [{ label: "Laki-laki" }, { label: "Perempuan" }];
 
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
-                      >Tempat Lahir</label
-                    >
-                    <Field
-                      v-model="dataDetail.tempatlahir"
-                      :rules="validateData"
-                      type="text"
-                      name="tempatlahir"
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Tempat Lahir</label>
+                    <Field v-model="dataDetail.tempatlahir" :rules="validateData" type="text" name="tempatlahir"
                       ref="tempatlahir"
                       class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                      required
-                    />
+                      required />
                     <div class="text-xs text-red-600 mt-1">{{ errors.tempatlahir }}</div>
                   </div>
                 </div>
 
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
-                      >Tanggal Lahir</label
-                    >
-                    <Datepicker
-                      v-model="dataDetail.tgllahir"
-                      format="yyyy/MM/dd"
-                      value-format="yyyy-MM-dd"
-                      :rules="validateData"
-                      required
-                    >
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Tanggal Lahir</label>
+                    <Datepicker v-model="dataDetail.tgllahir" format="yyyy/MM/dd" value-format="yyyy-MM-dd"
+                      :rules="validateData" required>
                       <template #calendar-header="{ index, day }">
                         <div :class="index === 5 || index === 6 ? 'red-color' : ''">
                           {{ day }}
@@ -491,27 +431,17 @@ let dataJk = [{ label: "Laki-laki" }, { label: "Perempuan" }];
 
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
-                      >Alamat Lengkap</label
-                    >
-                    <Field
-                      v-model="dataDetail.alamat"
-                      :rules="validateData"
-                      type="text"
-                      name="alamat"
-                      ref="alamat"
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Alamat Lengkap</label>
+                    <Field v-model="dataDetail.alamat" :rules="validateData" type="text" name="alamat" ref="alamat"
                       class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                      required
-                    />
+                      required />
                     <div class="text-xs text-red-600 mt-1">{{ errors.alamat }}</div>
                   </div>
                 </div>
 
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
-                      >Jenis Kelamin</label
-                    >
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Jenis Kelamin</label>
                     <v-select :options="dataJk" v-model="dataTemp.jk"></v-select>
                     <!-- <Field
                       v-model="dataDetail.jk"
@@ -528,26 +458,16 @@ let dataJk = [{ label: "Laki-laki" }, { label: "Perempuan" }];
 
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
-                      >No Telp</label
-                    >
-                    <Field
-                      v-model="dataDetail.telp"
-                      :rules="validateData"
-                      type="text"
-                      name="telp"
-                      ref="telp"
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">No Telp</label>
+                    <Field v-model="dataDetail.telp" :rules="validateData" type="text" name="telp" ref="telp"
                       class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                      required
-                    />
+                      required />
                     <div class="text-xs text-red-600 mt-1">{{ errors.telp }}</div>
                   </div>
                 </div>
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
-                      >Kelas</label
-                    >
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Kelas</label>
                     <v-select :options="dataKelas" v-model="dataTemp.kelas_id"></v-select>
                     <!-- <Field
                       v-model="dataDetail.kelas_id"

@@ -55,16 +55,13 @@ const periksaId = async () => {
         "Data ditemukan, Proses pendaftaran siswa ini telah selesai!"
       );
     }
-    dataDetail.value.tempatpkl.label = ` ${
-      response.tempatpkl ? response.tempatpkl.nama : ""
-    } `;
+    dataDetail.value.tempatpkl.label = ` ${response.tempatpkl ? response.tempatpkl.nama : ""
+      } `;
     dataDetail.value.tempatpkl.tgl_pengajuan = ` ${response.tgl_pengajuan} `;
-    dataDetail.value.pembimbinglapangan.label = ` ${
-      response.pembimbinglapangan ? response.pembimbinglapangan.nama : ""
-    } `;
-    dataDetail.value.pembimbingsekolah.label = ` ${
-      response.pembimbingsekolah ? response.pembimbingsekolah.nama : ""
-    } `;
+    dataDetail.value.pembimbinglapangan.label = ` ${response.pembimbinglapangan ? response.pembimbinglapangan.nama : ""
+      } `;
+    dataDetail.value.pembimbingsekolah.label = ` ${response.pembimbingsekolah ? response.pembimbingsekolah.nama : ""
+      } `;
 
     return response;
   } catch (error) {
@@ -82,19 +79,14 @@ if (id == "") {
 <template>
   <BreadCrumb>
     <template v-slot:content>
-      <router-link :to="{ name: 'AdminSiswa' }"
-        ><button class="underline rounded rounded-md hover:bg-gray-200">
+      <router-link :to="{ name: 'AdminSiswa' }"><button class="underline rounded rounded-md hover:bg-gray-200">
           Siswa
-        </button></router-link
-      >
-      <BreadCrumbSpace /> Profile</template
-    >
+        </button></router-link>
+      <BreadCrumbSpace /> Profile
+    </template>
   </BreadCrumb>
   <div class="pt-4 px-10">
-    <span
-      class="text-2xl sm:text-3xl leading-none font-bold text-gray-700 shadow-sm"
-      >Profile Siswa</span
-    >
+    <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-700 shadow-sm">Profile Siswa</span>
   </div>
 
   <div class="container mx-auto my-5 p-5">
@@ -104,11 +96,7 @@ if (id == "") {
         <!-- Profile Card -->
         <div class="bg-white p-3 border-t-4 border-green-400">
           <div class="image overflow-hidden">
-            <img
-              class="h-auto w-full mx-auto"
-              src="@/assets/img/flat/reading.png"
-              alt=""
-            />
+            <img class="h-auto w-full mx-auto" src="@/assets/img/flat/reading.png" alt="" />
           </div>
           <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">
             {{ dataSiswa.nama }}
@@ -121,24 +109,15 @@ if (id == "") {
             eligendi dolorum sequi illum qui unde aspernatur non deserunt
           </p> -->
           <ul
-            class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm"
-          >
+            class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
             <li class="flex items-center py-3">
               <span>Status Akun</span>
-              <span class="ml-auto"
-                ><span class="bg-green-500 py-1 px-2 rounded text-white text-sm"
-                  >Active</span
-                ></span
-              >
+              <span class="ml-auto"><span class="bg-green-500 py-1 px-2 rounded text-white text-sm">Active</span></span>
             </li>
             <li class="flex items-center py-3">
               <span>Status PKL</span>
-              <span class="ml-auto"
-                ><span
-                  class="bg-orange-500 py-1 px-2 rounded text-white text-sm"
-                  >{{ status.status }}</span
-                ></span
-              >
+              <span class="ml-auto"><span class="bg-orange-500 py-1 px-2 rounded text-white text-sm">{{ status.status
+              }}</span></span>
             </li>
             <!-- <li class="flex items-center py-3">
               <span>Member since</span>
@@ -150,9 +129,7 @@ if (id == "") {
         <div class="my-4"></div>
         <!-- Friends card -->
         <div class="bg-white p-3 hover:shadow">
-          <div
-            class="flex items-center space-x-3 font-semibold text-gray-900 text-xl leading-8"
-          >
+          <div class="flex items-center space-x-3 font-semibold text-gray-900 text-xl leading-8">
             <!-- <span class="text-green-500">
               <svg
                 class="h-5 fill-current"
@@ -205,23 +182,11 @@ if (id == "") {
         <!-- Profile tab -->
         <!-- About Section -->
         <div class="bg-white p-3 shadow-sm rounded-sm">
-          <div
-            class="flex items-center space-x-2 font-semibold text-gray-900 leading-8"
-          >
+          <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
             <span clas="text-green-500">
-              <svg
-                class="h-5"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                />
+              <svg class="h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
             </span>
             <span class="tracking-wide">Identitas</span>
@@ -279,27 +244,12 @@ if (id == "") {
         <!-- End of about section -->
 
         <!-- About Section -->
-        <div
-          class="bg-white p-3 shadow-sm rounded-sm"
-          v-if="status == 'Disetujui'"
-        >
-          <div
-            class="flex items-center space-x-2 font-semibold text-gray-900 leading-8"
-          >
+        <div class="bg-white p-3 shadow-sm rounded-sm" v-if="status == 'Disetujui'">
+          <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
             <span clas="text-green-500">
-              <svg
-                class="h-5"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                />
+              <svg class="h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
             </span>
             <span class="tracking-wide">Prakerin</span>
@@ -342,23 +292,11 @@ if (id == "") {
           </div>
         </div>
         <div class="bg-white p-3 shadow-sm rounded-sm" v-else>
-          <div
-            class="flex items-center space-x-2 font-semibold text-gray-900 leading-8"
-          >
+          <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
             <span clas="text-green-500">
-              <svg
-                class="h-5"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                />
+              <svg class="h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
             </span>
             <span class="tracking-wide">Prakerin</span>
@@ -383,12 +321,9 @@ if (id == "") {
               </div>
             </div>
           </div>
-          <router-link
-            :to="{ name: 'AdminPendaftaranProsesSatu', params: { id: id } }"
-          >
+          <router-link :to="{ name: 'AdminPendaftaranProsesSatu', params: { id: id } }">
             <button
-              class="block w-full text-blue-800 text-sm font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4"
-            >
+              class="block w-full text-blue-800 text-sm font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">
               Daftar / Update Data Prakerin
             </button>
           </router-link>
