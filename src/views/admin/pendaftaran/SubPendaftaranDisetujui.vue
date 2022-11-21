@@ -84,7 +84,7 @@ function doLanjutkanProses(id) {
   });
 }
 
-const dataForm = ref(null);
+const dataForm = ref([]);
 const pilihPembimbingSekolah = ref([
   // {
   //   id: 1,
@@ -111,18 +111,58 @@ const getPembimbingSekolah = async () => {
       pilihPembimbingSekolah.value.push(tempData);
 
     });
-    console.log(pilihPembimbingSekolah.value);
+    // console.log(pilihPembimbingSekolah.value);
     return response;
   } catch (error) {
     console.error(error);
   }
 };
 getPembimbingSekolah();
+
+const onSubmit = async () => {
+  if (dataForm.value.pembimbingsekolah_id) {
+    doStoreData(pendaftaranprakerin_proses.value);
+  } else {
+    Toast.danger("Error", "Pembimbing sekolah belum dipilih!");
+  }
+}
+
+const doStoreData = async (pendaftaranprakerin_proses) => {
+  // console.log(data);
+  let tempData = {
+    pembimbingsekolah_id: dataForm.value.pembimbingsekolah_id.id
+  }
+  // console.log(tempData);
+  try {
+    const response = await Api.post(`admin/pendaftaranpkl/list/disetujui/addpembimbingsekolah/${pendaftaranprakerin_proses}`, tempData);
+
+    Toast.success("Success", "Data Berhasil diupdate!");
+    getData();
+    resetForm();
+    // return response.data;
+
+  } catch (error) {
+    Toast.danger("Warning", "Data gagal ditambahkan!");
+    console.error(error);
+  }
+};
+
+function resetForm() {
+  pendaftaranprakerin_proses.value = null;
+  dataForm.value.pembimbingsekolah_id = null;
+};
+
+const pendaftaranprakerin_proses = ref(null);
+
+const doFormEdit = (pendaftaranprakerin_proses_id) => {
+  resetForm();
+  pendaftaranprakerin_proses.value = pendaftaranprakerin_proses_id;
+}
 </script>
 <template>
-  <div>
+  <div v-if="pendaftaranprakerin_proses">
     <div>
-      <h2>Form add Pembimbing Sekolah</h2>
+      <h2>Form add Pembimbing Sekolah {{ pendaftaranprakerin_proses }}</h2>
     </div>
     <div class="w-1/2 flex justify-center">
 
@@ -137,13 +177,14 @@ getPembimbingSekolah();
                       class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                       required /> -->
                   <v-select class="py-2 px-3 w-72 mx-auto md:mx-0" :options="pilihPembimbingSekolah"
-                    v-model="inputpilihPembimbingSekolah" v-bind:class="{ disabled: false }"></v-select>
+                    v-model="dataForm.pembimbingsekolah_id" v-bind:class="{ disabled: false }"></v-select>
                   <div class="text-xs text-red-600 mt-1">{{ errors.jurusan }}</div>
                 </div>
 
               </div>
-              <div class="w-full flex justify-end mt-4">
+              <div class="w-full flex justify-end mt-4 space-x-2">
                 <button class="btn btn-info"> SIMPAN</button>
+                <span class="btn btn-secondary" @click="pendaftaranprakerin_proses = null"> BATAL</span>
               </div>
             </div>
           </div>
@@ -202,7 +243,15 @@ getPembimbingSekolah();
                       </template>
                     </Popper>
                   </router-link>
-                  <button class="btn btn-sm btn-warning tooltip" data-tip="Edit Pembimbing Sekolah">E</button>
+                  <button class="btn btn-sm btn-warning tooltip" data-tip="Edit Pembimbing Sekolah"
+                    @click="doFormEdit(props.row.pendaftaranprakerin_proses_id)">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                      stroke="currentColor" class="w-6 h-6">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15 11.25l1.5 1.5.75-.75V8.758l2.276-.61a3 3 0 10-3.675-3.675l-.61 2.277H12l-.75.75 1.5 1.5M15 11.25l-8.47 8.47c-.34.34-.8.53-1.28.53s-.94.19-1.28.53l-.97.97-.75-.75.97-.97c.34-.34.53-.8.53-1.28s.19-.94.53-1.28L12.75 9M15 11.25L12.75 9" />
+                    </svg>
+
+                  </button>
                 </div>
               </span>
 
