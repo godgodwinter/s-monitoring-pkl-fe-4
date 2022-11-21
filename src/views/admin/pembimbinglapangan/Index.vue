@@ -191,7 +191,7 @@ function resetForm() {
                   </svg>
                 </button>
 
-                <router-link :to="{ name: 'AdminSiswaProfile' }">
+                <router-link :to="{ name: 'admin-pembimbimbinglapangan-profile', params: { id: props.row.id } }">
                   <button
                     class="text-sky-100 block rounded-sm font-bold py-1 px-1 mr-2 flex items-center hover:text-sky-300 bg-sky-400 rounded-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
