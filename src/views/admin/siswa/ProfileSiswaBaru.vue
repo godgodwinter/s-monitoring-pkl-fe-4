@@ -244,6 +244,11 @@ getDataId();
                   {{ dataSiswa.tempatlahir }}, {{ dataSiswa.tgllahir }}
                 </div>
               </div>
+
+              <div class="grid grid-cols-2">
+                <div class="px-4 py-2 font-semibold">Kepala Jurusan</div>
+                <div class="px-4 py-2">{{ dataAsli.kepalajurusan?.nama }}</div>
+              </div>
             </div>
           </div>
           <!-- <button
@@ -293,16 +298,12 @@ getDataId();
               </div>
               <div class="grid grid-cols-2">
                 <div class="px-4 py-2 font-semibold">Pembimbing Lapangan</div>
-                <div class="px-4 py-2">{{ dataAsli.pembimbinglapangan.nama }}</div>
-              </div>
-              <!-- <div class="grid grid-cols-2">
-                <div class="px-4 py-2 font-semibold">Pembimbing Sekolah</div>
-                <div class="px-4 py-2">{{ tempatpkl.nama }}</div>
+                <div class="px-4 py-2">{{ dataAsli.pembimbinglapangan?.nama }}</div>
               </div>
               <div class="grid grid-cols-2">
-                <div class="px-4 py-2 font-semibold">Kepala Jurusan</div>
-                <div class="px-4 py-2">{{ tempatpkl.nama }}</div>
-              </div> -->
+                <div class="px-4 py-2 font-semibold">Pembimbing Sekolah</div>
+                <div class="px-4 py-2">{{ dataAsli.pembimbingsekolah?.nama }}</div>
+              </div>
             </div>
           </div>
         </div>
