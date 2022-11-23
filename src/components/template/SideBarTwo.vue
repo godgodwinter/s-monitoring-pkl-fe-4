@@ -28,7 +28,7 @@ async function goLogout() {
           <ul class="space-y-2 pb-2 lg:flex flex-wrap px-2 gap-2 justify-center">
             <li class="lg:w-full">
               <div class="flex gap-2 items-center justify-center">
-                <img src="@/assets/img/avatar/baemon-ava-2.jpg" alt="" class="rounded-full w-20 h-20 object-cover" />
+                <img src="@/assets/img/avatar/user.png" alt="" class="rounded-full w-20 h-20 object-cover" />
                 <div>
                   <p class="text-gray-500 text-md font-semibold">
                     {{ getDataAuth.name }}
@@ -185,6 +185,18 @@ async function goLogout() {
                   <path d="M15 7h1a2 2 0 012 2v5.5a1.5 1.5 0 01-3 0V7z" />
                 </svg>
                 <span class="ml-3">Pendaftaran PKL</span>
+              </router-link>
+            </li>
+            <li class="lg:w-full">
+              <router-link :to="{ name: 'admin-penilaian' }"
+                class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd"
+                    d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z"
+                    clip-rule="evenodd" />
+                  <path d="M15 7h1a2 2 0 012 2v5.5a1.5 1.5 0 01-3 0V7z" />
+                </svg>
+                <span class="ml-3">Setting Penilaian</span>
               </router-link>
             </li>
           </ul>

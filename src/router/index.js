@@ -129,6 +129,11 @@ const routes = [
             "@/views/admin/pembimbingsekolah/ProfilePembimbingSekolah.vue"
           ),
       },
+      {
+        path: "/pages/admin/penilaian",
+        name: "admin-penilaian",
+        component: () => import("@/views/admin/penilaian/PenilaianIndex.vue"),
+      },
       // {
       //   path: '/pages/admin/pendaftaranpkl', //getall
       //   name: 'AdminPendaftaran',
