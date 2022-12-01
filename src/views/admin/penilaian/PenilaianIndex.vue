@@ -23,22 +23,23 @@ let dataId = null;
 // function Form and Validation
 const getData = async () => {
   try {
-    const response = await Api.get("admin/siswa");
+    const response = await Api.get("admin/penilaian");
     // console.log(response);
     dataAsli.value = response.data;
-    data.value = dataAsli.value.map((item) => {
-      let dk = null;
-      if (item.kelasdetail) {
-        dk = `${item.kelasdetail.kelas.tingkatan} ${item.kelasdetail.kelas.jurusan} ${item.kelasdetail.kelas.suffix}`;
-      }
-      return {
-        id: item.id,
-        nama: item.nama,
-        kelas_nama: item.kelas_nama,
-        status_login: item.status_login,
-        kelas: dk,
-      };
-    });
+    data.value = dataAsli.value;
+    // data.value = dataAsli.value.map((item) => {
+    //   let dk = null;
+    //   if (item.kelasdetail) {
+    //     dk = `${item.kelasdetail.kelas.tingkatan} ${item.kelasdetail.kelas.jurusan} ${item.kelasdetail.kelas.suffix}`;
+    //   }
+    //   return {
+    //     id: item.id,
+    //     nama: item.nama,
+    //     kelas_nama: item.kelas_nama,
+    //     status_login: item.status_login,
+    //     kelas: dk,
+    //   };
+    // });
     return response;
   } catch (error) {
     Toast.danger("Warning", "Token anda kadaluarsa! Silahkan login kembali");
@@ -48,26 +49,26 @@ const getData = async () => {
 
 getData();
 
-const getDataKelas = async () => {
-  try {
-    const response = await Api.get("admin/kelas");
-    // console.log(response);
-    let tempKelas = response.data;
-    dataKelas.value = tempKelas.map((item) => {
-      return {
-        label: `${item.tingkatan} ${item.jurusan_nama} ${item.suffix}`,
-        id: item.id,
-      };
-    });
-    // console.log(dataKelas.value);
-    return response;
-  } catch (error) {
-    Toast.danger("Warning", "Token anda kadaluarsa! Silahkan login kembali");
-    console.error(error);
-  }
-};
+// const getDataKelas = async () => {
+//   try {
+//     const response = await Api.get("admin/kelas");
+//     // console.log(response);
+//     let tempKelas = response.data;
+//     dataKelas.value = tempKelas.map((item) => {
+//       return {
+//         label: `${item.tingkatan} ${item.jurusan_nama} ${item.suffix}`,
+//         id: item.id,
+//       };
+//     });
+//     // console.log(dataKelas.value);
+//     return response;
+//   } catch (error) {
+//     Toast.danger("Warning", "Token anda kadaluarsa! Silahkan login kembali");
+//     console.error(error);
+//   }
+// };
 
-getDataKelas();
+// getDataKelas();
 
 const columns = [
   {
@@ -98,26 +99,21 @@ const columns = [
     field: "jurnal",
     type: "String",
   },
-  {
-    label: "Status Akun", //aktif / nonaktif / disabled (telah lulus/keluar/dll)
-    field: "status_login",
-    type: "String",
-  },
 ];
 
 const getDataId = async () => {
   try {
-    const response = await Api.get(`admin/siswa/${dataId}`);
+    const response = await Api.get(`admin/penilaian/${dataId}`);
     dataDetail.value = response.data;
-    dataTemp.value.agama = { label: dataDetail.value.agama };
-    dataTemp.value.jk = { label: dataDetail.value.jk };
-    dataTemp.value.kelasdetail = { label: dataDetail.value.kelasdetail };
-    dataTemp.value.kelas_id = {
-      label: dataDetail.value.kelasdetail
-        ? `${dataDetail.value.kelas_nama}`
-        : null,
-      id: dataDetail.value.kelasdetail.kelas_id,
-    };
+    // dataTemp.value.agama = { label: dataDetail.value.agama };
+    // dataTemp.value.jk = { label: dataDetail.value.jk };
+    // dataTemp.value.kelasdetail = { label: dataDetail.value.kelasdetail };
+    // dataTemp.value.kelas_id = {
+    //   label: dataDetail.value.kelasdetail
+    //     ? `${dataDetail.value.kelas_nama}`
+    //     : null,
+    //   id: dataDetail.value.kelasdetail.kelas_id,
+    // };
     // console.log(dataDetail.value.kelasdetail);
     // dataTemp.value.kelas_id = {
     //   label: dataDetail.value.kelas
@@ -135,7 +131,7 @@ const getDataId = async () => {
 const doDeleteData = async (id) => {
   if (confirm("Do you really want to delete?")) {
     try {
-      const response = await Api.delete(`admin/siswa/${id}`);
+      const response = await Api.delete(`admin/penilaian/${id}`);
 
       Toast.success("Success", "Data Berhasil dihapus!");
       getData();
@@ -146,22 +142,6 @@ const doDeleteData = async (id) => {
   }
 };
 
-const doResetPassword = async (id) => {
-  if (confirm("Do you really want to Reset Password Siswa?")) {
-    try {
-      const response = await Api.put(`admin/siswa/${id}/generatepassword`);
-
-      Toast.success(
-        "Success",
-        `Reset Password  Berhasil ! Password Baru :  ${response.password}`
-      );
-      getData();
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-};
 // validasi
 function validateData(value) {
   if (!value) {
@@ -174,47 +154,47 @@ function validateData(value) {
 }
 function onSubmit() {
   // data.value = null;
-  let err = 0;
-  if (dataTemp.value.agama == null) {
-    Toast.danger("Warning", "Agama tidak boleh kosong");
-    err++;
-  } else {
-    if (dataTemp.value.agama.label == null) {
-      Toast.danger("Warning", "Agama tidak boleh kosong");
-      err++;
-    }
-  }
-  if (dataTemp.value.jk == null) {
-    Toast.danger("Warning", "Jenis kelamin tidak boleh kosong");
-    err++;
-  } else {
-    if (dataTemp.value.jk.label == null) {
-      Toast.danger("Warning", "Jenis kelamin tidak boleh kosong");
-      err++;
-    }
-  }
+  // let err = 0;
+  // if (dataTemp.value.agama == null) {
+  //   Toast.danger("Warning", "Agama tidak boleh kosong");
+  //   err++;
+  // } else {
+  //   if (dataTemp.value.agama.label == null) {
+  //     Toast.danger("Warning", "Agama tidak boleh kosong");
+  //     err++;
+  //   }
+  // }
+  // if (dataTemp.value.jk == null) {
+  //   Toast.danger("Warning", "Jenis kelamin tidak boleh kosong");
+  //   err++;
+  // } else {
+  //   if (dataTemp.value.jk.label == null) {
+  //     Toast.danger("Warning", "Jenis kelamin tidak boleh kosong");
+  //     err++;
+  //   }
+  // }
 
-  if (dataTemp.value.kelas_id == null) {
-    Toast.danger("Warning", "Kelas tidak boleh kosong");
-    err++;
-  } else {
-    if (dataTemp.value.kelas_id.label == null) {
-      Toast.danger("Warning", "Kelas tidak boleh kosong");
-      err++;
-    }
-  }
+  // if (dataTemp.value.kelas_id == null) {
+  //   Toast.danger("Warning", "Kelas tidak boleh kosong");
+  //   err++;
+  // } else {
+  //   if (dataTemp.value.kelas_id.label == null) {
+  //     Toast.danger("Warning", "Kelas tidak boleh kosong");
+  //     err++;
+  //   }
+  // }
 
-  if (err < 1) {
-    dataDetail.value.agama = dataTemp.value.agama.label;
-    dataDetail.value.jk = dataTemp.value.jk.label;
-    dataDetail.value.kelas_id = dataTemp.value.kelas_id.id;
-    // console.log(dataTemp.value.agama.label);
-    // console.log(dataTemp.value.kelas_id);
-    const res = doStoreData(dataDetail.value, dataTemp.value);
-    getData();
-    // console.log("tes");
-    // resetForm();
-  }
+  // if (err < 1) {
+  //   dataDetail.value.agama = dataTemp.value.agama.label;
+  //   dataDetail.value.jk = dataTemp.value.jk.label;
+  //   dataDetail.value.kelas_id = dataTemp.value.kelas_id.id;
+  //   // console.log(dataTemp.value.agama.label);
+  //   // console.log(dataTemp.value.kelas_id);
+  const res = doStoreData(dataDetail.value, dataTemp.value);
+  getData();
+  //   // console.log("tes");
+  resetForm();
+  // }
 }
 const doEditData = async (id) => {
   dataId = id;
@@ -225,32 +205,24 @@ const doStoreData = async (d) => {
   // console.log(data);
   try {
     if (dataId) {
-      const response = await Api.put(`admin/siswa/${dataId}`, {
-        nama: d.nama,
-        nomeridentitas: d.nomeridentitas,
-        agama: d.agama,
-        tempatlahir: d.tempatlahir,
-        tgllahir: d.tgllahir,
-        alamat: d.alamat,
-        jk: d.jk,
-        telp: d.telp,
-        kelas_id: d.kelas_id,
+      const response = await Api.put(`admin/penilaian/${dataId}`, {
+        penilaian_guru: d.penilaian_guru,
+        penilaian_pembimbinglapangan: d.penilaian_pembimbinglapangan,
+        jurnal: d.jurnal,
+        absensi: d.absensi,
+        jurusan_id: d.jurusan_id,
       });
 
       Toast.success("Success", "Data Berhasil diupdate!");
       getData();
       return response.data;
     }
-    const response = await Api.post("admin/siswa/store", {
-      nama: d.nama,
-      nomeridentitas: d.nomeridentitas,
-      agama: d.agama,
-      tempatlahir: d.tempatlahir,
-      tgllahir: d.tgllahir,
-      alamat: d.alamat,
-      jk: d.jk,
-      telp: d.telp,
-      kelas_id: d.kelas_id,
+    const response = await Api.post("admin/penilaian", {
+      penilaian_guru: d.penilaian_guru,
+      penilaian_pembimbinglapangan: d.penilaian_pembimbinglapangan,
+      jurnal: d.jurnal,
+      absensi: d.absensi,
+      jurusan_id: d.jurusan_id,
     });
 
     getData();
@@ -267,20 +239,20 @@ function resetForm() {
     nama: "",
   };
   dataId = null;
-  dataTemp.value.agama = null;
-  dataTemp.value.jk = null;
+  // dataTemp.value.agama = null;
+  // dataTemp.value.jk = null;
 }
 
-let dataAgama = [
-  { label: "Islam" },
-  { label: "Protestan" },
-  { label: "Katolik" },
-  { label: "Hindu" },
-  { label: "Buddha" },
-  { label: "Khonghucu" },
-];
+// let dataAgama = [
+//   { label: "Islam" },
+//   { label: "Protestan" },
+//   { label: "Katolik" },
+//   { label: "Hindu" },
+//   { label: "Buddha" },
+//   { label: "Khonghucu" },
+// ];
 
-let dataJk = [{ label: "Laki-laki" }, { label: "Perempuan" }];
+// let dataJk = [{ label: "Laki-laki" }, { label: "Perempuan" }];
 </script>
 <template>
   <BreadCrumb>
@@ -295,7 +267,7 @@ let dataJk = [{ label: "Laki-laki" }, { label: "Perempuan" }];
   <div class="pt-6 px-4 lg:flex flex-wrap gap-4">
     <div class="w-full lg:w-7/12">
       <div v-if="data">
-        <vue-good-table :columns="columns" :rows="data" :search-options="{
+        <vue-good-table :columns="columns" :rows="data" :line-numbers="true" :search-options="{
           enabled: true,
         }" :pagination-options="{
   enabled: true,
@@ -306,20 +278,8 @@ let dataJk = [{ label: "Laki-laki" }, { label: "Perempuan" }];
               <div class="text-sm font-medium text-center flex justify-center">
                 <ButtonEdit @click="doEditData(props.row.id)" />
                 <ButtonDelete @click="doDeleteData(props.row.id)" />
-                <Popper content="Reset Password" @click="doResetPassword(props.row.id)">
-                  <template #content>
-                    <button
-                      class="text-orange-100 block rounded-sm font-bold py-1 px-1 mr-2 flex items-center hover:text-orange-300 bg-orange-400 rounded-lg">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                          d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                      </svg>
-                    </button>
-                  </template>
-                </Popper>
 
-                <Popper content="Detail Data">
+                <!-- <Popper content="Detail Data">
                   <template #content>
                     <router-link :to="{ name: 'AdminSiswaProfile', params: { id: props.row.id } }">
                       <button
@@ -332,7 +292,7 @@ let dataJk = [{ label: "Laki-laki" }, { label: "Perempuan" }];
                       </button>
                     </router-link>
                   </template>
-                </Popper>
+                </Popper> -->
               </div>
             </span>
 
@@ -340,20 +300,6 @@ let dataJk = [{ label: "Laki-laki" }, { label: "Perempuan" }];
               <div class="text-center">{{ props.index + 1 }}</div>
             </span>
 
-            <span v-else-if="props.column.field == 'status_login'">
-              <div class="text-center" v-if="props.row.status_login == 'Aktif'">
-                <span class="text-green-500">Aktif</span>
-                <!-- <div class="text-center" v-if="props.row.password">
-                  <span class="text-green-500">Aktif</span>
-                </div>
-                <div class="text-center" v-else>
-                  <span class="text-yellow-500">Belum Aktif</span>
-                </div> -->
-              </div>
-              <div class="text-center" v-else>
-                <span class="text-yellow-500">Disabled</span>
-              </div>
-            </span>
 
             <span v-else>
               {{ props.formattedRow[props.column.field] }}
@@ -367,7 +313,7 @@ let dataJk = [{ label: "Laki-laki" }, { label: "Perempuan" }];
       <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
         <button
           class="text-base font-normal text-gray-800 hover:text-gray-400 hover:bg-gray-100 bg-gray-300 border-2 px-2 py-2 rounded-md mb-2"
-          @click="resetForm()" v-if="dataDetail.nama">
+          @click="resetForm()" v-if="dataDetail.penilaian_guru">
           Reset
         </button>
         <Form v-slot="{ errors }" @submit="onSubmit" v-if="data">
@@ -376,181 +322,65 @@ let dataJk = [{ label: "Laki-laki" }, { label: "Perempuan" }];
               <div class="bg-white rounded-lg p-0 sm:p-6 xl:p-0">
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Nama</label>
-                    <Field v-model="dataDetail.nama" :rules="validateData" type="text" name="nama" ref="nama"
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Penilaian Guru</label>
+                    <Field v-model="dataDetail.penilaian_guru" :rules="validateData" type="number" name="penilaian_guru"
+                      ref="penilaian_guru"
                       class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                       required />
-                    <div class="text-xs text-red-600 mt-1">{{ errors.nama }}</div>
+                    <div class="text-xs text-red-600 mt-1">{{ errors.penilaian_guru }}</div>
                   </div>
                 </div>
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">NISN</label>
-                    <Field v-model="dataDetail.nomeridentitas" :rules="validateData" type="number" name="nomeridentitas"
-                      ref="nomeridentitas"
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Penilaian Pembimbing
+                      Lapangan</label>
+                    <Field v-model="dataDetail.penilaian_pembimbinglapangan" :rules="validateData" type="number"
+                      name="penilaian_pembimbinglapangan" ref="penilaian_pembimbinglapangan"
                       class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                       required />
                     <div class="text-xs text-red-600 mt-1">
-                      {{ errors.nomeridentitas }}
+                      {{ errors.penilaian_pembimbinglapangan }}
+                    </div>
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 gap-6">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Absensi
+                    </label>
+                    <Field v-model="dataDetail.absensi" :rules="validateData" type="number" name="absensi" ref="absensi"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                      required />
+                    <div class="text-xs text-red-600 mt-1">
+                      {{ errors.absensi }}
                     </div>
                   </div>
                 </div>
 
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Agama</label>
-
-                    <v-select :options="dataAgama" v-model="dataTemp.agama"></v-select>
-                    <div class="text-xs text-red-600 mt-1">{{ errors.agama }}</div>
-                  </div>
-                </div>
-
-                <div class="grid grid-cols-1 gap-6">
-                  <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Tempat Lahir</label>
-                    <Field v-model="dataDetail.tempatlahir" :rules="validateData" type="text" name="tempatlahir"
-                      ref="tempatlahir"
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Jurnal
+                    </label>
+                    <Field v-model="dataDetail.jurnal" :rules="validateData" type="number" name="jurnal" ref="jurnal"
                       class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                       required />
-                    <div class="text-xs text-red-600 mt-1">{{ errors.tempatlahir }}</div>
-                  </div>
-                </div>
-
-                <div class="grid grid-cols-1 gap-6">
-                  <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Tanggal Lahir</label>
-                    <Datepicker v-model="dataDetail.tgllahir" format="yyyy/MM/dd" value-format="yyyy-MM-dd"
-                      :rules="validateData" required>
-                      <template #calendar-header="{ index, day }">
-                        <div :class="index === 5 || index === 6 ? 'red-color' : ''">
-                          {{ day }}
-                        </div>
-                      </template>
-                    </Datepicker>
-
-                    <div class="text-xs text-red-600 mt-1">{{ errors.tgllahir }}</div>
-                  </div>
-                </div>
-
-                <div class="grid grid-cols-1 gap-6">
-                  <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Alamat Lengkap</label>
-                    <Field v-model="dataDetail.alamat" :rules="validateData" type="text" name="alamat" ref="alamat"
-                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                      required />
-                    <div class="text-xs text-red-600 mt-1">{{ errors.alamat }}</div>
-                  </div>
-                </div>
-
-                <div class="grid grid-cols-1 gap-6">
-                  <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Jenis Kelamin</label>
-                    <v-select :options="dataJk" v-model="dataTemp.jk"></v-select>
-                    <!-- <Field
-                      v-model="dataDetail.jk"
-                      :rules="validateData"
-                      type="text"
-                      name="jk"
-                      ref="jk"
-                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                      required
-                    /> -->
-                    <div class="text-xs text-red-600 mt-1">{{ errors.jk }}</div>
-                  </div>
-                </div>
-
-                <div class="grid grid-cols-1 gap-6">
-                  <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">No Telp</label>
-                    <Field v-model="dataDetail.telp" :rules="validateData" type="text" name="telp" ref="telp"
-                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                      required />
-                    <div class="text-xs text-red-600 mt-1">{{ errors.telp }}</div>
-                  </div>
-                </div>
-                <div class="grid grid-cols-1 gap-6">
-                  <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Kelas</label>
-                    <v-select :options="dataKelas" v-model="dataTemp.kelas_id"></v-select>
-                    <!-- <Field
-                      v-model="dataDetail.kelas_id"
-                      :rules="validateData"
-                      type="text"
-                      name="kelas_id"
-                      ref="kelas_id"
-                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                      required
-                    /> -->
-                    <div class="text-xs text-red-600 mt-1">{{ errors.kelas_id }}</div>
-                  </div>
-                </div>
-                <!-- <div class="grid grid-cols-1 gap-6">
-                  <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
-                      >Email</label
-                    >
-                    <Field
-                      v-model="dataDetail.email"
-                      :rules="validateData"
-                      type="email"
-                      name="email"
-                      ref="email"
-                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                      required
-                    />
-                    <div class="text-xs text-red-600 mt-1">{{ errors.email }}</div>
-                  </div>
-                </div>
-
-                <div class="grid grid-cols-1 gap-6">
-                  <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2"
-                      >Username</label
-                    >
-                    <Field
-                      v-model="dataDetail.username"
-                      :rules="validateData"
-                      type="text"
-                      name="username"
-                      ref="username"
-                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                      required
-                    />
-                    <div class="text-xs text-red-600 mt-1">{{ errors.username }}</div>
-                  </div>
-                </div> -->
-                <!-- <div class="grid grid-cols-1 gap-6 mt-4">
-                  <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-1"
-                      >Status</label
-                    >
-                    <div class="w-full flex gap-4">
-                      <label class="inline-flex items-center mt-3">
-                        <Field
-                          v-model="dataDetail.status"
-                          value="Aktif"
-                          type="radio"
-                          name="status"
-                          ref="status"
-                          class="form-radio h-5 w-5 text-gray-600"
-                          checked
-                        /><span class="ml-2 text-gray-700">Aktif</span>
-                      </label>
-
-                      <label class="inline-flex items-center mt-3">
-                        <Field
-                          v-model="dataDetail.status"
-                          value="Nonaktif"
-                          type="radio"
-                          name="status"
-                          ref="status"
-                          class="form-radio h-5 w-5 text-red-600"
-                        /><span class="ml-2 text-gray-700">Nonaktif</span>
-                      </label>
+                    <div class="text-xs text-red-600 mt-1">
+                      {{ errors.jurnal }}
                     </div>
-                    <div class="text-xs text-red-600 mt-1">{{ errors.status }}</div>
                   </div>
-                </div> -->
+                </div>
+                <div class="grid grid-cols-1 gap-6">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Jurusan
+                    </label>
+                    <Field v-model="dataDetail.jurusan_id" :rules="validateData" type="number" name="jurusan_id"
+                      ref="jurusan_id"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                      required />
+                    <div class="text-xs text-red-600 mt-1">
+                      {{ errors.jurusan_id }}
+                    </div>
+                  </div>
+                </div>
                 <div class="w-full flex justify-end mt-4">
                   <Button title="Simpan" />
                 </div>
