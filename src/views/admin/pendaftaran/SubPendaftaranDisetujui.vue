@@ -72,8 +72,13 @@ const columns = [
     type: "String",
   },
   {
-    label: "Pembimbing Sekolah", //aktif / nonaktif / disabled (telah lulus/keluar/dll)
+    label: "Guru Pembimbing Sekolah", //aktif / nonaktif / disabled (telah lulus/keluar/dll)
     field: "pembimbingsekolah_nama",
+    type: "String",
+  },
+  {
+    label: "Guru Penilai", //aktif / nonaktif / disabled (telah lulus/keluar/dll)
+    field: "penilai_nama",
     type: "String",
   },
 ];
@@ -130,7 +135,8 @@ const onSubmit = async () => {
 const doStoreData = async (pendaftaranprakerin_proses) => {
   // console.log(data);
   let tempData = {
-    pembimbingsekolah_id: dataForm.value.pembimbingsekolah_id.id
+    pembimbingsekolah_id: dataForm.value.pembimbingsekolah_id.id,
+    penilai_id: dataForm.value.penilai_id.id
   }
   // console.log(tempData);
   try {
@@ -150,6 +156,7 @@ const doStoreData = async (pendaftaranprakerin_proses) => {
 function resetForm() {
   pendaftaranprakerin_proses.value = null;
   dataForm.value.pembimbingsekolah_id = null;
+  dataForm.value.penilai_id = null;
 };
 
 const pendaftaranprakerin_proses = ref(null);
@@ -162,17 +169,19 @@ const doFormEdit = (pendaftaranprakerin_proses_id) => {
 <template>
   <div v-if="pendaftaranprakerin_proses">
     <div>
-      <h2>Form add Pembimbing Sekolah {{ pendaftaranprakerin_proses }}</h2>
+      <h2 class="py-2 font-bold">Form Tambah Guru Pembimbing Sekolah dan Guru Penilai
+        <!-- {{ pendaftaranprakerin_proses }}  -->
+      </h2>
     </div>
     <div class="w-1/2 flex justify-center">
 
       <Form v-slot="{ errors }" @submit="onSubmit">
-        <div class="pt-0 px-0">
+        <div class="pt-4 px-0">
           <div class="w-full mx-0">
             <div class="bg-white rounded-lg p-0 sm:p-6 xl:p-0">
               <div class="grid grid-cols-1 gap-6">
                 <div class="col-span-6 sm:col-span-3">
-                  <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Jurusan</label>
+                  <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Guru Pembimbing Sekolah</label>
                   <!-- <Field v-model="dataDetail.jurusan" :rules="validateData" type="text" name="jurusan" ref="jurusan"
                       class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                       required /> -->
@@ -180,11 +189,20 @@ const doFormEdit = (pendaftaranprakerin_proses_id) => {
                     v-model="dataForm.pembimbingsekolah_id" v-bind:class="{ disabled: false }"></v-select>
                   <div class="text-xs text-red-600 mt-1">{{ errors.jurusan }}</div>
                 </div>
+                <div class="col-span-6 sm:col-span-3">
+                  <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Guru Penilai</label>
+                  <!-- <Field v-model="dataDetail.jurusan" :rules="validateData" type="text" name="jurusan" ref="jurusan"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                      required /> -->
+                  <v-select class="py-2 px-3 w-72 mx-auto md:mx-0" :options="pilihPembimbingSekolah"
+                    v-model="dataForm.penilai_id" v-bind:class="{ disabled: false }"></v-select>
+                  <div class="text-xs text-red-600 mt-1">{{ errors.jurusan }}</div>
+                </div>
 
               </div>
               <div class="w-full flex justify-end mt-4 space-x-2">
-                <button class="btn btn-info"> SIMPAN</button>
                 <span class="btn btn-secondary" @click="pendaftaranprakerin_proses = null"> BATAL</span>
+                <button class="btn btn-info"> SIMPAN</button>
               </div>
             </div>
           </div>
