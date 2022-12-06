@@ -42,6 +42,9 @@ import SubProsesSatu from "@/views/admin/pendaftaran/SubProsesSatu.vue";
 import SubProsesDua from "@/views/admin/pendaftaran/SubProsesDua.vue";
 import SubProsesDuaId from "@/views/admin/pendaftaran/SubProsesDuaId.vue";
 import SubProsesTiga from "@/views/admin/pendaftaran/SubProsesTiga.vue";
+/* eslint-disable */
+const prefix = "/pages/admin";
+const prefixName = "admin-";
 
 const routes = [
   {
@@ -67,6 +70,16 @@ const routes = [
     name: "PagesAdmin",
     component: AdminLayout,
     redirect: "/",
+    meta: {
+      requireAuth: true,
+      title: "Admin",
+      icon: "mdi-home",
+      breadcrumb: {
+        name: "Home",
+        path: "/pages/admin",
+        goto: "AdminDashboard",
+      },
+    },
     children: [
       {
         path: "/pages/admin",
@@ -235,6 +248,75 @@ const routes = [
         path: "/pages/admin/pendaftaranpkl/example",
         name: "AdminPendaftaranExample",
         component: AdminPendaftaranExample,
+      },
+
+      {
+        path: `${prefix}/pengumuman/index`,
+        name: `${prefixName}pengumuman-index`,
+        meta: {
+          title: "Pengumuman ",
+          icon: "mdi-home",
+          breadcrumb: {
+            name: "Pengumuman",
+            path: `${prefix}/pengumuman/index`,
+            goto: `${prefixName}pengumuman-index`,
+            params: {
+              id: `id`,
+            },
+          },
+        },
+        component: () => import("@/views/admin/pengumuman/PengumumanIndex.vue"),
+      },
+
+      {
+        path: `${prefix}/pengumuman/layout`,
+        name: `${prefixName}pengumuman-layout`,
+        meta: {
+          title: "Pengumuman",
+          icon: "mdi-home",
+          breadcrumb: {
+            name: "Pengumuman",
+            path: `${prefix}/pengumuman/layout`,
+            goto: `${prefixName}pengumuman-layout`,
+          },
+        },
+        component: () => import("@/views/admin/pengumuman/Layout.vue"),
+        redirect: `${prefix}/pengumuman/index`,
+        children: [
+          {
+            path: `${prefix}/pengumuman/tambah`,
+            name: `${prefixName}pengumuman-tambah`,
+            meta: {
+              title: "tambah",
+              icon: "mdi-home",
+              breadcrumb: {
+                name: "tambah",
+                path: `${prefix}/pengumuman/tambah`,
+                goto: `${prefixName}pengumuman-tambah`,
+              },
+            },
+            component: () =>
+              import("@/views/admin/pengumuman/PengumumanTambah.vue"),
+          },
+          {
+            path: `${prefix}/pengumuman/edit/:id`,
+            name: `${prefixName}pengumuman-edit`,
+            meta: {
+              title: "Edit",
+              icon: "mdi-home",
+              breadcrumb: {
+                name: "edit",
+                path: `${prefix}/pengumuman/edit/:id`,
+                goto: `${prefixName}pengumuman-edit`,
+                params: {
+                  id: `id`,
+                },
+              },
+            },
+            component: () =>
+              import("@/views/admin/pengumuman/PengumumanEdit.vue"),
+          },
+        ],
       },
     ],
   },
