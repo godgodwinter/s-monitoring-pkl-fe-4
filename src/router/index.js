@@ -318,6 +318,20 @@ const routes = [
           },
         ],
       },
+      {
+        path: `${prefix}/settings`,
+        name: `${prefixName}settings`,
+        meta: {
+          title: "Pengaturan",
+          icon: "mdi-home",
+          breadcrumb: {
+            name: "Pengaturan",
+            path: `${prefix}/settings`,
+            goto: `${prefixName}settings`,
+          },
+        },
+        component: () => import("@/views/admin/settings/SettingsIndex.vue"),
+      },
     ],
   },
   {

@@ -49,17 +49,17 @@ const doEditData = async (id, index) => {
 
 const doDeleteData = async (id, index) => {
     if (confirm("Apakah anda yakin menghapus data ini?")) {
-        Toast.warning("Info", "Menu belum tersedia")
-        // try {
-        //     const response = await Api.delete(`guru/penilaian/${id}`);
-        //     // data.value.splice(index, 1);
-        //     Toast.success("Success", "Data Berhasil dihapus!");
-        //     getData();
-        //     // Toast.warning("Info", "Menu belum tersedia")
-        //     // return response.data;
-        // } catch (error) {
-        //     console.error(error);
-        // }
+        // Toast.warning("Info", "Menu belum tersedia")
+        try {
+            const response = await Api.delete(`admin/pengumuman/${id}`);
+            // data.value.splice(index, 1);
+            Toast.success("Success", "Data Berhasil dihapus!");
+            getData();
+            // Toast.warning("Info", "Menu belum tersedia")
+            // return response.data;
+        } catch (error) {
+            console.error(error);
+        }
     }
 };
 </script>
