@@ -118,6 +118,15 @@ const routes = [
         component: AdminSiswa,
       },
       {
+        path: "/pages/admin/siswa/tagihan/:id?",
+        name: "admin.siswa.tagihan",
+        // component: AdminSiswaProfile,
+        component: () =>
+          import(
+            "@/views/admin/siswa/SiswaTagihanIndex.vue"
+          ),
+      },
+      {
         path: "/pages/admin/siswa/profile/:id?",
         name: "AdminSiswaProfile",
         component: AdminSiswaProfile,

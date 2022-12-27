@@ -52,6 +52,11 @@ const columns = [
     field: "nama",
     type: "String",
   },
+  {
+    label: "Tagihan",
+    field: "tagihan",
+    type: "String",
+  },
 ];
 
 const getDataId = async () => {
@@ -175,6 +180,34 @@ const getDataJurusan = async () => {
   }
 };
 getDataJurusan();
+
+const formTagihan = ref(false);
+const dataFormTagihan = ref({
+  kelas_id: null
+})
+const doOpenFormTagihan = (kelas_id) => {
+  formTagihan.value = true;
+  dataFormTagihan.value.kelas_id = kelas_id;
+  dataFormTagihan.value.total_tagihan = 0;
+}
+
+const onSubmitFormTagihan = async () => {
+  if (dataFormTagihan.value.total_tagihan > 0) {
+    console.log(dataFormTagihan.value);
+    const response = await Api.post(`admin/tagihan/add/${dataFormTagihan.value.kelas_id}`, {
+      total_tagihan: dataFormTagihan.value.total_tagihan,
+    });
+
+    Toast.success("Success", "Data Berhasil diupdate!");
+  } else {
+    Toast.danger("Error", "Tagihan tidak boleh kosong!")
+  }
+}
+const doCloseFormTagihan = (kelas_id) => {
+  formTagihan.value = false;
+  dataFormTagihan.kelas_id = null;
+  dataFormTagihan.total_tagihan = 0;
+}
 </script>
 <template>
   <BreadCrumb>
@@ -190,11 +223,11 @@ getDataJurusan();
     <div class="w-full lg:w-7/12">
       <div v-if="data">
         <vue-good-table :columns="columns" :rows="data" :search-options="{
-          enabled: true,
-        }" :pagination-options="{
-          enabled: true,
-          perPageDropdown: [10, 20, 50],
-        }" styleClass="vgt-table striped bordered condensed" class="py-0">
+  enabled: true,
+}" :pagination-options="{
+  enabled: true,
+  perPageDropdown: [10, 20, 50],
+}" styleClass="vgt-table striped bordered condensed" class="py-0">
           <template #table-row="props">
             <span v-if="props.column.field == 'actions'">
               <div class="text-sm font-medium text-center flex justify-center">
@@ -207,11 +240,15 @@ getDataJurusan();
               <div class="text-center">{{ props.index + 1 }}</div>
             </span>
 
-            <span v-if="props.column.field == 'nama'">
-              {{ props.row.tingkatan }} {{ props.row.jurusan_table?props.row.jurusan_table.nama:"-" }} {{
-              props.row.suffix }}
+            <span v-else-if="props.column.field == 'nama'">
+              {{ props.row.tingkatan }} {{ props.row.jurusan_table ? props.row.jurusan_table.nama : "-" }} {{
+    props.row.suffix
+}}
             </span>
 
+            <span v-else-if="props.column.field == 'tagihan'">
+              <button class="btn btn-sm btn-primary" @click="doOpenFormTagihan(props.row.id)">Atur</button>
+            </span>
             <span v-else>
               {{ props.formattedRow[props.column.field] }}
             </span>
@@ -269,6 +306,34 @@ getDataJurusan();
             </div>
           </div>
         </Form>
+      </div>
+    </div>
+
+    <div class="wfull lg:w-4/12 mx-4" v-if="formTagihan">
+      <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
+        <button
+          class="text-base font-normal text-gray-800 hover:text-gray-400 hover:bg-gray-100 bg-gray-300 border-2 px-2 py-2 rounded-md mb-2"
+          @click="resetForm()" v-if="dataDetail.nama">
+          Reset
+        </button>
+        <div class="pt-0 px-0">
+          <div class="w-full mx-0">
+            <div class="bg-white rounded-lg p-0 sm:p-6 xl:p-0">
+              <div class="grid grid-cols-1 gap-6">
+                <div class="col-span-6 sm:col-span-3">
+                  <label for="name" class="text-sm font-medium text-gray-900 block mb-2">TOTAL TAGIHAN</label>
+                  <input v-model="dataFormTagihan.total_tagihan" type="text" name="total_tagihan" ref="total_tagihan"
+                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                    required />
+                </div>
+              </div>
+              <div class="w-full flex justify-end mt-4 space-x-2">
+                <span class="btn btn-dark" @click="doCloseFormTagihan()">Batal</span>
+                <Button title="Simpan" @click="onSubmitFormTagihan()" />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
