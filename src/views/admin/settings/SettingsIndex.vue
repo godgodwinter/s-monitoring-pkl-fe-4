@@ -13,11 +13,14 @@ const router = useRouter();
 const dataDetail = ref({
     content: "-"
 });
-const dataForm = ref({});
+const dataForm = ref({
+    min_pembayaran: 0
+});
 const onSubmit = async (values) => {
     // console.log(values);
     let dataStore = {
         bataswaktu: inputBatasWaktu.value.hours + ":" + inputBatasWaktu.value.minutes + ":00",
+        min_pembayaran: dataForm.value.min_pembayaran,
         // content: dataDetail.value.content,
         // desc: dataDetail.value.desc,
     };
@@ -50,6 +53,7 @@ const getDataBatasWaktu = async () => {
         hour.value = response.data.jam;
         minute.value = response.data.menit;
         second.value = response.data.detik;
+        dataForm.value.min_pembayaran = response.data.min_pembayaran;
         waktuObj.value = { 'hour': hour.value, 'minute': minute.value, 'second': second.value };
         inputBatasWaktu.value = {
             hours: hour.value,
@@ -68,21 +72,24 @@ getDataBatasWaktu();
 const waktuObj = ref({ 'hour': hour.value, 'minute': minute.value, 'second': second.value });
 </script>
 <template>
+
     <div class="p-2">
         <BreadCrumb />
     </div>
 
     <div class="px-4">
-        <h4>
-            Batas Waktu Absen dan Isi Jurnal : {{ waktuObj.hour }}:{{ waktuObj.minute }}:{{ waktuObj.second }}
-        </h4>
+
     </div>
     <div class="p-4">
         <Form v-slot="{ errors }" @submit="onSubmit">
             <div class="py-2 lg:py-4 px-4">
                 <div class="space-y-4">
                     <div class="flex flex-col">
-                        <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Batas Waktu</label>
+                        <label class="text-sm font-medium text-gray-900 block mb-2">
+                            Batas Waktu Absen dan Isi Jurnal : {{ waktuObj.hour }}:{{ waktuObj.minute }}:{{
+        waktuObj.second
+}}
+                        </label>
                         <!-- <Field v-model="dataDetail.title" :rules="fnValidasi.validateData" type="text" name="title"
                             ref="title" class="input input-bordered md:w-full max-w-2xl" required />
                         <div class="text-xs text-red-600 mt-1">
@@ -90,6 +97,14 @@ const waktuObj = ref({ 'hour': hour.value, 'minute': minute.value, 'second': sec
                         </div> -->
 
                         <Datepicker v-model="inputBatasWaktu" time-picker mode-height="120"></Datepicker>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="text-sm font-medium text-gray-900 block mb-2">
+                            Minimum Pembayaran : {{ dataForm.min_pembayaran }} %
+                        </label>
+                        <Field :rules="fnValidasi.validateDataNumber" v-model="dataForm.min_pembayaran"
+                            name="min_pembayaran" type="text" max="100" min="0" class="input input-bordered w-11/12" />
+
                     </div>
 
                 </div>
@@ -103,4 +118,5 @@ const waktuObj = ref({ 'hour': hour.value, 'minute': minute.value, 'second': sec
             </div>
         </Form>
     </div>
+    <div class="divider"></div>
 </template>
