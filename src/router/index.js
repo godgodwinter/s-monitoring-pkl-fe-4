@@ -46,6 +46,16 @@ import SubProsesTiga from "@/views/admin/pendaftaran/SubProsesTiga.vue";
 const prefix = "/pages/admin";
 const prefixName = "admin-";
 
+
+const authMiddleware=(to, from, next) =>{
+  console.log('====================================');
+  console.log('ini middleware');
+  console.log('====================================');
+  // if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
+  // else next()
+  next();
+}
+
 const routes = [
   {
     path: "/",
@@ -84,6 +94,7 @@ const routes = [
       {
         path: "/pages/admin",
         name: "AdminDashboard",
+        beforeEnter: [authMiddleware],
         component: AdminDashboard,
       },
       {
