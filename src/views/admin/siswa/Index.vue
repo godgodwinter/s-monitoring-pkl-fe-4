@@ -10,6 +10,7 @@ import Button from "@/components/atoms/ButtonFour.vue";
 import ButtonEdit from "@/components/atoms/ButtonEdit.vue";
 import ButtonDelete from "@/components/atoms/ButtonDel.vue";
 import Popper from "../../../components/atoms/Popper.vue";
+import Fungsi from "@/components/lib/FungsiCampur";
 const router = useRouter();
 const route = useRoute();
 const dataAsli = ref("");
@@ -24,7 +25,7 @@ let dataId = null;
 const getData = async () => {
   try {
     const response = await Api.get("admin/siswa");
-    // console.log(response);
+    // console.log(response.data);
     dataAsli.value = response.data;
     data.value = dataAsli.value.map((item) => {
       let dk = null;
@@ -37,8 +38,12 @@ const getData = async () => {
         kelas_nama: item.kelas_nama,
         status_login: item.status_login,
         kelas: dk,
+        total_tagihan: Fungsi.rupiah(item.total_tagihan),
+        pembayaran_total: item.pembayaran_total ? Fungsi.rupiah(item.pembayaran_total) : "Rp 0,00",
+        pembayaran_persen: item.pembayaran_persen ? item.pembayaran_persen + " %" : "0 %",
       };
     });
+    // console.log(data.value);
     return response;
   } catch (error) {
     Toast.danger("Warning", "Token anda kadaluarsa! Silahkan login kembali");
@@ -93,6 +98,21 @@ const columns = [
   {
     label: "Kelas",
     field: "kelas_nama",
+    type: "String",
+  },
+  {
+    label: "Tagihan",
+    field: "total_tagihan",
+    type: "String",
+  },
+  {
+    label: "Telah dibayar",
+    field: "pembayaran_total",
+    type: "String",
+  },
+  {
+    label: "Persen",
+    field: "pembayaran_persen",
     type: "String",
   },
   {
@@ -293,8 +313,8 @@ let dataJk = [{ label: "Laki-laki" }, { label: "Perempuan" }];
     <div class="w-full lg:w-7/12">
       <div v-if="data">
         <vue-good-table :columns="columns" :rows="data" :search-options="{
-          enabled: true,
-        }" :pagination-options="{
+  enabled: true,
+}" :pagination-options="{
   enabled: true,
   perPageDropdown: [10, 20, 50],
 }" styleClass="vgt-table striped bordered condensed" class="py-0">

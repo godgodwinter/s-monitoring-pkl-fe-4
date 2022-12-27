@@ -16,6 +16,24 @@ const dataDetail = ref({
   nama: "",
 });
 let dataId = null;
+const dataTemp = ref({});
+function resetForm() {
+  dataDetail.value = {
+    nama: "",
+  };
+  dataId = null;
+  dataTemp.value.agama = null;
+  dataTemp.value.jk = null;
+}
+let dataAgama = [
+  { label: "Islam" },
+  { label: "Protestan" },
+  { label: "Katolik" },
+  { label: "Hindu" },
+  { label: "Buddha" },
+  { label: "Khonghucu" },
+];
+let dataJk = [{ label: "Laki-laki" }, { label: "Perempuan" }];
 // function Form and Validation
 const getData = async () => {
   try {
@@ -68,6 +86,8 @@ const getDataId = async () => {
   try {
     const response = await Api.get(`admin/pembimbinglapangan/${dataId}`);
     dataDetail.value = response.data;
+    dataTemp.value.agama = { label: dataDetail.value.agama };
+    dataTemp.value.jk = { label: dataDetail.value.jk };
     // console.log(response);
     return response;
   } catch (error) {
@@ -99,11 +119,35 @@ function validateData(value) {
   return true;
 }
 function onSubmit() {
-  data.value = null;
-  const res = doStoreData(dataDetail.value);
-  getData();
-  // console.log("tes");
-  resetForm();
+  let err = 0;
+  if (dataTemp.value.agama == null) {
+    Toast.danger("Warning", "Agama tidak boleh kosong");
+    err++;
+  } else {
+    if (dataTemp.value.agama.label == null) {
+      Toast.danger("Warning", "Agama tidak boleh kosong");
+      err++;
+    }
+  }
+  if (dataTemp.value.jk == null) {
+    Toast.danger("Warning", "Jenis kelamin tidak boleh kosong");
+    err++;
+  } else {
+    if (dataTemp.value.jk.label == null) {
+      Toast.danger("Warning", "Jenis kelamin tidak boleh kosong");
+      err++;
+    }
+  }
+
+  if (err < 1) {
+    data.value = null;
+    dataDetail.value.agama = dataTemp.value.agama.label;
+    dataDetail.value.jk = dataTemp.value.jk.label;
+    const res = doStoreData(dataDetail.value);
+    getData();
+    // console.log("tes");
+    resetForm();
+  }
 }
 const doEditData = async (id) => {
   dataId = id;
@@ -151,12 +195,6 @@ const doStoreData = async (d) => {
   }
 };
 
-function resetForm() {
-  dataDetail.value = {
-    nama: "",
-  };
-  dataId = null;
-}
 </script>
 <template>
   <BreadCrumb>
@@ -172,8 +210,8 @@ function resetForm() {
     <div class="w-full lg:w-7/12">
       <div v-if="data">
         <vue-good-table :columns="columns" :rows="data" :search-options="{
-          enabled: true,
-        }" :pagination-options="{
+  enabled: true,
+}" :pagination-options="{
   enabled: true,
   perPageDropdown: [10, 20, 50],
 }" styleClass="vgt-table striped bordered condensed" class="py-0">
@@ -264,12 +302,12 @@ function resetForm() {
                   </div>
                 </div>
 
+
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
                     <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Agama</label>
-                    <Field v-model="dataDetail.agama" :rules="validateData" type="text" name="agama" ref="agama"
-                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                      required />
+
+                    <v-select :options="dataAgama" v-model="dataTemp.agama"></v-select>
                     <div class="text-xs text-red-600 mt-1">{{ errors.agama }}</div>
                   </div>
                 </div>
@@ -285,13 +323,29 @@ function resetForm() {
                   </div>
                 </div>
 
-                <div class="grid grid-cols-1 gap-6">
+                <!-- <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
                     <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Tanggal Lahir</label>
                     <Field v-model="dataDetail.tgllahir" :rules="validateData" type="text" name="tgllahir"
                       ref="tgllahir"
                       class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                       required />
+                    <div class="text-xs text-red-600 mt-1">{{ errors.tgllahir }}</div>
+                  </div>
+                </div> -->
+
+                <div class="grid grid-cols-1 gap-6">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Tanggal Lahir</label>
+                    <Datepicker v-model="dataDetail.tgllahir" format="yyyy/MM/dd" value-format="yyyy-MM-dd"
+                      :rules="validateData" required>
+                      <template #calendar-header="{ index, day }">
+                        <div :class="index === 5 || index === 6 ? 'red-color' : ''">
+                          {{ day }}
+                        </div>
+                      </template>
+                    </Datepicker>
+
                     <div class="text-xs text-red-600 mt-1">{{ errors.tgllahir }}</div>
                   </div>
                 </div>
@@ -306,12 +360,11 @@ function resetForm() {
                   </div>
                 </div>
 
+
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
                     <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Jenis Kelamin</label>
-                    <Field v-model="dataDetail.jk" :rules="validateData" type="text" name="jk" ref="jk"
-                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                      required />
+                    <v-select :options="dataJk" v-model="dataTemp.jk"></v-select>
                     <div class="text-xs text-red-600 mt-1">{{ errors.jk }}</div>
                   </div>
                 </div>
