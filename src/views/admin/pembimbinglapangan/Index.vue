@@ -195,6 +195,32 @@ const doStoreData = async (d) => {
   }
 };
 
+const file = ref(null);
+let formData = new FormData();
+const doStoreDataImport = async (d) => {
+  // console.log(data);
+  try {
+    Toast.babeng("Info", "Upload sedang diproses");
+    // const response = await Api.post("testing/apiprobk/upload", formData);
+    const response = await Api.post(`admin/proses/import/pembimbinglapangan`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    Toast.babeng("Info", "Proses Upload berhasil!");
+    // console.log(response.data);
+    // Toast.success("Success", "Data Berhasil ditambahkan!");
+    getData();
+    return response.data;
+  } catch (error) {
+    // Toast.danger("Warning", "Data gagal ditambahkan!");
+    console.error(error);
+  }
+};
+const doSubmitFile = async () => {
+  formData.append("file", file.value.files[0]);
+  doStoreDataImport();
+};
 </script>
 <template>
   <BreadCrumb>
@@ -204,6 +230,25 @@ const doStoreData = async (d) => {
   </BreadCrumb>
   <div class="pt-4 px-10">
     <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-700 shadow-sm">Pembimbing Lapangan</span>
+  </div>
+  <div class="p-4">
+    <div class="space-x-1 space-y-1 pt-1 md:pt-0">
+      <label for="modalImport"
+        class="btn modal-button btn-info hover:shadow-lg shadow text-white hover:text-gray-100 gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+        </svg>
+        Import
+      </label>
+      <!-- <button class="btn btn-info hover:shadow-lg shadow text-white hover:text-gray-100 gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+        </svg>
+        Export
+      </button> -->
+    </div>
   </div>
 
   <div class="pt-6 px-4 lg:flex flex-wrap gap-4">
@@ -462,6 +507,23 @@ const doStoreData = async (d) => {
             </div>
           </div>
         </Form>
+      </div>
+    </div>
+  </div>
+  <!-- Put this part before </body> tag -->
+  <input type="checkbox" id="modalImport" class="modal-toggle" />
+  <div class="modal">
+    <div class="modal-box w-11/12 max-w-5xl">
+      <label for="modalImport" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+      <h3 class="font-bold text-lg">Import data menggunakan .xlx / .xlxs !</h3>
+      <div class="py-4">
+        <input type="file" ref="file" />
+        <button class="btn btn-info text-gray-100" @click="doSubmitFile()">
+          Upload
+        </button>
+      </div>
+      <div class="modal-action">
+        <!-- <label for="modalImport" class="btn">Done!</label> -->
       </div>
     </div>
   </div>
