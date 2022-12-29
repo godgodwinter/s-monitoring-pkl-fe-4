@@ -340,8 +340,8 @@ const doSubmitFile = async () => {
                 </div>
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">NISN</label>
-                    <Field v-model="dataDetail.nomeridentitas" :rules="validateData" type="number" name="nomeridentitas"
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Nomer Identitas / NIP</label>
+                    <Field v-model="dataDetail.nomeridentitas" :rules="validateData" type="text" name="nomeridentitas"
                       ref="nomeridentitas"
                       class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                       required />
