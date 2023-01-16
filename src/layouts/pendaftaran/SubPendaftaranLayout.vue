@@ -6,18 +6,14 @@ import SubSidebarPendaftaranPkl from "@/components/organismes/pendaftaran/SubSid
 <template>
   <BreadCrumb>
     <template v-slot:content>
-      <router-link :to="{ name: 'AdminSiswa' }"
-        ><button class="underline rounded rounded-md hover:bg-gray-200">
+      <router-link :to="{ name: 'AdminSiswa' }"><button class="underline rounded rounded-md hover:bg-gray-200">
           Pendaftaran
-        </button></router-link
-      >
-      <BreadCrumbSpace /> Index</template
-    >
+        </button></router-link>
+      <BreadCrumbSpace /> Index
+    </template>
   </BreadCrumb>
   <div class="pt-4 px-10">
-    <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-700 shadow-sm"
-      >Pendaftaran Prakerin</span
-    >
+    <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-700 shadow-sm">Pendaftaran Prakerin</span>
   </div>
 
   <div class="container mx-auto lg:mx-0 my-5 p-5">

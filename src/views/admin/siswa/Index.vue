@@ -21,6 +21,22 @@ const dataDetail = ref({
 });
 const dataTemp = ref({});
 let dataId = null;
+
+const min_pembayaran = ref(0);
+const getDataSettings = async () => {
+  try {
+    const response = await Api.get("admin/settings/get");
+    // console.log(response.data);
+    min_pembayaran.value = response.data.min_pembayaran;
+  } catch (error) {
+    Toast.danger("Warning", "Token anda kadaluarsa! Silahkan login kembali");
+    console.error(error);
+  }
+};
+
+getDataSettings();
+
+
 // function Form and Validation
 const getData = async () => {
   try {
@@ -116,8 +132,8 @@ const columns = [
     type: "String",
   },
   {
-    label: "Status Akun", //aktif / nonaktif / disabled (telah lulus/keluar/dll)
-    field: "status_login",
+    label: "Status", //aktif / nonaktif / disabled (telah lulus/keluar/dll)
+    field: "status_pembayaran",
     type: "String",
   },
 ];
@@ -364,8 +380,8 @@ const doSubmitFile = async () => {
     <div class="w-full lg:w-7/12">
       <div v-if="data">
         <vue-good-table :columns="columns" :rows="data" :search-options="{
-  enabled: true,
-}" :pagination-options="{
+          enabled: true,
+        }" :pagination-options="{
   enabled: true,
   perPageDropdown: [10, 20, 50],
 }" styleClass="vgt-table striped bordered condensed" class="py-0">
@@ -415,18 +431,19 @@ const doSubmitFile = async () => {
               <div class="text-center">{{ props.index + 1 }}</div>
             </span>
 
-            <span v-else-if="props.column.field == 'status_login'">
-              <div class="text-center" v-if="props.row.status_login == 'Aktif'">
-                <span class="text-green-500">Aktif</span>
-                <!-- <div class="text-center" v-if="props.row.password">
-                  <span class="text-green-500">Aktif</span>
-                </div>
-                <div class="text-center" v-else>
-                  <span class="text-yellow-500">Belum Aktif</span>
-                </div> -->
+            <span v-else-if="props.column.field == 'status_pembayaran'">
+              <!-- {{ min_pembayaran }}
+
+              {{ props.row.pembayaran_persen }} -->
+              <div class="text-center"
+                v-if="parseInt(props.row.pembayaran_persen) < 100 && parseInt(props.row.pembayaran_persen) > parseInt(min_pembayaran)">
+                <span class="text-yellow-500">CUKUP</span>
+              </div>
+              <div class="text-center" v-else-if="parseInt(props.row.pembayaran_persen) >= 100">
+                <span class="text-green-500">LUNAS</span>
               </div>
               <div class="text-center" v-else>
-                <span class="text-yellow-500">Disabled</span>
+                <span class="text-yellow-500">BELUM CUKUP</span>
               </div>
             </span>
 

@@ -63,6 +63,11 @@ const columns = [
     type: "String",
   },
   {
+    label: "Desc",
+    field: "desc",
+    type: "String",
+  },
+  {
     label: "No. Telp",
     field: "telp",
     type: "String",
@@ -137,6 +142,7 @@ const doStoreData = async (d) => {
         kuota: d.kuota,
         tgl_mulai: d.tgl_mulai,
         tgl_selesai: d.tgl_selesai,
+        desc: d.desc,
       });
 
       Toast.success("Success", "Data Berhasil diupdate!");
@@ -151,6 +157,7 @@ const doStoreData = async (d) => {
       kuota: d.kuota,
       tgl_mulai: d.tgl_mulai,
       tgl_selesai: d.tgl_selesai,
+      desc: d.desc,
     });
 
     getData();
@@ -263,8 +270,8 @@ const doSubmitFile = async () => {
     <div class="w-full lg:w-7/12">
       <div v-if="data">
         <vue-good-table :columns="columns" :rows="data" :search-options="{
-  enabled: true,
-}" :pagination-options="{
+          enabled: true,
+        }" :pagination-options="{
   enabled: true,
   perPageDropdown: [10, 20, 50],
 }" styleClass="vgt-table striped bordered condensed" class="py-0">
@@ -318,6 +325,17 @@ const doSubmitFile = async () => {
                       required />
                     <div class="text-xs text-red-600 mt-1">
                       {{ errors.alamat }}
+                    </div>
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 gap-6">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label for="desc" class="text-sm font-medium text-gray-900 block mb-2">Deskripsi</label>
+                    <Field v-model="dataDetail.desc" :rules="validateData" type="text" name="desc" ref="desc"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                      required />
+                    <div class="text-xs text-red-600 mt-1">
+                      {{ errors.desc }}
                     </div>
                   </div>
                 </div>

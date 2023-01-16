@@ -51,13 +51,6 @@ getData();
 
 const columns = [
   {
-    label: "No",
-    field: "no",
-    width: "50px",
-    tdClass: "text-center",
-    thClass: "text-center",
-  },
-  {
     label: "Actions",
     field: "actions",
     sortable: false,
@@ -75,11 +68,11 @@ const columns = [
     field: "tempatpkl_nama",
     type: "String",
   },
-  {
-    label: "Status Akun", //aktif / nonaktif / disabled (telah lulus/keluar/dll)
-    field: "status_login",
-    type: "String",
-  },
+  // {
+  //   label: "Status Akun", //aktif / nonaktif / disabled (telah lulus/keluar/dll)
+  //   field: "status_login",
+  //   type: "String",
+  // },
 ];
 
 const getDataId = async () => {
@@ -254,9 +247,9 @@ const doSubmitFile = async () => {
   <div class="pt-6 px-4 lg:flex flex-wrap gap-4">
     <div class="w-full lg:w-7/12">
       <div v-if="data">
-        <vue-good-table :columns="columns" :rows="data" :search-options="{
-  enabled: true,
-}" :pagination-options="{
+        <vue-good-table :columns="columns" :line-numbers="true" :rows="data" :search-options="{
+          enabled: true,
+        }" :pagination-options="{
   enabled: true,
   perPageDropdown: [10, 20, 50],
 }" styleClass="vgt-table striped bordered condensed" class="py-0">
