@@ -122,7 +122,7 @@ async function goLogout() {
                   <path
                     d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
                 </svg>
-                <span class="ml-3">Tempat PKL </span>
+                <span class="ml-3">Tempat Prakerin </span>
               </router-link>
             </li>
             <li class="lg:w-full">
@@ -184,7 +184,7 @@ async function goLogout() {
                     clip-rule="evenodd" />
                   <path d="M15 7h1a2 2 0 012 2v5.5a1.5 1.5 0 01-3 0V7z" />
                 </svg>
-                <span class="ml-3">Pendaftaran PKL</span>
+                <span class="ml-3">Pendaftaran Prakerin</span>
               </router-link>
             </li>
             <!-- <li class="lg:w-full">

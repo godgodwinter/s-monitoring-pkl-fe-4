@@ -239,7 +239,7 @@ const doSubmitFile = async () => {
 </script>
 <template>
   <BreadCrumb>
-    <template v-slot:content> Tempat PKL
+    <template v-slot:content> Tempat Prakerin
       <BreadCrumbSpace /> Index
     </template>
   </BreadCrumb>
@@ -379,7 +379,8 @@ const doSubmitFile = async () => {
                 </div>
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Tanggal Mulai PKL</label>
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Tanggal Mulai
+                      Prakerin</label>
                     <Datepicker v-model="dataDetail.tgl_mulai" format="yyyy/MM/dd" value-format="yyyy-MM-dd">
                       <template #calendar-header="{ index, day }">
                         <div :class="index === 5 || index === 6 ? 'red-color' : ''">
@@ -396,7 +397,8 @@ const doSubmitFile = async () => {
 
                 <div class="grid grid-cols-1 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Tanggal Selesai PKL</label>
+                    <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Tanggal Selesai
+                      Prakerin</label>
                     <Datepicker v-model="dataDetail.tgl_selesai" format="yyyy/MM/dd" value-format="yyyy-MM-dd">
                       <template #calendar-header="{ index, day }">
                         <div :class="index === 5 || index === 6 ? 'red-color' : ''">

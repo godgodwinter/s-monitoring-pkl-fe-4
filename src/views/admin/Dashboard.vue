@@ -58,7 +58,7 @@ const goTo = (routeName) => {
       </div>
 
       <div class="stat place-items-center" @click="goTo('AdminTempatPkl')">
-        <div class="stat-title">Tempat PKL</div>
+        <div class="stat-title">Tempat Prakerin</div>
         <div class="stat-value">{{ data.jml_tempatpkl }}</div>
         <div class="stat-desc text-secondary">Lihat Selengkapnya</div>
       </div>
