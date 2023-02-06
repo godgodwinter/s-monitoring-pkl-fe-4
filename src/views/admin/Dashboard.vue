@@ -4,6 +4,8 @@ import VTailwindModal from "../../components/atoms/VTailwindModal.vue";
 import VButton from "../../components/atoms/VButton.vue";
 
 import { ref } from "vue";
+import { useRouter } from "vue-router"
+const router = useRouter();
 let show = ref(false);
 function confirm() {
   // some code...
@@ -30,30 +32,37 @@ const getData = async () => {
 };
 
 getData();
+
+const goTo = (routeName) => {
+  router.push({ name: routeName })
+}
+
 </script>
 <template>
   <div class="pt-10 px-10">
     <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-700 shadow-sm">Dashboard</span>
   </div>
-  <div class="w-full px-2 py-2">
-    <div class="stats shadow">
-      <div class="stat place-items-center">
-        <div class="stat-title"> Siswa</div>
-        <div class="stat-value">{{ data.jml_siswa }}</div>
-        <!-- <div class="stat-desc">From January 1st to February 1st</div> -->
+  <div class="p-4">
+    <div class="stats shadow text-sm md:text-4xl">
+
+      <div class="stat place-items-center " @click="goTo('AdminSiswa')">
+        <div class="stat-title">Siswa</div>
+        <div class="stat-value ">{{ data.jml_siswa }}</div>
+        <div class="stat-desc text-secondary">Lihat Selengkapnya</div>
       </div>
 
-      <div class="stat place-items-center">
+      <div class="stat place-items-center" @click="goTo('AdminPembimbingSekolah')">
         <div class="stat-title">Guru</div>
         <div class="stat-value text-secondary">{{ data.jml_guru }}</div>
-        <!-- <div class="stat-desc text-secondary">↗︎ 40 (2%)</div> -->
+        <div class="stat-desc text-secondary">Lihat Selengkapnya</div>
       </div>
 
-      <div class="stat place-items-center">
+      <div class="stat place-items-center" @click="goTo('AdminTempatPkl')">
         <div class="stat-title">Tempat PKL</div>
         <div class="stat-value">{{ data.jml_tempatpkl }}</div>
-        <!-- <div class="stat-desc">↘︎ 90 (14%)</div> -->
+        <div class="stat-desc text-secondary">Lihat Selengkapnya</div>
       </div>
+
     </div>
   </div>
   <!-- <div class="px-4">

@@ -390,7 +390,7 @@ const doSubmitFile = async () => {
               <div class="text-sm font-medium text-center flex justify-center">
                 <ButtonEdit @click="doEditData(props.row.id)" />
                 <ButtonDelete @click="doDeleteData(props.row.id)" />
-                <Popper content="Reset Password" @click="doResetPassword(props.row.id)">
+                <!-- <Popper content="Reset Password" @click="doResetPassword(props.row.id)">
                   <template #content>
                     <button
                       class="text-orange-100 block rounded-sm font-bold py-1 px-1 mr-2 flex items-center hover:text-orange-300 bg-orange-400 rounded-lg">
@@ -401,7 +401,7 @@ const doSubmitFile = async () => {
                       </svg>
                     </button>
                   </template>
-                </Popper>
+                </Popper> -->
 
                 <Popper content="Detail Data">
                   <template #content>
